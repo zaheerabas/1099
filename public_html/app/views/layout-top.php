@@ -32,7 +32,7 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/site.css">
-<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=3">
+<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=4">
 <?php endforeach; ?>
 <?= $page['head'] ?>
 
@@ -64,7 +64,6 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 
 
     <header class="ew-header">
-      <span class="ew-progress" aria-hidden="true"><i></i></span>
       <div class="ew-header__inner" data-ew>
         <a href="/" class="ew-brand" aria-label="taxmetter home">
           <span class="ew-brand__mark"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>

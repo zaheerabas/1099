@@ -53,16 +53,13 @@
       placePill(current, true);
     }
 
-    // Scrolled pill, hide on scroll down / show on scroll up, progress bar
+    // Scrolled pill, hide on scroll down / show on scroll up
     if (header) {
-      var bar = header.querySelector('.ew-progress i');
       var lastY = window.pageYOffset, ticking = false;
       var onScroll = function () {
         ticking = false;
         var y = window.pageYOffset;
         header.classList.toggle('is-scrolled', y > 8);
-        var max = document.documentElement.scrollHeight - window.innerHeight;
-        if (bar) bar.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
         var menuOpen = menu && menu.classList.contains('is-open');
         if (y > lastY + 4 && y > 240 && !menuOpen && !header.contains(document.activeElement)) header.classList.add('is-hidden');
         else if (y < lastY - 4 || y <= 240) header.classList.remove('is-hidden');

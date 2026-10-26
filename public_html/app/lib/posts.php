@@ -101,3 +101,16 @@ function post_excerpt(array $p, int $len = 180): string
 {
     return trim((string)$p['excerpt']) !== '' ? (string)$p['excerpt'] : excerpt_from((string)($p['content'] ?? ''), $len);
 }
+
+/** The live articles published just before and just after this one: ['prev' => older, 'next' => newer]. */
+function adjacent_posts(array $post): array
+{
+    [$w, $params] = public_where();
+    $at = (string)$post['published_at'];
+    $id = (int)$post['id'];
+    $older = q_one('SELECT ' . POST_COLUMNS . post_from() . " WHERE $w AND (p.published_at < ? OR (p.published_at = ? AND p.id < ?)) ORDER BY p.published_at DESC, p.id DESC LIMIT 1",
+        array_merge($params, [$at, $at, $id]));
+    $newer = q_one('SELECT ' . POST_COLUMNS . post_from() . " WHERE $w AND (p.published_at > ? OR (p.published_at = ? AND p.id > ?)) ORDER BY p.published_at ASC, p.id ASC LIMIT 1",
+        array_merge($params, [$at, $at, $id]));
+    return ['prev' => $older, 'next' => $newer];
+}

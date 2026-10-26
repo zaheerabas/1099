@@ -18,6 +18,7 @@ return [
         'seo_description' => 'How much of each 1099 payment to save for taxes in 2026, with a worked example for $60,000 of freelance income.',
         'content' => <<<'HTML'
 <p>When you’re paid on a 1099, nobody takes tax out of your pay. The money lands in your account in full, and it’s up to you to keep enough back for the IRS. Save too little and April hurts. Save too much and you’re short of cash all year.</p>
+<blockquote><p><strong>In short:</strong> keep 20–30% of every 1099 payment for federal tax, plus your state’s rate. Use the calculator for your exact number.</p></blockquote>
 <h2>The quick answer</h2>
 <p>Most freelancers with a moderate income should set aside <strong>between 20% and 30%</strong> of every 1099 payment for federal tax. Add your state’s income tax on top if you have one.</p>
 <p>That range is wide because two different taxes are involved, and they work in different ways.</p>
@@ -29,11 +30,14 @@ return [
 <p>Because self-employment tax is a flat rate and income tax is progressive, your set-aside percentage rises as your income rises.</p>
 <h2>A worked example</h2>
 <p>Say you’re single, earned $60,000 on 1099-NEC forms in 2026, and had no expenses.</p>
-<ul>
-<li>Self-employment tax: $60,000 × 92.35% × 15.3% = <strong>$8,478</strong></li>
-<li>Income tax, after deducting half of the self-employment tax, the $16,100 standard deduction and the 20% business income deduction: <strong>$3,559</strong></li>
-<li>Total: <strong>$12,037</strong>, or about <strong>20%</strong> of what you earned</li>
-</ul>
+<table>
+<thead><tr><th scope="col">Step</th><th scope="col">How it’s worked out</th><th scope="col">Amount</th></tr></thead>
+<tbody>
+<tr><td>Self-employment tax</td><td>$60,000 × 92.35% × 15.3%</td><td><strong>$8,478</strong></td></tr>
+<tr><td>Income tax</td><td>After half of the self-employment tax, the $16,100 standard deduction and the 20% business income deduction</td><td><strong>$3,559</strong></td></tr>
+<tr><td>Total for the year</td><td>About 20% of what you earned</td><td><strong>$12,037</strong></td></tr>
+</tbody>
+</table>
 <p>Paid in four equal installments, that’s about $3,009 a quarter.</p>
 <h2>What changes your number</h2>
 <ul>
@@ -66,7 +70,7 @@ HTML,
 <h2>How it’s calculated</h2>
 <p>The tax isn’t charged on your whole profit. First, multiply your net profit by <strong>92.35%</strong>. This mirrors the fact that employees don’t pay tax on their employer’s share. Then apply 15.3% to the result.</p>
 <p>For $50,000 of profit: $50,000 × 92.35% = $46,175, and $46,175 × 15.3% = <strong>$7,065</strong>.</p>
-<p>If your net earnings from self-employment are under $400 for the year, you don’t owe self-employment tax at all.</p>
+<blockquote><p><strong>Good to know:</strong> if your net earnings from self-employment are under $400 for the year, you don’t owe self-employment tax at all.</p></blockquote>
 <h2>The Social Security cap</h2>
 <p>The 12.4% Social Security part only applies up to the <strong>wage base</strong>, which is <strong>$184,500</strong> in 2026. Above that, only the 2.9% Medicare part continues.</p>
 <p>If you also have a W-2 job, your wages count towards that cap first. A high earner with a day job may pay little or no Social Security tax on side income.</p>
@@ -95,12 +99,15 @@ HTML,
 <h2>Who needs to pay</h2>
 <p>You generally need to make estimated payments if you expect to owe <strong>$1,000 or more</strong> in federal tax for the year after subtracting any withholding. That’s most freelancers with a few thousand dollars of profit or more.</p>
 <h2>The 2026 due dates</h2>
-<ul>
-<li><strong>Q1:</strong> April 15, 2026 (income from January to March)</li>
-<li><strong>Q2:</strong> June 15, 2026 (April and May)</li>
-<li><strong>Q3:</strong> September 15, 2026 (June to August)</li>
-<li><strong>Q4:</strong> January 15, 2027 (September to December)</li>
-</ul>
+<table>
+<thead><tr><th scope="col">Payment</th><th scope="col">For income earned</th><th scope="col">Due date</th></tr></thead>
+<tbody>
+<tr><td>Q1</td><td>January to March</td><td><strong>April 15, 2026</strong></td></tr>
+<tr><td>Q2</td><td>April and May</td><td><strong>June 15, 2026</strong></td></tr>
+<tr><td>Q3</td><td>June to August</td><td><strong>September 15, 2026</strong></td></tr>
+<tr><td>Q4</td><td>September to December</td><td><strong>January 15, 2027</strong></td></tr>
+</tbody>
+</table>
 <p>The periods aren’t equal quarters, which catches people out. Q2 covers only two months but is due just two months after Q1.</p>
 <h2>How much to pay</h2>
 <p>The simplest approach is to estimate your total tax for the year and divide it by four. If your income is uneven, you can pay more in the quarters you earn more.</p>
@@ -111,6 +118,7 @@ HTML,
 <li><strong>90%</strong> of your 2026 tax, or</li>
 <li><strong>100%</strong> of your 2025 tax (<strong>110%</strong> if your 2025 adjusted gross income was over $150,000)</li>
 </ul>
+<blockquote><p><strong>Tip:</strong> basing your payments on last year’s tax is the simplest way to stay penalty-free when your income is going up.</p></blockquote>
 <p>The second option is useful when your income is growing: you can base your payments on last year’s known bill and settle the rest in April without a penalty.</p>
 <h2>How to pay</h2>
 <p>You can pay online through IRS Direct Pay or your IRS online account, through the Electronic Federal Tax Payment System (EFTPS), or by mailing a check with a Form 1040-ES voucher. Online payments give you an instant confirmation, which is worth keeping.</p>
@@ -128,7 +136,8 @@ HTML,
         'seo_description' => 'Nine common deductions 1099 contractors and freelancers miss, from mileage and home office to health insurance and retirement contributions.',
         'content' => <<<'HTML'
 <p>As a 1099 worker, a business expense saves you more than it would an employee, because it lowers your self-employment tax as well as your income tax. On $60,000 of freelance income, each $1,000 of expenses saves about $230, and more at higher incomes.</p>
-<p>The rule is simple: an expense must be <strong>ordinary and necessary</strong> for your work. Here are nine that are easy to forget.</p>
+<blockquote><p><strong>The rule:</strong> an expense must be <em>ordinary and necessary</em> for your work. If you’d buy it anyway for personal use, only the business share counts.</p></blockquote>
+<p>Here are nine that are easy to forget.</p>
 <h2>1. Business mileage</h2>
 <p>Driving to clients, job sites, the bank or the post office for work all count. For 2026 the standard rate is <strong>72.5¢ a mile</strong> from January to June and <strong>76¢</strong> from July. Keep a log with the date, purpose and miles. Commuting to a regular workplace doesn’t count.</p>
 <h2>2. Home office</h2>
@@ -179,6 +188,16 @@ HTML,
 <li>Property tax</li>
 </ul>
 <p>Expenses only for the office itself, like painting that room, can be deducted in full.</p>
+<h2>The two methods side by side</h2>
+<table>
+<thead><tr><th scope="col"></th><th scope="col">Simplified</th><th scope="col">Regular</th></tr></thead>
+<tbody>
+<tr><td>How it works</td><td>$5 per square foot</td><td>Your business share of actual home costs</td></tr>
+<tr><td>Most you can claim</td><td>$1,500 (300 sq ft)</td><td>No fixed limit, but not more than your business profit</td></tr>
+<tr><td>Records needed</td><td>Office size</td><td>Rent or mortgage, utilities, insurance, repairs</td></tr>
+<tr><td>Best for</td><td>Small offices and simple paperwork</td><td>High rent, larger offices</td></tr>
+</tbody>
+</table>
 <h2>Which is better?</h2>
 <p>The regular method is often worth more if you rent in an expensive area, or your office is larger than 300 sq ft. The simplified method wins on time, record-keeping and simplicity, and it avoids depreciation questions if you later sell a home you own.</p>
 <p>A quick test: multiply your yearly rent and utilities by your office percentage. If the result is well above your simplified figure, the regular method may be worth the extra paperwork.</p>
@@ -196,6 +215,14 @@ HTML,
         'seo_description' => 'The 2026 reporting thresholds for Form 1099-NEC, 1099-MISC and 1099-K, and why income below the threshold is still taxable.',
         'content' => <<<'HTML'
 <p>The amounts that make a business send you a 1099 form have changed for 2026. It’s good news for paperwork, but it’s easy to misread.</p>
+<table>
+<thead><tr><th scope="col">Form</th><th scope="col">What it reports</th><th scope="col">2026 threshold</th></tr></thead>
+<tbody>
+<tr><td>1099-NEC</td><td>Pay for your work as a contractor</td><td><strong>$2,000</strong> from one payer (was $600)</td></tr>
+<tr><td>1099-MISC</td><td>Rents, prizes and other income</td><td><strong>$2,000</strong> for most payments</td></tr>
+<tr><td>1099-K</td><td>Payments through apps, card processors and marketplaces</td><td>Over <strong>$20,000</strong> and over 200 transactions</td></tr>
+</tbody>
+</table>
 <h2>1099-NEC: now $2,000</h2>
 <p>Clients send a <strong>Form 1099-NEC</strong> when they pay you for your work as a contractor. From 2026 they only have to send one if they pay you <strong>$2,000 or more</strong> in the year. It used to be $600.</p>
 <h2>1099-MISC: also $2,000 for most payments</h2>
@@ -203,6 +230,7 @@ HTML,
 <h2>1099-K: back to $20,000</h2>
 <p>Payment apps, card processors and online marketplaces send a <strong>Form 1099-K</strong>. The threshold is <strong>over $20,000 and over 200 transactions</strong> in the year, after plans to lower it were reversed.</p>
 <h2>The part that didn’t change</h2>
+<blockquote><p><strong>Remember:</strong> no form doesn’t mean no tax. Every dollar you earn is taxable income.</p></blockquote>
 <p>These thresholds only decide <strong>whether a form is sent</strong>. They don’t change what’s taxable. If a client pays you $1,500, you won’t get a 1099-NEC, but the $1,500 is still income you must report.</p>
 <p>In practice this means more freelancers will have income with no form behind it. Your own records matter more than ever.</p>
 <h2>Tips for tracking income without forms</h2>

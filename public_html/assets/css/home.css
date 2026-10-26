@@ -465,7 +465,6 @@
     .ew-hero.ew-js:not(.is-in) [data-ew]{opacity:1}
     .ew-hub-ring,.ew-packet,.ew-typing{display:none}
     .ew-hero .ew-primary::after{display:none}
-    .ew-progress{display:none}
     .ew-motion{display:none}
   }
 

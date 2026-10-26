@@ -3,6 +3,7 @@
 [$content, $toc] = add_heading_ids((string)$post['content']);
 $minutes = reading_time((string)$post['content']);
 $shareUrl = abs_url('blog/' . $post['slug']);
+$adjacent = $isPreview || !$post['published_at'] ? ['prev' => null, 'next' => null] : adjacent_posts($post);
 ?>
     <main class="ew-main ar" id="main">
       <?php if ($isPreview): ?>
@@ -41,21 +42,62 @@ $shareUrl = abs_url('blog/' . $post['slug']);
             <?= $content ?>
           </div>
 
-          <div class="ar-share" aria-label="Share this article">
-            <span>Share</span>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= rawurlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-            <a href="https://x.com/intent/post?url=<?= rawurlencode($shareUrl) ?>&amp;text=<?= rawurlencode($post['title']) ?>" target="_blank" rel="noopener noreferrer">X</a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u=<?= rawurlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <button type="button" class="ar-copy" data-url="<?= e($shareUrl) ?>">Copy link</button>
-          </div>
-
-          <aside class="ar-cta" aria-labelledby="ar-cta-h">
-            <h2 id="ar-cta-h">Put your own numbers in</h2>
-            <p>The taxmetter calculator estimates your 2026 self-employment tax, income tax and quarterly payments in about two minutes.</p>
-            <a href="/calculator.html" class="bl-primary bl-primary--light">Calculate my tax<span class="bl-primary__ico"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
-          </aside>
+          <footer class="ar-end">
+            <div class="ar-byline">
+              <span class="ar-avatar ar-avatar--lg" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>
+              <div>
+                <b>Written by <?= e($post['author_name'] ?: 'taxmetter') ?></b>
+                <p>Plain-English guides for freelancers and contractors, checked against 2026 IRS figures. Updated <?= e(fmt_date($post['updated_at'] ?: $post['published_at'], 'F j, Y')) ?>.</p>
+              </div>
+            </div>
+            <div class="ar-share" aria-label="Share this article">
+              <span>Share this article</span>
+              <div>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= rawurlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://x.com/intent/post?url=<?= rawurlencode($shareUrl) ?>&amp;text=<?= rawurlencode($post['title']) ?>" target="_blank" rel="noopener noreferrer">X</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=<?= rawurlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer">Facebook</a>
+                <button type="button" class="ar-copy" data-url="<?= e($shareUrl) ?>">Copy link</button>
+              </div>
+            </div>
+          </footer>
         </div>
       </article>
+
+      <section class="ar-band" aria-labelledby="ar-band-h">
+        <div class="ar-band__text">
+          <span class="bh-eyebrow">Free 1099 calculator</span>
+          <h2 id="ar-band-h">Put your own numbers in</h2>
+          <p>Estimate your 2026 self-employment tax, income tax and quarterly payments in about two minutes. No sign-up, and your numbers stay on your device.</p>
+          <a href="/calculator.html" class="bl-primary bl-primary--light">Calculate my tax<span class="bl-primary__ico"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
+        </div>
+        <div class="ar-band__card" aria-hidden="true">
+          <span class="ar-band__label">Example: $60,000 on 1099-NEC, single</span>
+          <b class="ar-band__big">$12,037</b>
+          <span class="ar-band__sub">Estimated federal tax for 2026</span>
+          <span class="ar-band__bars"><i style="--h:.55"></i><i style="--h:.7"></i><i style="--h:.85"></i><i style="--h:1"></i></span>
+          <span class="ar-band__row"><span>Self-employment tax</span><b>$8,478</b></span>
+          <span class="ar-band__row"><span>Income tax</span><b>$3,559</b></span>
+          <span class="ar-band__row ar-band__row--hl"><span>Pay each quarter</span><b>$3,009</b></span>
+        </div>
+      </section>
+
+      <?php if ($adjacent['prev'] || $adjacent['next']): ?>
+        <nav class="ar-pn" aria-label="More articles">
+          <?php foreach (['prev' => 'Previous article', 'next' => 'Next article'] as $k => $label): $a = $adjacent[$k]; ?>
+            <?php if ($a): ?>
+              <a class="ar-pn__item ar-pn__item--<?= $k ?>" href="<?= e(post_url($a)) ?>">
+                <span class="ar-pn__art"><?= $a['cover_image'] ? '<img src="' . e(url($a['cover_image'])) . '" alt="" loading="lazy" width="240" height="180">' : cover_art($a['category_slug'], 'thumb') ?></span>
+                <span class="ar-pn__text">
+                  <span class="ar-pn__dir"><?= $label ?></span>
+                  <span class="ar-pn__t"><?= e($a['title']) ?></span>
+                </span>
+              </a>
+            <?php else: ?>
+              <span class="ar-pn__item ar-pn__item--empty" aria-hidden="true"></span>
+            <?php endif; ?>
+          <?php endforeach; ?>
+        </nav>
+      <?php endif; ?>
 
       <?php if ($related): ?>
         <section class="ar-related" aria-labelledby="ar-rel-h">
@@ -75,6 +117,15 @@ $shareUrl = abs_url('blog/' . $post['slug']);
       <?php endif; ?>
     </main>
     <script>
+      // Label table cells with their column heading, so tables can stack as cards on phones
+      document.querySelectorAll('.ar-prose table').forEach(function (t) {
+        var heads = [].map.call(t.querySelectorAll('thead th'), function (th) { return th.textContent.trim(); });
+        if (!heads.length) return;
+        t.classList.add('has-labels');
+        t.querySelectorAll('tbody tr').forEach(function (tr) {
+          [].forEach.call(tr.children, function (td, i) { if (heads[i]) td.setAttribute('data-label', heads[i]); });
+        });
+      });
       (function () {
         var links = [].slice.call(document.querySelectorAll('.ar-toc a'));
         var bar = document.querySelector('.ar-toc__bar i');
