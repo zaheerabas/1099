@@ -76,6 +76,22 @@
     }
 
 
+    /* ---- Open a question when the page is opened at its link (#id on a <details>) ---- */
+    function openFromHash() {
+      var id = location.hash.slice(1);
+      var t = id && document.getElementById(id);
+      if (t && t.tagName === 'DETAILS') { t.open = true; t.scrollIntoView({ block: 'start', behavior: reduce ? 'auto' : 'smooth' }); }
+    }
+    window.addEventListener('hashchange', openFromHash);
+    if (document.readyState === 'complete') openFromHash(); else window.addEventListener('load', openFromHash);
+
+    /* ---- Sections rise in as they scroll into view (skipped for reduced motion) ---- */
+    var revealIO = (!reduce && 'IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('is-visible'); revealIO.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }) : null;
+    window.TMReveal = function (el) { if (revealIO) revealIO.observe(el); else el.classList.add('is-visible'); };
+    document.querySelectorAll('[data-reveal]').forEach(window.TMReveal);
+
     /* ---- Content pages: play the entrance once (the home page starts its own) ---- */
     if (!document.querySelector('.ew-home-hero')) requestAnimationFrame(function () { hero.classList.add('is-in'); });
 

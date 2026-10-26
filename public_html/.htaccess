@@ -19,6 +19,17 @@ ErrorDocument 404 /404.html
   RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
   RewriteRule ^index\.html$ / [L,R=301]
 
+  # Private app folder (app/.htaccess blocks it too)
+  RewriteRule ^app(/|$) - [F,L]
+
+  # Blog addresses
+  RewriteRule ^blog/?$ blog.php [L,QSA]
+  RewriteRule ^blog/feed/?$ feed.php [L]
+  RewriteRule ^blog/latest\.json$ latest.php [L]
+  RewriteRule ^blog/category/([a-z0-9-]+)/?$ blog.php?category=$1 [L,QSA]
+  RewriteRule ^blog/([a-z0-9-]+)/?$ post.php?slug=$1 [L,QSA]
+  RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
   # Clean addresses also work: /calculator serves calculator.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -51,7 +62,20 @@ ErrorDocument 404 /404.html
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
 </IfModule>
 
+# PHP settings for image uploads (ignored where the host doesn't allow them)
+<IfModule mod_php.c>
+  php_value upload_max_filesize 10M
+  php_value post_max_size 12M
+</IfModule>
+
 # Don't list folder contents
 Options -Indexes
 
 AddType application/manifest+json .webmanifest
+
+# Never serve database files or backups, wherever they end up
+<FilesMatch "(?i)\.(sqlite|sqlite3|db|sql|log|bak|ini)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+</FilesMatch>

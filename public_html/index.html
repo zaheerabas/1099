@@ -18,6 +18,7 @@
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +28,9 @@
 {"@context": "https://schema.org", "@type": "WebSite", "name": "taxmetter", "url": "https://YOUR-DOMAIN.com/"}
 </script>
 <script src="assets/js/site.js" defer></script>
+<script src="assets/js/tax-engine.js" defer></script>
 <script src="assets/js/home.js" defer></script>
+<script src="assets/js/home-extra.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -68,8 +71,9 @@
             <span class="ew-nav__pill" aria-hidden="true"></span>
             <a href="calculator.html" style="--i:0">1099 calculator<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
             <a href="how-it-works.html" style="--i:1">How it works<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
-            <a href="tax-guide.html" style="--i:2">2026 tax guide<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
-            <a href="calculator.html#faq" style="--i:3">FAQ<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="tax-guide.html" style="--i:2">Tax guide<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="faq.html" style="--i:3">FAQ<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="/blog" style="--i:4">Blog<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
           </div>
         </nav>
 
@@ -249,9 +253,9 @@
               <path class="ew-donut" pathLength="1" d="M262 12 A22 22 0 0 1 283 41" fill="none" stroke-width="8" stroke-linecap="round" style="stroke:var(--ew-accent)"/>
               <path class="ew-trail" d="M8 210 Q60 168 110 182 T200 150" fill="none" stroke-width="2" stroke-dasharray="4 6" style="stroke:var(--ew-track)"/>
             </svg>
-            <a href="calculator.html#faq-home-office" class="ew-bubble ew-bubble--1" data-ew style="--i:0"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">Can I deduct my home office?</span></a>
-            <a href="calculator.html#faq-set-aside" class="ew-bubble ew-bubble--2" data-ew style="--i:1"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">How much should I set aside?</span></a>
-            <a href="calculator.html#faq-quarterly" class="ew-bubble ew-bubble--3" data-ew style="--i:2"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">When is my next quarterly payment due?</span></a>
+            <a href="faq.html#home-office" class="ew-bubble ew-bubble--1" data-ew style="--i:0"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">Can I deduct my home office?</span></a>
+            <a href="faq.html#set-aside" class="ew-bubble ew-bubble--2" data-ew style="--i:1"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">How much should I set aside?</span></a>
+            <a href="faq.html#due-dates" class="ew-bubble ew-bubble--3" data-ew style="--i:2"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">When is my next quarterly payment due?</span></a>
           </div>
           <div class="ew-learn__foot">
             <p>Find your deductions and know what you owe</p>
@@ -271,7 +275,50 @@
     </button>
     </section>
 
-    <section class="home-sec home-split" aria-labelledby="h-figs">
+    <section class="home-sec qe-sec" aria-labelledby="h-qe" data-reveal>
+      <div class="qe-copy">
+        <h2 id="h-qe">Move the slider. See your 2026 tax.</h2>
+        <p>A quick estimate with the same maths as the full calculator. Drag to your expected 1099 income and business expenses.</p>
+        <ul class="qe-points">
+          <li>Self-employment tax and federal income tax</li>
+          <li>The 2026 standard deduction and 20% business income deduction</li>
+          <li>What to pay each quarter and what to set aside</li>
+        </ul>
+      </div>
+      <div class="qe-card glass" id="qe">
+        <div class="qe-card__head">
+          <span class="qe-card__label">Quick estimate</span>
+          <div class="qe-seg" role="radiogroup" aria-label="Filing status">
+            <label><input type="radio" name="qe-status" value="single" checked><span>Single</span></label>
+            <label><input type="radio" name="qe-status" value="mfj"><span>Married, jointly</span></label>
+          </div>
+        </div>
+        <div class="qe-field">
+          <div class="qe-field__top"><label for="qe-income">1099 income for 2026</label><output for="qe-income" data-qe-income>$60,000</output></div>
+          <input type="range" id="qe-income" min="5000" max="300000" step="1000" value="60000">
+        </div>
+        <div class="qe-field">
+          <div class="qe-field__top"><label for="qe-exp">Business expenses</label><output for="qe-exp" data-qe-exp>$0</output></div>
+          <input type="range" id="qe-exp" min="0" max="60000" step="500" value="0">
+        </div>
+        <div class="qe-result" aria-live="polite">
+          <span class="qe-result__label">Estimated federal tax</span>
+          <strong class="qe-result__total" data-qe-total>$12,037</strong>
+          <div class="qe-bar" aria-hidden="true"><i class="qe-bar__se" data-qe-se></i><i class="qe-bar__inc" data-qe-inc></i></div>
+          <dl class="qe-legend">
+            <div><dt><i class="k k--se"></i>Self-employment tax</dt><dd data-qe-se-v>$8,478</dd></div>
+            <div><dt><i class="k k--inc"></i>Federal income tax</dt><dd data-qe-inc-v>$3,559</dd></div>
+          </dl>
+        </div>
+        <dl class="qe-tiles">
+          <div><dt>Pay each quarter</dt><dd data-qe-q>$3,009</dd></div>
+          <div><dt>Set aside from each payment</dt><dd data-qe-set>20%</dd></div>
+        </dl>
+        <a class="btn btn--primary qe-go" href="calculator.html?status=single&amp;nec=60000" data-qe-link>Open the full calculator with these numbers <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+      </div>
+    </section>
+
+    <section class="home-sec home-split" aria-labelledby="h-figs" data-reveal>
       <div class="home-split__lead">
         <h2 id="h-figs">The 2026 numbers that matter for 1099 workers</h2>
         <p>The calculator uses these figures from the IRS and the Social Security Administration.</p>
@@ -287,7 +334,28 @@
       </dl>
     </section>
 
-    <section class="home-sec home-flow" aria-labelledby="h-steps">
+
+    <section class="home-sec tl-sec" aria-labelledby="h-tl" data-reveal>
+      <div class="tl glass" id="tl">
+        <div class="tl-head">
+          <h2 id="h-tl">Your 2026 estimated tax calendar</h2>
+          <p data-tl-note>Four payments: April 15, June 15, September 15 and January 15, 2027.</p>
+        </div>
+        <div class="tl-track">
+          <span class="tl-line" aria-hidden="true"><i></i></span>
+          <span class="tl-today" aria-hidden="true">Today</span>
+          <ol class="tl-list">
+          <li data-date="2026-04-15"><span class="tl-dot" aria-hidden="true"></span><span class="tl-q">Q1</span><b>Apr 15, 2026</b><small>Income from Jan 1 to Mar 31</small></li>
+          <li data-date="2026-06-15"><span class="tl-dot" aria-hidden="true"></span><span class="tl-q">Q2</span><b>Jun 15, 2026</b><small>Apr 1 to May 31</small></li>
+          <li data-date="2026-09-15"><span class="tl-dot" aria-hidden="true"></span><span class="tl-q">Q3</span><b>Sep 15, 2026</b><small>Jun 1 to Aug 31</small></li>
+          <li data-date="2027-01-15"><span class="tl-dot" aria-hidden="true"></span><span class="tl-q">Q4</span><b>Jan 15, 2027</b><small>Sep 1 to Dec 31</small></li>
+          </ol>
+        </div>
+        <a class="tl-link" href="faq.html#penalty">How to avoid an underpayment penalty</a>
+      </div>
+    </section>
+
+    <section class="home-sec home-flow" aria-labelledby="h-steps" data-reveal>
       <h2 id="h-steps">From your 1099s to a number you can plan around</h2>
       <ol class="flow">
         <li><span class="flow__n" aria-hidden="true">1</span><h3>Add your income</h3><p>Enter the totals from your 1099-NEC, 1099-K and 1099-MISC forms, then your business expenses and miles.</p></li>
@@ -297,7 +365,42 @@
       <a class="home-flow__link" href="how-it-works.html">See the full method</a>
     </section>
 
-    <section class="home-sec" aria-labelledby="h-cta">
+
+    <section class="home-sec lt-sec" id="latest" aria-labelledby="h-lt" hidden data-reveal>
+      <div class="lt-head">
+        <h2 id="h-lt">From the blog</h2>
+        <a class="btn btn--quiet" href="/blog">All articles</a>
+      </div>
+      <ul class="lt-list" data-latest-list></ul>
+    </section>
+
+    <section class="home-sec home-split faq-teaser" aria-labelledby="h-faq" data-reveal>
+      <div class="home-split__lead">
+        <h2 id="h-faq">Questions freelancers ask most</h2>
+        <p>Short, plain answers. The questions page has all 25 of them, from 1099 forms to penalties.</p>
+        <a class="btn btn--quiet" href="faq.html">See all questions</a>
+      </div>
+      <div class="qa-list glass">
+          <details class="qa" id="h-who-pays-quarterly">
+            <summary>Do I have to pay quarterly estimated taxes?</summary>
+            <div class="qa__a"><p>Generally yes, if you expect to owe <strong>$1,000 or more</strong> for the year after withholding and credits. Freelancers with no withholding usually reach that quickly.</p></div>
+          </details>
+          <details class="qa" id="h-what-is-se-tax">
+            <summary>What is self-employment tax?</summary>
+            <div class="qa__a"><p>It’s Social Security and Medicare tax for people who work for themselves. An employer normally pays half of it for employees; when you’re self-employed you pay both halves. It’s <strong>15.3% of 92.35% of your net profit</strong>: 12.4% for Social Security and 2.9% for Medicare.</p></div>
+          </details>
+          <details class="qa" id="h-home-office">
+            <summary>Can I deduct my home office?</summary>
+            <div class="qa__a"><p>Yes, if you use part of your home <strong>regularly and only for your business</strong>. The simplified method gives <strong>$5 per square foot, up to 300 square feet</strong> ($1,500). It can’t create a loss. The regular method uses your actual home costs and takes more records.</p></div>
+          </details>
+          <details class="qa" id="h-no-1099">
+            <summary>Do I owe tax if I didn’t get a 1099?</summary>
+            <div class="qa__a"><p>Yes. You owe tax on all your business income, whether or not anyone sends you a form. Keep your own record of every payment, especially from smaller clients.</p></div>
+          </details>
+      </div>
+    </section>
+
+    <section class="home-sec" aria-labelledby="h-cta" data-reveal>
       <div class="cta-band glass">
         <div>
           <h2 id="h-cta">Your 2026 estimate takes about two minutes</h2>
@@ -322,7 +425,7 @@
           <ul><li><a href="calculator.html">1099 tax calculator</a></li><li><a href="how-it-works.html">How it works</a></li></ul>
         </nav>
         <nav aria-labelledby="f-learn"><h2 id="f-learn">Learn</h2>
-          <ul><li><a href="tax-guide.html">2026 tax guide</a></li><li><a href="calculator.html#faq">1099 tax questions</a></li></ul>
+          <ul><li><a href="tax-guide.html">2026 tax guide</a></li><li><a href="/blog">Blog</a></li><li><a href="faq.html">1099 tax questions</a></li></ul>
         </nav>
         <nav aria-labelledby="f-site"><h2 id="f-site">Site</h2>
           <ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms and disclaimer</a></li></ul>

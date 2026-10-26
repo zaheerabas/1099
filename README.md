@@ -53,17 +53,20 @@ Answers are kept on the visitor's own device. They can share their answers as a 
 ### Supporting pages
 | Page | Purpose |
 |---|---|
-| Home | Explains the idea in three steps (add your 1099s, we calculate, see what to save) and links to the calculator |
+| Home | Explains the idea in three steps, with a **quick estimate** (sliders that open the full calculator pre-filled), the 2026 key figures, a **payment calendar** counting down to the next due date, and the latest blog articles |
+| FAQ | 25 common 1099 tax questions in five topics, with instant search and a shareable link to each answer |
 | How it works | The calculation method, step by step, with a worked example |
 | 2026 tax guide | Brackets, standard deduction, self-employment tax, deductions and quarterly due dates for 1099 workers |
 | Privacy | Explains that the calculator runs in the browser and sends no numbers anywhere |
 | Terms | Terms of use and the tax disclaimer |
 
+### Blog
+Articles about 1099 taxes, written and published by the taxmetter team from a private admin area. Readers can browse by category, search, and follow along by RSS. The team can schedule articles, add images, and give people editor or administrator access.
 ---
 
 ## Privacy by design
 
-There are no accounts, no database and no server-side code. All the maths runs in the visitor's browser. Their income and expense figures never leave their device.
+Visitors never need an account. All the tax maths runs in the visitor's browser, so their income and expense figures never leave their device. The only data the site stores is the blog: its articles, images and the logins of the people who write them.
 
 ---
 
