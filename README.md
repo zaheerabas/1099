@@ -1,89 +1,105 @@
-# taxmetter website
+# taxmetter: free 1099 tax calculator
 
-A complete static website: home page, 1099 tax calculator, guides, legal pages, icons and SEO files.
-No database, no build step, no plugins. It runs on any shared hosting.
+taxmetter is a website that helps freelancers, contractors and gig workers in the US work out how much federal tax they owe on their 1099 income, and how much to set aside each quarter.
 
-## Folder structure
+This repository holds the whole website.
+
+---
+
+## Why this exists
+
+If you're employed, your employer takes tax out of every paycheck. If you're paid on a 1099, nobody does. You have to:
+
+- work out your own **self-employment tax** (Social Security and Medicare, 15.3%) on top of income tax,
+- pay it yourself in **four quarterly estimated payments**, and
+- know which expenses lower the bill.
+
+Most people don't know what that adds up to until April, when it's too late to plan for it. Many online calculators ask for an email, push a paid product, or only give a rough percentage.
+
+taxmetter answers the question directly: **"I earned this much on 1099s. What will I owe, and what should I put aside right now?"** It's free, needs no sign-up, and every number is explained.
+
+---
+
+## Who it's for
+
+- Freelancers and independent contractors (1099-NEC)
+- Gig and platform workers paid through apps and marketplaces (1099-K)
+- Anyone with other 1099 income such as 1099-MISC or interest (1099-INT)
+- People with a day job **and** side income, since W-2 wages are taken into account
+
+---
+
+## What the website does
+
+### 1099 tax calculator
+The main page. The visitor enters:
+
+1. **Filing status**: single, married filing jointly, married filing separately or head of household
+2. **1099 income**, by form type
+3. **Business expenses**: total expenses, home office, health insurance and business miles
+4. **Optional extras**: W-2 wages, tax already withheld or paid, retirement contributions and last year's tax
+
+The result updates as they type and shows:
+
+- total estimated federal tax for the year, split into self-employment tax, income tax and Additional Medicare tax
+- how much to pay each quarter, and the next due date
+- how much of each 1099 payment to set aside
+- the **penalty-safe minimum** (the least they can pay to avoid an IRS underpayment penalty)
+- how much an extra $1,000 of business expenses would save
+- a line-by-line "How we calculated this" table
+
+Answers are kept on the visitor's own device. They can share their answers as a link or print the result.
+
+### Supporting pages
+| Page | Purpose |
+|---|---|
+| Home | Explains the idea in three steps (add your 1099s, we calculate, see what to save) and links to the calculator |
+| How it works | The calculation method, step by step, with a worked example |
+| 2026 tax guide | Brackets, standard deduction, self-employment tax, deductions and quarterly due dates for 1099 workers |
+| Privacy | Explains that the calculator runs in the browser and sends no numbers anywhere |
+| Terms | Terms of use and the tax disclaimer |
+
+---
+
+## Privacy by design
+
+There are no accounts, no database and no server-side code. All the maths runs in the visitor's browser. Their income and expense figures never leave their device.
+
+---
+
+## What it covers, and what it doesn't
+
+**Covers (tax year 2026):** federal income tax brackets and standard deduction, self-employment tax, Additional Medicare tax, the self-employed health insurance deduction, retirement contributions (SEP-IRA / solo 401(k)), the 20% business income (QBI) deduction, home office (simplified method), business mileage and quarterly estimated payments.
+
+**Doesn't cover:** state and local tax, itemized deductions, tax credits such as the child tax credit, capital gains, and the detailed QBI limits at high incomes.
+
+The result is an **estimate** to help people plan. It isn't tax advice, and the site says so.
+
+---
+
+## How the repository is organised
 
 ```
-public_html/                 ← upload the CONTENTS of this folder to your hosting
-├── index.html               Home page (animated hero + 2026 figures + steps)
-├── calculator.html          1099 tax calculator + FAQ
-├── how-it-works.html        The calculation method, with a worked example
-├── tax-guide.html           2026 tax guide for 1099 workers
-├── privacy.html             Privacy policy
-├── terms.html               Terms and tax disclaimer
-├── 404.html                 "Page not found" page
-├── .htaccess                HTTPS, 404 page, clean URLs, caching, compression
-├── robots.txt               Tells search engines what to crawl
-├── sitemap.xml              List of pages for Google
-├── site.webmanifest         Lets phones "add to home screen"
-└── assets/
-    ├── css/
-    │   ├── site.css         Colours, themes, header, footer, page styles (every page)
-    │   ├── home.css         Hero cards and animation (home page only)
-    │   └── calculator.css   Calculator (calculator page only)
-    ├── js/
-    │   ├── site.js          Header menu and scroll effects (every page)
-    │   ├── home.js          Hero animation (home page only)
-    │   └── calculator.js    Tax maths and calculator page (2026 figures in the TAX object)
-    └── img/
-        ├── favicon.svg, favicon-32.png, apple-touch-icon.png, icon-192.png, icon-512.png
-        └── og-image.png     Preview image shown when the site is shared (1200 × 630)
+public_html/          the website itself
+  index.html          home page
+  calculator.html     1099 tax calculator and FAQ
+  how-it-works.html   calculation method
+  tax-guide.html      2026 tax guide
+  privacy.html, terms.html, 404.html
+  assets/css/         styles (shared, home page, calculator)
+  assets/js/          scripts (shared, home page animation, calculator)
+  assets/img/         icons and share image
+vercel.json           tells Vercel to serve the public_html folder
 ```
 
-## Before you upload: 2 find-and-replace steps
+It's plain HTML, CSS and JavaScript, with no frameworks and no build step. You can open any page straight from the folder in a browser.
 
-Open the `public_html` folder in VS Code (or any editor with "Replace in files") and replace across all files:
+---
 
-1. `https://YOUR-DOMAIN.com` → your real address, for example `https://taxmetter.com` (no slash at the end). This updates canonical links, sitemap, robots.txt and share previews.
-2. `hello@YOUR-DOMAIN.com` → your real contact email (privacy and terms pages).
+## Keeping it up to date
 
-## Upload to shared hosting (cPanel)
+Tax figures change every year. Everything the calculator uses (brackets, standard deduction, Social Security wage base, mileage rates and due dates) is in one place: the `TAX` object at the top of `public_html/assets/js/calculator.js`.
 
-1. Log in to cPanel and open **File Manager**.
-2. Go to `public_html` (or the folder for your domain if it's an add-on domain).
-3. Click **Settings** (top right) and tick **Show Hidden Files**, so you can see `.htaccess`.
-4. Zip the **contents** of the local `public_html` folder, upload the zip, then right-click it → **Extract**. Delete the zip afterwards.
-5. Make sure `index.html` sits directly inside `public_html`, not inside another folder.
-6. In cPanel, open **SSL/TLS Status** and run **AutoSSL** if your domain doesn't have a certificate yet.
-7. Visit your domain. Check the home page, the calculator, and a made-up address like `/abc` to see the 404 page.
+The tax guide, How it works and home pages quote the same figures in their text, so update those at the same time. The IRS usually publishes next year's numbers in October or November.
 
-If your host already has a `.htaccess` file in `public_html` (WordPress, for example), merge the two instead of overwriting.
-
-If the site shows "too many redirects" after upload, your host handles HTTPS another way: delete the three lines under "Always use HTTPS" in `.htaccess`.
-
-## After it's live
-
-- **Google Search Console**: add your domain, then submit `https://your-domain/sitemap.xml`.
-- **Share preview**: paste your address into a WhatsApp chat or the LinkedIn post box to check the preview image.
-- **Clean addresses**: `/calculator`, `/tax-guide` etc. also work thanks to `.htaccess`; the site's own links use `.html` so it also works when opened from your computer.
-
-## Editing
-
-- **Header and footer** are repeated in every HTML file (there is no server to include them). If you change a menu link, change it in all seven pages. Replace-in-files makes this quick.
-- **Theme colour**: change `data-ew-theme="tax"` on `<div class="ew-hero">` in each page. Options: ocean, mint, violet, sunset, midnight, wealth, ledger, tax, capital, private, vault.
-- **Tax figures**: all in the `TAX` object at the top of `assets/js/calculator.js`. The tax guide, how-it-works page and home page quote the same figures in text, so update those too each year (the IRS publishes new numbers every October or November).
-- **Home page example** ($12,037 on $60,000): if you change it, update `data-count` and the `.ew-sr` text in `index.html` and the `TOTAL` value in `assets/js/home.js`.
-
-## What changed from the single-page version
-
-- Split into shared CSS and JavaScript files, so browsers download the header and colours once for the whole site.
-- The header's "Log in" and "Sign up" were removed, because the site has no accounts. The header button is now "Calculate my tax" ("Calculate" on phones).
-- The "Blog" menu link was replaced by "2026 tax guide" and "FAQ", which have real pages behind them.
-- New: footer on every page, skip-to-content link for keyboard users, home page sections below the hero, guide pages, privacy, terms, 404, icons, share image, sitemap and `.htaccess`.
-
-## Design and quality notes
-
-The site was checked against the ui-master and frontend-design guidelines and an automated accessibility scan (axe-core, WCAG 2.1 AA). Every page now passes with no violations.
-
-- **Typeface: Public Sans.** It's the US government's open typeface, so the site reads like a clear, official tax form. Every number uses tabular figures so columns of dollars line up. To go back to the old font, change `Public+Sans` in each page's font link and `'Public Sans'` at the top of `site.css`.
-- **Glass only where it's needed.** Blur is kept on the fixed layers (the header pill, the phone menu and the calculator's bottom bar). Cards and panels use solid tinted surfaces, which looks the same and scrolls smoothly on phones.
-- **Headline.** The active step word turns solid teal instead of using gradient text.
-- **Home page.** The figures are a ruled list next to the heading, like a tax form, and the three steps are joined by one line instead of three identical cards.
-- **Accessibility.** Skip link, visible focus on every control, keyboard-scrollable tables with names, reduced-motion support, and touch targets of 44px or more.
-
-## Before you promote it
-
-- Have a tax professional review the calculator, the guide and the disclaimer.
-- Test on a phone, a tablet and a desktop after upload.
+Before promoting the site, have a tax professional review the calculator, the guide and the disclaimer.
