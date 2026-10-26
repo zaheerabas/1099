@@ -74,32 +74,3 @@ There are no accounts, no database and no server-side code. All the maths runs i
 **Doesn't cover:** state and local tax, itemized deductions, tax credits such as the child tax credit, capital gains, and the detailed QBI limits at high incomes.
 
 The result is an **estimate** to help people plan. It isn't tax advice, and the site says so.
-
----
-
-## How the repository is organised
-
-```
-public_html/          the website itself
-  index.html          home page
-  calculator.html     1099 tax calculator and FAQ
-  how-it-works.html   calculation method
-  tax-guide.html      2026 tax guide
-  privacy.html, terms.html, 404.html
-  assets/css/         styles (shared, home page, calculator)
-  assets/js/          scripts (shared, home page animation, calculator)
-  assets/img/         icons and share image
-vercel.json           tells Vercel to serve the public_html folder
-```
-
-It's plain HTML, CSS and JavaScript, with no frameworks and no build step. You can open any page straight from the folder in a browser.
-
----
-
-## Keeping it up to date
-
-Tax figures change every year. Everything the calculator uses (brackets, standard deduction, Social Security wage base, mileage rates and due dates) is in one place: the `TAX` object at the top of `public_html/assets/js/calculator.js`.
-
-The tax guide, How it works and home pages quote the same figures in their text, so update those at the same time. The IRS usually publishes next year's numbers in October or November.
-
-Before promoting the site, have a tax professional review the calculator, the guide and the disclaimer.
