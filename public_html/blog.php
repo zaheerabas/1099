@@ -61,17 +61,28 @@ function post_meta(array $p): string
 }
 ?>
     <main class="ew-main bl" id="main">
-      <header class="bl-intro<?= $isHome ? '' : ' bl-intro--sub' ?>">
-        <?php if ($category): ?><a class="bl-back" href="<?= e(url('blog')) ?>">All articles</a><?php endif; ?>
-        <h1><?= e($h1) ?></h1>
+      <header class="bl-hero<?= $isHome ? '' : ' bl-hero--sub' ?>">
+        <?php if ($category): ?>
+          <a class="bl-eyebrow" href="<?= e(url('blog')) ?>"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>All articles</a>
+          <h1><?= e($h1) ?></h1>
+        <?php elseif ($search !== ''): ?>
+          <span class="bl-eyebrow"><i aria-hidden="true"></i><?= e($blogTitle) ?></span>
+          <h1><?= e($h1) ?></h1>
+        <?php else: ?>
+          <span class="bl-eyebrow"><i aria-hidden="true"></i><?= e($blogTitle) ?></span>
+          <h1>1099 taxes, <span class="bl-accent">made clear.</span></h1>
+        <?php endif; ?>
         <p><?= e($intro) ?></p>
-      </header>
-
-      <div class="bl-tools">
+        <?php if ($isHome): ?>
+          <div class="bl-hero__cta">
+            <a href="/calculator.html" class="bl-primary">Calculate my tax<span class="bl-primary__ico"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
+            <span class="bl-note"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-1.5z"/><path d="M8 7h6M8 11h6"/></svg><?= $total ?> plain-English guides, written for 2026</span>
+          </div>
+        <?php endif; ?>
         <nav class="bl-cats" aria-label="Categories">
           <a href="<?= e(url('blog')) ?>"<?= !$category && $search === '' ? ' aria-current="page"' : '' ?>>All</a>
           <?php foreach ($cats as $c): ?>
-            <a href="<?= e(category_url($c)) ?>"<?= ($category['id'] ?? 0) == $c['id'] ? ' aria-current="page"' : '' ?>><?= e($c['name']) ?></a>
+            <a href="<?= e(category_url($c)) ?>"<?= ($category['id'] ?? 0) == $c['id'] ? ' aria-current="page"' : '' ?>><?= e($c['name']) ?> <span><?= (int)$c['n'] ?></span></a>
           <?php endforeach; ?>
         </nav>
         <form class="bl-search" role="search" action="<?= e(url('blog')) ?>" method="get">
@@ -79,7 +90,7 @@ function post_meta(array $p): string
           <input id="bl-q" type="search" name="q" value="<?= e($search) ?>" placeholder="Search articles" maxlength="80">
           <button type="submit" aria-label="Search"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
         </form>
-      </div>
+      </header>
 
       <?php if (!$lead && !$posts): ?>
         <div class="bl-empty glass">
@@ -98,30 +109,31 @@ function post_meta(array $p): string
       <?php if ($lead): ?>
         <article class="bl-lead">
           <a class="bl-lead__img" href="<?= e(post_url($lead)) ?>" tabindex="-1" aria-hidden="true">
-            <?php if ($lead['cover_image']): ?><img src="<?= e(url($lead['cover_image'])) ?>" alt="" width="1200" height="750"><?php else: ?><span class="bl-ph"></span><?php endif; ?>
+            <?= $lead['cover_image'] ? '<img src="' . e(url($lead['cover_image'])) . '" alt="" width="1200" height="750">' : cover_art($lead['category_slug'], 'lead') ?>
           </a>
           <div class="bl-lead__text">
+            <span class="bl-flag">Start here</span>
             <?= post_meta($lead) ?>
             <h2><a href="<?= e(post_url($lead)) ?>"><?= e($lead['title']) ?></a></h2>
             <p><?= e(post_excerpt($lead, 220)) ?></p>
-            <a class="bl-more" href="<?= e(post_url($lead)) ?>" aria-label="Read “<?= e($lead['title']) ?>”">Read the article</a>
+            <a class="bl-more" href="<?= e(post_url($lead)) ?>" aria-label="Read “<?= e($lead['title']) ?>”">Read the article<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
           </div>
         </article>
       <?php endif; ?>
 
       <?php if ($posts): ?>
-        <ul class="bl-list">
+        <ul class="bl-grid">
           <?php foreach ($posts as $p): ?>
             <li>
-              <article class="bl-row">
-                <div class="bl-row__text">
+              <article class="bl-card">
+                <a class="bl-card__img" href="<?= e(post_url($p)) ?>" tabindex="-1" aria-hidden="true">
+                  <?= $p['cover_image'] ? '<img src="' . e(url($p['cover_image'])) . '" alt="" loading="lazy" width="480" height="300">' : cover_art($p['category_slug']) ?>
+                </a>
+                <div class="bl-card__text">
                   <?= post_meta($p) ?>
                   <h2><a href="<?= e(post_url($p)) ?>"><?= e($p['title']) ?></a></h2>
                   <p><?= e(post_excerpt($p)) ?></p>
                 </div>
-                <a class="bl-row__img" href="<?= e(post_url($p)) ?>" tabindex="-1" aria-hidden="true">
-                  <?php if ($p['cover_image']): ?><img src="<?= e(url($p['cover_image'])) ?>" alt="" loading="lazy" width="480" height="300"><?php else: ?><span class="bl-ph"></span><?php endif; ?>
-                </a>
               </article>
             </li>
           <?php endforeach; ?>
@@ -136,12 +148,12 @@ function post_meta(array $p): string
         </nav>
       <?php endif; ?>
 
-      <section class="bl-cta glass" aria-labelledby="bl-cta-h">
+      <section class="bl-cta" aria-labelledby="bl-cta-h">
         <div>
           <h2 id="bl-cta-h">See what you owe for 2026</h2>
           <p>Free, no sign-up, and your numbers stay on your device.</p>
         </div>
-        <a class="btn btn--primary" href="/calculator.html">Calculate my tax</a>
+        <a href="/calculator.html" class="bl-primary bl-primary--light">Calculate my tax<span class="bl-primary__ico"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a>
       </section>
     </main>
 <?php require APP_DIR . '/views/layout-bottom.php';

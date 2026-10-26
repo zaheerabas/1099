@@ -32,7 +32,7 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/site.css">
-<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>">
+<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=2">
 <?php endforeach; ?>
 <?= $page['head'] ?>
 

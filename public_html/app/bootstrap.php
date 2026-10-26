@@ -31,3 +31,4 @@ require APP_DIR . '/lib/auth.php';
 require APP_DIR . '/lib/sanitize.php';
 require APP_DIR . '/lib/posts.php';
 require APP_DIR . '/lib/media.php';
+require APP_DIR . '/lib/covers.php';
