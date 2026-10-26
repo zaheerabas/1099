@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How the 1099 Tax Calculator Works | taxmetter</title>
+<meta name="description" content="Step-by-step method behind the taxmetter 1099 calculator: self-employment tax, deductions, income tax and quarterly payments, with a worked example.">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/how-it-works.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="taxmetter">
+<meta property="og:title" content="How the 1099 Tax Calculator Works | taxmetter">
+<meta property="og:description" content="Step-by-step method behind the taxmetter 1099 calculator: self-employment tax, deductions, income tax and quarterly payments, with a worked example.">
+<meta property="og:url" content="https://YOUR-DOMAIN.com/how-it-works.html">
+<meta property="og:image" content="https://YOUR-DOMAIN.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f4f8f8">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<script src="assets/js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ew-hero" id="ew-hero" data-ew-theme="tax">
+  <div class="ew-page">
+
+    <svg class="ew-side ew-side--l" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideL" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 120 C120 170 150 300 110 430 C70 560 150 700 260 900 L0 900 Z" fill="url(#ew-sideL)"/>
+      <path d="M0 260 C80 300 92 400 62 500 C34 600 88 720 170 900 L0 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+    <svg class="ew-side ew-side--r" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideR" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M260 120 C140 170 110 300 150 430 C190 560 110 700 0 900 L260 900 Z" fill="url(#ew-sideR)"/>
+      <path d="M260 260 C180 300 168 400 198 500 C226 600 172 720 90 900 L260 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+
+
+    <header class="ew-header">
+      <span class="ew-progress" aria-hidden="true"><i></i></span>
+      <div class="ew-header__inner" data-ew>
+        <a href="index.html" class="ew-brand" aria-label="taxmetter home">
+          <span class="ew-brand__mark"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>
+          <span aria-hidden="true">tax<span class="ew-brand__accent">metter</span></span>
+        </a>
+
+        <nav class="ew-menu" id="ew-menu" aria-label="Main">
+          <div class="ew-nav">
+            <span class="ew-nav__pill" aria-hidden="true"></span>
+            <a href="calculator.html" style="--i:0">1099 calculator<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="how-it-works.html" style="--i:1" aria-current="page">How it works<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="tax-guide.html" style="--i:2">2026 tax guide<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="calculator.html#faq" style="--i:3">FAQ<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+          </div>
+        </nav>
+
+        <div class="ew-actions">
+          <a href="calculator.html" class="ew-signup"><span class="lg">Calculate my tax</span><span class="sm">Calculate</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <button type="button" class="ew-burger" aria-label="Open menu" aria-expanded="false" aria-controls="ew-menu">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" style="stroke:var(--ew-text)"><path class="ew-b1" d="M4 7h16"/><path class="ew-b2" d="M4 12h16"/><path class="ew-b3" d="M4 17h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="ew-header-spacer" aria-hidden="true"></div>
+
+    <main class="pg ew-main" id="main">
+      <div class="pg-intro">
+        <span class="pg-tag">The method</span>
+        <h1>How the 1099 calculator works</h1>
+        <p>Every number the calculator shows, step by step, with a worked example for $60,000 of freelance income.</p><p class="pg-meta">Updated October 2026 for tax year 2026</p>
+      </div>
+      <article class="prose glass">
+        <p class="lead">Freelancers pay two federal taxes on their business profit: self-employment tax and income tax. The calculator works them out in the same order as the IRS forms, Schedule C, Schedule SE and Form 1040.</p>
+
+        <h2 id="profit">1. Business profit</h2>
+        <p>We add your 1099-NEC, 1099-K and 1099-MISC income, then subtract your business expenses, your home office and your mileage.</p>
+        <ul>
+          <li><strong>Home office</strong> uses the simplified method: $5 per square foot for up to 300 square feet. It can bring your profit down to zero but not below.</li>
+          <li><strong>Mileage</strong> uses 72.5¢ a mile from January to June and 76¢ from July 1, after the IRS raised the rate mid-year.</li>
+          <li><strong>1099-INT interest</strong> isn’t business income. It’s taxed as ordinary income but not for self-employment tax.</li>
+        </ul>
+
+        <h2 id="se">2. Self-employment tax</h2>
+        <p>Self-employment tax is the Social Security and Medicare tax an employer would normally split with you. It’s 15.3% of 92.35% of your profit: 12.4% for Social Security and 2.9% for Medicare.</p>
+        <ul>
+          <li>The 12.4% part only applies up to the 2026 wage base of $184,500. Any W-2 wages count toward that limit first.</li>
+          <li>If your net earnings are under $400, there’s no self-employment tax.</li>
+          <li>An extra 0.9% Medicare tax applies to earnings above $200,000 ($250,000 married filing jointly, $125,000 married filing separately).</li>
+        </ul>
+
+        <h2 id="income">3. Income that’s taxed</h2>
+        <p>Your adjusted gross income is your profit plus any W-2 wages and interest, minus three deductions: half of your self-employment tax, health insurance premiums you paid yourself, and SEP-IRA or solo 401(k) contributions.</p>
+        <p>From that we subtract the 2026 standard deduction and the 20% qualified business income deduction. For most freelancers the business deduction is 20% of profit (after those adjustments), but never more than 20% of taxable income. From 2026 there is also a $400 minimum if your business income is at least $1,000.</p>
+
+        <h2 id="brackets">4. Federal income tax</h2>
+        <p>Taxable income runs through the 2026 brackets for your filing status, from 10% to 37%. Only the income inside each bracket is taxed at that bracket’s rate. The full tables are in the <a href="tax-guide.html#brackets">2026 tax guide</a>.</p>
+
+        <h2 id="example">Worked example</h2>
+        <p>Single filer, $60,000 on 1099-NEC forms, no expenses, no other income.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Step</th><th class="num">Amount</th></tr></thead>
+          <tbody>
+            <tr><td>Net business profit</td><td class="num">$60,000</td></tr>
+            <tr><td>Earnings for self-employment tax (92.35%)</td><td class="num">$55,410</td></tr>
+            <tr><td>Self-employment tax (15.3%)</td><td class="num">$8,478</td></tr>
+            <tr><td>Adjusted gross income (profit − half of SE tax)</td><td class="num">$55,761</td></tr>
+            <tr><td>Standard deduction</td><td class="num">−$16,100</td></tr>
+            <tr><td>Business income deduction (20% of taxable income)</td><td class="num">−$7,932</td></tr>
+            <tr><td>Taxable income</td><td class="num">$31,729</td></tr>
+            <tr><td>Federal income tax (10% and 12% brackets)</td><td class="num">$3,559</td></tr>
+            <tr class="sum"><td>Total estimated federal tax</td><td class="num">$12,037</td></tr>
+          </tbody>
+        </table></div>
+        <p>That’s about 20% of the $60,000. Spread over four quarters it’s $3,009 per payment.</p>
+
+        <h2 id="payments">5. Quarterly payments</h2>
+        <p>What you still owe, after W-2 withholding and payments you’ve already made, is split across the 2026 due dates that haven’t passed yet. Late in the year that means one or two larger payments instead of four.</p>
+        <p>The calculator also shows the least you can pay to avoid an underpayment penalty. That’s the smaller of 90% of this year’s tax or 100% of last year’s (110% if last year’s adjusted gross income was over $150,000). If you expect to owe less than $1,000 after withholding, you usually don’t need estimated payments at all.</p>
+
+        <h2 id="limits">What it doesn’t include</h2>
+        <p>State and local income tax, itemized deductions, tax credits such as the child tax credit, capital gains, and the extra limits on the business income deduction above $201,750 of taxable income ($403,500 joint). The calculator tells you when you’re near that line.</p>
+        <div class="note"><p>Your numbers never leave your browser. They’re saved on your device so they’re there when you come back. See <a href="privacy.html">Privacy</a>.</p></div>
+        <div class="pg-cta"><p>Ready to see your own numbers?</p><a class="btn btn--primary" href="calculator.html">Calculate my tax <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a></div>
+      </article>
+    </main>
+
+
+    <footer class="ew-foot">
+      <div class="ew-foot__top">
+        <div class="ew-foot__about">
+          <a href="index.html" class="ew-brand" aria-label="taxmetter home">
+            <span class="ew-brand__mark"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>
+            <span aria-hidden="true">tax<span class="ew-brand__accent">metter</span></span>
+          </a>
+          <p>A free 1099 tax calculator for freelancers, contractors and gig workers in the US.</p>
+        </div>
+        <nav aria-labelledby="f-tools"><h2 id="f-tools">Tools</h2>
+          <ul><li><a href="calculator.html">1099 tax calculator</a></li><li><a href="how-it-works.html">How it works</a></li></ul>
+        </nav>
+        <nav aria-labelledby="f-learn"><h2 id="f-learn">Learn</h2>
+          <ul><li><a href="tax-guide.html">2026 tax guide</a></li><li><a href="calculator.html#faq">1099 tax questions</a></li></ul>
+        </nav>
+        <nav aria-labelledby="f-site"><h2 id="f-site">Site</h2>
+          <ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms and disclaimer</a></li></ul>
+        </nav>
+      </div>
+      <div class="ew-foot__legal">
+        <p>taxmetter gives estimates for planning only. It isn’t tax, legal or financial advice. Check your situation with a tax professional or the IRS.</p>
+        <p>© 2026 taxmetter</p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>

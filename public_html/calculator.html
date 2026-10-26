@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>1099 Tax Calculator 2026: Self-Employment and Quarterly Tax | taxmetter</title>
+<meta name="description" content="Free 1099 tax calculator for freelancers and contractors. Estimate 2026 self-employment tax, federal income tax and quarterly payments. Free, no sign-up.">
+<link rel="canonical" href="https://YOUR-DOMAIN.com/calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="taxmetter">
+<meta property="og:title" content="1099 Tax Calculator 2026: Self-Employment and Quarterly Tax | taxmetter">
+<meta property="og:description" content="Free 1099 tax calculator for freelancers and contractors. Estimate 2026 self-employment tax, federal income tax and quarterly payments. Free, no sign-up.">
+<meta property="og:url" content="https://YOUR-DOMAIN.com/calculator.html">
+<meta property="og:image" content="https://YOUR-DOMAIN.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#f4f8f8">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/calculator.css">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebApplication",
+   "name": "1099 Tax Calculator 2026",
+   "applicationCategory": "FinanceApplication",
+   "operatingSystem": "Any",
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+   },
+   "description": "Free 1099 tax calculator for freelancers and contractors. Estimates 2026 self-employment tax, federal income tax and quarterly payments."
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "How is tax on 1099 income calculated?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You pay two federal taxes. Self-employment tax is 15.3% of 92.35% of your net profit and covers Social Security and Medicare. Federal income tax applies to your total income after half of the self-employment tax, the standard deduction and the 20% business income deduction. Your net profit is your 1099 income minus business expenses, so every deductible expense lowers both taxes."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How much of my 1099 income should I set aside?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Most freelancers set aside 20% to 30% of each payment for federal tax, plus whatever their state charges. The calculator shows the share that matches your own income and expenses under “Set aside from each 1099 payment”."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "When are 2026 quarterly estimated taxes due?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The due dates for 2026 are April 15, June 15 and September 15, 2026, and January 15, 2027. You generally need to make estimated payments if you expect to owe $1,000 or more after withholding."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "How do I avoid an underpayment penalty?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "You usually avoid the penalty if your withholding and estimated payments add up to at least 90% of this year’s tax or 100% of last year’s tax, whichever is smaller. If your adjusted gross income last year was over $150,000, the last-year figure is 110%. Enter your 2025 tax in the calculator to see your minimum."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Can I deduct my home office?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes, if you use part of your home regularly and only for your business. The simplified method lets you deduct $5 per square foot for up to 300 square feet, which is what the calculator uses. You can’t use it to create a loss."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Is all of my 1099-K income taxable?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Only the business part. A 1099-K reports payments you received through apps and marketplaces, which can include personal transfers or items you sold at a loss. Enter only the amount that was income from your work."
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script src="assets/js/site.js" defer></script>
+<script src="assets/js/calculator.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="ew-hero" id="ew-hero" data-ew-theme="tax">
+  <div class="ew-page">
+
+    <svg class="ew-side ew-side--l" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideL" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 120 C120 170 150 300 110 430 C70 560 150 700 260 900 L0 900 Z" fill="url(#ew-sideL)"/>
+      <path d="M0 260 C80 300 92 400 62 500 C34 600 88 720 170 900 L0 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+    <svg class="ew-side ew-side--r" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideR" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M260 120 C140 170 110 300 150 430 C190 560 110 700 0 900 L260 900 Z" fill="url(#ew-sideR)"/>
+      <path d="M260 260 C180 300 168 400 198 500 C226 600 172 720 90 900 L260 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+
+
+    <header class="ew-header">
+      <span class="ew-progress" aria-hidden="true"><i></i></span>
+      <div class="ew-header__inner" data-ew>
+        <a href="index.html" class="ew-brand" aria-label="taxmetter home">
+          <span class="ew-brand__mark"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>
+          <span aria-hidden="true">tax<span class="ew-brand__accent">metter</span></span>
+        </a>
+
+        <nav class="ew-menu" id="ew-menu" aria-label="Main">
+          <div class="ew-nav">
+            <span class="ew-nav__pill" aria-hidden="true"></span>
+            <a href="calculator.html" style="--i:0" aria-current="page">1099 calculator<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="how-it-works.html" style="--i:1">How it works<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="tax-guide.html" style="--i:2">2026 tax guide<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="calculator.html#faq" style="--i:3">FAQ<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+          </div>
+        </nav>
+
+        <div class="ew-actions">
+          <a href="calculator.html" class="ew-signup"><span class="lg">Calculate my tax</span><span class="sm">Calculate</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <button type="button" class="ew-burger" aria-label="Open menu" aria-expanded="false" aria-controls="ew-menu">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" style="stroke:var(--ew-text)"><path class="ew-b1" d="M4 7h16"/><path class="ew-b2" d="M4 12h16"/><path class="ew-b3" d="M4 17h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="ew-header-spacer" aria-hidden="true"></div>
+
+    <main class="cx ew-main" id="main">
+      <div class="cx-intro">
+        <span class="cx-year">Tax year 2026</span>
+        <h1 id="cx-title">1099 tax calculator</h1>
+        <p>Estimate your 2026 federal tax as a freelancer or contractor. The result updates as you type.</p>
+      </div>
+
+      <div class="cx-grid">
+        <form class="cx-form" id="cx-form" novalidate autocomplete="off" aria-labelledby="cx-title">
+
+          <fieldset class="cx-sec">
+            <legend><span class="cx-num" aria-hidden="true">1</span>Filing status</legend>
+            <div class="cx-seg" role="radiogroup" aria-label="Filing status">
+              <label><input type="radio" name="status" value="single" checked><span>Single</span></label>
+              <label><input type="radio" name="status" value="mfj"><span>Married, filing jointly</span></label>
+              <label><input type="radio" name="status" value="mfs"><span>Married, filing separately</span></label>
+              <label><input type="radio" name="status" value="hoh"><span>Head of household</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="cx-sec">
+            <legend><span class="cx-num" aria-hidden="true">2</span>1099 income</legend>
+            <p class="cx-sec__note">Enter the totals from each form you got for 2026. Leave a box empty if you didn’t get that form.</p>
+            <div class="cx-fields">
+              <div class="cx-field">
+                <label for="nec">1099-NEC</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="nec" name="nec" inputmode="decimal" placeholder="0" aria-describedby="nec-h"></div>
+                <small id="nec-h">Freelance and contract pay</small>
+              </div>
+              <div class="cx-field">
+                <label for="k">1099-K</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="k" name="k" inputmode="decimal" placeholder="0" aria-describedby="k-h"></div>
+                <small id="k-h">Payment apps and marketplaces</small>
+              </div>
+              <div class="cx-field">
+                <label for="misc">1099-MISC</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="misc" name="misc" inputmode="decimal" placeholder="0" aria-describedby="misc-h"></div>
+                <small id="misc-h">Other business income</small>
+              </div>
+              <div class="cx-field">
+                <label for="int">1099-INT</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="int" name="int" inputmode="decimal" placeholder="0" aria-describedby="int-h"></div>
+                <small id="int-h">Interest, taxed as income only</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="cx-sec">
+            <legend><span class="cx-num" aria-hidden="true">3</span>Business expenses</legend>
+            <p class="cx-sec__note">These lower both your self-employment tax and your income tax.</p>
+            <div class="cx-fields">
+              <div class="cx-field cx-field--wide">
+                <label for="exp">Business expenses</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="exp" name="exp" inputmode="decimal" placeholder="0" aria-describedby="exp-h"></div>
+                <small id="exp-h">Software, equipment, supplies, phone, internet, fees, advertising</small>
+              </div>
+              <div class="cx-field">
+                <label for="sqft">Home office size</label>
+                <div class="cx-input cx-input--unit"><input id="sqft" name="sqft" inputmode="numeric" placeholder="0" aria-describedby="sqft-h"><span aria-hidden="true">sq ft</span></div>
+                <small id="sqft-h">$5 per sq ft, up to 300 sq ft</small>
+              </div>
+              <div class="cx-field">
+                <label for="health">Health insurance premiums</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="health" name="health" inputmode="decimal" placeholder="0" aria-describedby="health-h"></div>
+                <small id="health-h">Plans you paid for yourself</small>
+              </div>
+              <div class="cx-field">
+                <label for="mi1">Business miles, Jan to Jun</label>
+                <div class="cx-input cx-input--unit"><input id="mi1" name="mi1" inputmode="numeric" placeholder="0" aria-describedby="mi1-h"><span aria-hidden="true">mi</span></div>
+                <small id="mi1-h">72.5¢ per mile</small>
+              </div>
+              <div class="cx-field">
+                <label for="mi2">Business miles, Jul to Dec</label>
+                <div class="cx-input cx-input--unit"><input id="mi2" name="mi2" inputmode="numeric" placeholder="0" aria-describedby="mi2-h"><span aria-hidden="true">mi</span></div>
+                <small id="mi2-h">76¢ per mile</small>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="cx-sec">
+            <legend><span class="cx-num" aria-hidden="true">4</span>Payments and savings <em>optional</em></legend>
+            <p class="cx-sec__note">Add these if you have a W-2 job, already paid some tax, or save for retirement. They make the quarterly amounts more accurate.</p>
+            <div class="cx-fields">
+              <div class="cx-field">
+                <label for="w2">W-2 wages</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="w2" name="w2" inputmode="decimal" placeholder="0"></div>
+              </div>
+              <div class="cx-field">
+                <label for="wh">Tax withheld from W-2</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="wh" name="wh" inputmode="decimal" placeholder="0" aria-describedby="wh-h"></div>
+                <small id="wh-h">Federal income tax only</small>
+              </div>
+              <div class="cx-field">
+                <label for="paid">Estimated payments made for 2026</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="paid" name="paid" inputmode="decimal" placeholder="0"></div>
+              </div>
+              <div class="cx-field">
+                <label for="ret">Retirement contributions</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="ret" name="ret" inputmode="decimal" placeholder="0" aria-describedby="ret-h"></div>
+                <small id="ret-h">SEP-IRA or solo 401(k). Lowers income tax only</small>
+              </div>
+              <div class="cx-field">
+                <label for="prior">Total tax on your 2025 return</label>
+                <div class="cx-input"><span aria-hidden="true">$</span><input id="prior" name="prior" inputmode="decimal" placeholder="0" aria-describedby="prior-h"></div>
+                <small id="prior-h">Form 1040, line 24. Used to find the least you can pay without a penalty</small>
+              </div>
+              <div class="cx-field cx-field--check">
+                <label class="cx-check"><input type="checkbox" id="hi" name="hi"><span>My 2025 adjusted gross income was over $150,000 ($75,000 if married filing separately)</span></label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="cx-form__foot">
+            <button type="button" class="cx-btn cx-btn--ghost" id="cx-reset">Clear all</button>
+            <a href="#cx-result" class="cx-btn cx-btn--primary" id="cx-go">See my estimate</a>
+          </div>
+        </form>
+
+        <aside class="cx-result" id="cx-result" aria-labelledby="cx-result-title" tabindex="-1">
+          <div class="cx-card">
+            <h2 class="cx-result__label" id="cx-result-title">Estimated 2026 federal tax</h2>
+            <div class="cx-total" aria-live="polite" aria-atomic="true"><span id="r-total">$0</span></div>
+            <p class="cx-total__sub" id="r-sub">Add your 1099 income to see your estimate.</p>
+
+            <div class="cx-split" id="r-split" hidden>
+              <div class="cx-bar" aria-hidden="true">
+                <i class="cx-bar__se" id="b-se"></i><i class="cx-bar__inc" id="b-inc"></i><i class="cx-bar__add" id="b-add"></i>
+              </div>
+              <dl class="cx-legend">
+                <div><dt><i class="cx-key cx-key--se"></i>Self-employment tax</dt><dd id="r-se">$0</dd></div>
+                <div><dt><i class="cx-key cx-key--inc"></i>Federal income tax</dt><dd id="r-inc">$0</dd></div>
+                <div id="r-add-row" hidden><dt><i class="cx-key cx-key--add"></i>Additional Medicare tax</dt><dd id="r-add">$0</dd></div>
+              </dl>
+            </div>
+
+            <div class="cx-tiles">
+              <div class="cx-tile">
+                <span id="r-q-label">Pay each quarter</span>
+                <strong id="r-q">$0</strong>
+              </div>
+              <div class="cx-tile">
+                <span>Set aside from each 1099 payment</span>
+                <strong id="r-set">0%</strong>
+              </div>
+            </div>
+
+            <div class="cx-owe" id="r-owe-row" hidden>
+              <span>Already paid</span><b id="r-paid">$0</b>
+              <span>Still to pay for 2026</span><b id="r-owe">$0</b>
+            </div>
+
+            <p class="cx-safe" id="r-safe" hidden></p>
+            <p class="cx-tip" id="r-tip" hidden></p>
+            <p class="cx-note" id="r-note" hidden></p>
+
+            <h3 class="cx-h3">2026 quarterly due dates</h3>
+            <ol class="cx-dates" id="r-dates"></ol>
+
+            <details class="cx-how">
+              <summary>How we calculated this</summary>
+              <table>
+                <tbody id="r-how"></tbody>
+              </table>
+            </details>
+            <div class="cx-actions">
+              <button type="button" class="cx-btn cx-btn--soft" id="cx-copy">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+                <span>Copy link</span>
+              </button>
+              <button type="button" class="cx-btn cx-btn--soft" id="cx-print">
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+                <span>Print or save PDF</span>
+              </button>
+            </div>
+            <p class="cx-status" id="cx-status" role="status" aria-live="polite"></p>
+          </div>
+          <p class="cx-disclaimer">An estimate of federal tax only, using 2026 IRS rates and the standard deduction. It doesn’t include state tax, credits or itemized deductions, and it isn’t tax advice.</p>
+        </aside>
+      </div>
+
+      <section class="cx-faq" id="faq" aria-labelledby="cx-faq-title">
+        <h2 id="cx-faq-title">1099 tax questions</h2>
+        <div class="cx-faq__list">
+          <details class="cx-faq__item" id="faq-how">
+            <summary>How is tax on 1099 income calculated?</summary>
+            <p>You pay two federal taxes. Self-employment tax is 15.3% of 92.35% of your net profit and covers Social Security and Medicare. Federal income tax applies to your total income after half of the self-employment tax, the standard deduction and the 20% business income deduction. Your net profit is your 1099 income minus business expenses, so every deductible expense lowers both taxes.</p>
+          </details>
+          <details class="cx-faq__item" id="faq-set-aside">
+            <summary>How much of my 1099 income should I set aside?</summary>
+            <p>Most freelancers set aside 20% to 30% of each payment for federal tax, plus whatever their state charges. The calculator shows the share that matches your own income and expenses under “Set aside from each 1099 payment”.</p>
+          </details>
+          <details class="cx-faq__item" id="faq-quarterly">
+            <summary>When are 2026 quarterly estimated taxes due?</summary>
+            <p>The due dates for 2026 are April 15, June 15 and September 15, 2026, and January 15, 2027. You generally need to make estimated payments if you expect to owe $1,000 or more after withholding.</p>
+          </details>
+          <details class="cx-faq__item" id="faq-penalty">
+            <summary>How do I avoid an underpayment penalty?</summary>
+            <p>You usually avoid the penalty if your withholding and estimated payments add up to at least 90% of this year’s tax or 100% of last year’s tax, whichever is smaller. If your adjusted gross income last year was over $150,000, the last-year figure is 110%. Enter your 2025 tax in the calculator to see your minimum.</p>
+          </details>
+          <details class="cx-faq__item" id="faq-home-office">
+            <summary>Can I deduct my home office?</summary>
+            <p>Yes, if you use part of your home regularly and only for your business. The simplified method lets you deduct $5 per square foot for up to 300 square feet, which is what the calculator uses. You can’t use it to create a loss.</p>
+          </details>
+          <details class="cx-faq__item" id="faq-1099k">
+            <summary>Is all of my 1099-K income taxable?</summary>
+            <p>Only the business part. A 1099-K reports payments you received through apps and marketplaces, which can include personal transfers or items you sold at a loss. Enter only the amount that was income from your work.</p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <div class="cx-dock" id="cx-dock" aria-hidden="true">
+      <div><span>Estimated tax</span><strong id="d-total">$0</strong></div>
+      <a href="#cx-result" class="cx-btn cx-btn--primary" tabindex="-1">See breakdown</a>
+    </div>
+
+
+    <footer class="ew-foot">
+      <div class="ew-foot__top">
+        <div class="ew-foot__about">
+          <a href="index.html" class="ew-brand" aria-label="taxmetter home">
+            <span class="ew-brand__mark"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg></span>
+            <span aria-hidden="true">tax<span class="ew-brand__accent">metter</span></span>
+          </a>
+          <p>A free 1099 tax calculator for freelancers, contractors and gig workers in the US.</p>
+        </div>
+        <nav aria-labelledby="f-tools"><h2 id="f-tools">Tools</h2>
+          <ul><li><a href="calculator.html">1099 tax calculator</a></li><li><a href="how-it-works.html">How it works</a></li></ul>
+        </nav>
+        <nav aria-labelledby="f-learn"><h2 id="f-learn">Learn</h2>
+          <ul><li><a href="tax-guide.html">2026 tax guide</a></li><li><a href="calculator.html#faq">1099 tax questions</a></li></ul>
+        </nav>
+        <nav aria-labelledby="f-site"><h2 id="f-site">Site</h2>
+          <ul><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms and disclaimer</a></li></ul>
+        </nav>
+      </div>
+      <div class="ew-foot__legal">
+        <p>taxmetter gives estimates for planning only. It isn’t tax, legal or financial advice. Check your situation with a tax professional or the IRS.</p>
+        <p>© 2026 taxmetter</p>
+      </div>
+    </footer>
+
+  </div>
+</div>
+</body>
+</html>
