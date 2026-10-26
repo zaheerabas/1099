@@ -605,3 +605,14 @@
   .ew-hero .tl-line i{transform:scaleX(calc(var(--today) / 100%))!important}
   .ew-hero .tl-list li.is-next .tl-dot::after{animation:none}
 }
+
+  /* Big screens */
+  @media (min-width:1600px){
+    .ew-intro{max-width:1100px}
+    .ew-cards{max-width:1440px}
+  }
+  @media (min-width:2000px){
+    .ew-intro{max-width:1200px}
+    .ew-cards{max-width:1600px}
+    .ew-card{min-height:480px}
+  }

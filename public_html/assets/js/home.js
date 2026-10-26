@@ -102,7 +102,8 @@
         tipDay.textContent = days[di];
         markDay(di);
         tip.style.left = (p.x / 300 * 100) + '%';
-        tip.style.top = (p.y / 140 * r.height) + 'px';
+        // As a share of the plot's height, so it lines up at any page zoom
+        tip.style.top = (p.y / 140 * r.height / plot.getBoundingClientRect().height * 100) + '%';
         plot.classList.add('is-scrub');
       }
       function onLeave() { plot.classList.remove('is-scrub'); moveTo(200, 50); markDay(2); }

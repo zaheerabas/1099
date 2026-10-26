@@ -478,3 +478,28 @@
   .ew-hero .bl-hero > *,.ew-hero .ar-head > *,.ew-hero .bh-feature,.ew-hero .ar-cover{animation:none}
   .ew-hero .bh-feature__main,.ew-hero .bl-card,.ew-hero .ar-related a,.ew-hero .bh-numbers a,.ew-hero .ar-pn__item,.ew-hero .bl-primary,.ew-hero .ar-toc__bar i{transition:none}
 }
+
+/* ---------- Big screens ---------- */
+@media (min-width:1600px){
+  .ew-hero .bl{max-width:1360px}
+  .ew-hero .bl-hero{max-width:980px}
+  .ew-hero .ar{max-width:1520px}
+  .ew-hero .ar-head{max-width:1000px}
+  .ew-hero .ar-cover,.ew-hero .ar-band,.ew-hero .ar-pn,.ew-hero .ar-related{max-width:1360px}
+  .ew-hero .ar-cover{aspect-ratio:16/5.6}
+  .ew-hero .ar-body--side{grid-template-columns:minmax(0,800px) 330px;column-gap:64px}
+  .ew-hero .ar-body--side.ar-body--toc{grid-template-columns:240px minmax(0,780px) 330px;column-gap:56px}
+  .ew-hero .bh-latest__item{grid-template-columns:128px minmax(0,1fr)}
+}
+@media (min-width:2000px){
+  .ew-hero .bl{max-width:1560px}
+  .ew-hero .ar{max-width:1680px}
+  .ew-hero .ar-cover,.ew-hero .ar-band,.ew-hero .ar-pn,.ew-hero .ar-related{max-width:1560px}
+  .ew-hero .ar-body--side.ar-body--toc{grid-template-columns:260px minmax(0,820px) 350px;column-gap:72px}
+  .ew-hero .bl-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,360px),1fr))}
+}
+
+/* Short screens (e.g. 1366×768 laptops): the right column scrolls with the page so no card is cut off */
+@media (min-width:1240px) and (max-height:859px){
+  .ew-hero .ar-side__stick{position:static}
+}

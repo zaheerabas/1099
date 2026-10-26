@@ -166,7 +166,7 @@ $adjacent = $isPreview || !$post['published_at'] ? ['prev' => null, 'next' => nu
         </section>
       <?php endif; ?>
     </main>
-    <script src="/assets/js/tax-engine.js?v=1"></script>
+    <script src="/assets/js/tax-engine.js?v=6"></script>
     <script>
       // Sidebar quick estimate, using the same tax maths as the calculator
       (function () {

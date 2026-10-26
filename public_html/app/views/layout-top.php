@@ -31,12 +31,12 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/site.css">
-<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=5">
+<link rel="stylesheet" href="/assets/css/site.css?v=6">
+<?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=6">
 <?php endforeach; ?>
 <?= $page['head'] ?>
 
-<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/site.js?v=6" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>

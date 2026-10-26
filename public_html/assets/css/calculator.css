@@ -292,3 +292,7 @@
     .cx-card{box-shadow:none;border:1px solid #ccc;-webkit-backdrop-filter:none;backdrop-filter:none}
     .cx-how{display:block}.cx-how table{display:table}
   }
+
+  /* Big screens */
+  @media (min-width:1600px){.cx{max-width:1400px}}
+  @media (min-width:2000px){.cx{max-width:1560px}}
