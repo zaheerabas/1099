@@ -107,21 +107,8 @@ function post_meta(array $p): string
       <?php endif; ?>
 
       <?php if ($lead): ?>
-        <article class="bl-lead">
-          <a class="bl-lead__img" href="<?= e(post_url($lead)) ?>" tabindex="-1" aria-hidden="true">
-            <?= $lead['cover_image'] ? '<img src="' . e(url($lead['cover_image'])) . '" alt="" width="1200" height="750">' : cover_art($lead['category_slug'], 'lead') ?>
-          </a>
-          <div class="bl-lead__text">
-            <span class="bl-flag">Start here</span>
-            <?= post_meta($lead) ?>
-            <h2><a href="<?= e(post_url($lead)) ?>"><?= e($lead['title']) ?></a></h2>
-            <p><?= e(post_excerpt($lead, 220)) ?></p>
-            <a class="bl-more" href="<?= e(post_url($lead)) ?>" aria-label="Read “<?= e($lead['title']) ?>”">Read the article<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          </div>
-        </article>
-      <?php endif; ?>
-
-      <?php if ($posts): ?>
+        <?php require APP_DIR . '/views/blog-home.php'; ?>
+      <?php elseif ($posts): ?>
         <ul class="bl-grid">
           <?php foreach ($posts as $p): ?>
             <li>
