@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://YOUR-DOMAIN.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/calculator.html</loc><priority>1.0</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/tax-guide.html</loc><priority>0.8</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/how-it-works.html</loc><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/faq.html</loc><priority>0.8</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog</loc><priority>0.8</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/privacy.html</loc><priority>0.2</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/terms.html</loc><priority>0.2</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/category/deductions</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/category/quarterly-taxes</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/category/self-employment-tax</loc><priority>0.5</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/how-much-to-set-aside-for-1099-taxes</loc><lastmod>2026-10-23</lastmod><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/self-employment-tax-explained</loc><lastmod>2026-10-17</lastmod><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/quarterly-estimated-taxes-2026</loc><lastmod>2026-10-10</lastmod><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/deductions-freelancers-often-miss</loc><lastmod>2026-10-03</lastmod><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/home-office-deduction-simplified-vs-regular</loc><lastmod>2026-09-25</lastmod><priority>0.7</priority></url>
+  <url><loc>https://YOUR-DOMAIN.com/blog/1099-thresholds-2026</loc><lastmod>2026-09-18</lastmod><priority>0.7</priority></url>
+</urlset>
