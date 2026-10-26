@@ -1,0 +1,1251 @@
+<!--
+  taxmetter 1099 calculator — header + hero, animated, responsive drop-in snippet
+  1. Put the two <link> lines in your page's <head> (they also work here if you can't edit <head>).
+  2. Paste the <style>, <section> and <script> blocks where the hero should appear.
+  3. Your page <head> needs: <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  Header: fixed; turns into a frosted pill on scroll, hides on scroll down, shows a scroll-progress bar.
+  Themes: set data-ew-theme on the <section> (this file uses tax; ocean is the fallback base). General: ocean, mint, violet, sunset, midnight.
+  Finance & tax: wealth, ledger, tax, capital, private, vault.
+  Everything is scoped under .ew-hero, so it won't affect the rest of your site.
+  Buttons: "Calculate my tax", "Open calculator" and the Tax answers arrow link to calculator.html.
+  Layout: 3 cards on desktop (1024px+), 2 + 1 wide card on tablets, 1 column on phones; fluid down to 320px.
+  Motion: entrance finishes in ~2s, the headline is visible on first paint (LCP-safe), looping motion pauses
+  off-screen and has a Pause button (WCAG 2.2.2), and "reduce motion" turns it all off.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  .ew-hero{
+    /* ---- Colour tokens (default theme: Ocean) ---- */
+    --ew-bg:#f5f7fb;            /* page background */
+    --ew-surface:#ffffff;       /* cards, menu */
+    --ew-surface-rgb:255 255 255;
+    --ew-surface-2:#eff3f9;     /* tinted fills: icon tiles, first bubble */
+    --ew-border:#e3e9f2;
+    --ew-track:#cbd4e1;         /* inactive dots, dashed lines */
+    --ew-dot:#cdd7e6;           /* background dot grid */
+    --ew-ink:#0f172a;           /* headline */
+    --ew-text:#1e293b;          /* body text */
+    --ew-muted:#4b5768;         /* secondary text */
+    --ew-soft:#64708a;          /* small labels */
+    --ew-accent:#3b5bdb;        /* brand accent (white text passes AA) */
+    --ew-accent-rgb:59 91 219;
+    --ew-accent-hi:#5671ea;     /* top of accent gradients */
+    --ew-accent-2:#8fa3ff;      /* light accent for charts */
+    --ew-accent-soft:#eaf0ff;   /* accent tint backgrounds */
+    --ew-chart-soft:#c8d4fb;
+    --ew-on-accent:#ffffff;
+    --ew-dark:#1e293b;          /* dark buttons, tooltip, dark bubble */
+    --ew-dark-hi:#334155;
+    --ew-dark-lo:#0f172a;
+    --ew-on-dark:#ffffff;
+    --ew-on-dark-muted:#cbd5e1;
+    --ew-mark-hi:#334766;       /* logo mark + hub */
+    --ew-mark-lo:#0f172a;
+    --ew-success:#16a34a;
+    --ew-success-rgb:22 163 74;
+    --ew-success-ink:#15803d;
+    --ew-success-soft:#ecfdf3;
+    --ew-success-border:#cdf3dc;
+    --ew-deco-1:#dbe5f3;        /* curved side shapes */
+    --ew-deco-2:#e9eff8;
+    --ew-deco-3:#d2deef;
+    --ew-shadow-rgb:30 41 59;
+    --ew-card-hl:rgba(255,255,255,.9);
+    --ew-ease:cubic-bezier(.2,.8,.2,1);
+    --ew-out:cubic-bezier(.16,1,.3,1);
+    --ew-spring:cubic-bezier(.34,1.56,.64,1);
+    --ew-card-shadow:
+      0 1px 0 var(--ew-card-hl) inset,
+      0 1px 2px rgb(var(--ew-shadow-rgb) / .04),
+      0 8px 16px -6px rgb(var(--ew-shadow-rgb) / .08),
+      0 28px 56px -12px rgb(var(--ew-shadow-rgb) / .14);
+    font-family:'Plus Jakarta Sans','Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    color:var(--ew-text);
+    background:var(--ew-bg);
+    color-scheme:light;
+    padding:0;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+    text-align:left;
+  }
+  /* ---- Theme presets: set data-ew-theme on <section class="ew-hero"> ---- */
+  .ew-hero[data-ew-theme="mint"]{
+    --ew-bg:#f3f8f5;--ew-surface-2:#ecf5f0;--ew-border:#dde9e3;--ew-track:#c2d6cc;--ew-dot:#c6dbd0;
+    --ew-ink:#0a1f19;--ew-text:#14322a;--ew-muted:#40605a;--ew-soft:#5a756e;
+    --ew-accent:#047857;--ew-accent-rgb:4 120 87;--ew-accent-hi:#0a946c;--ew-accent-2:#34d399;--ew-accent-soft:#e1f6ec;--ew-chart-soft:#b6ead3;
+    --ew-dark:#14322a;--ew-dark-hi:#24493f;--ew-dark-lo:#0a1f19;--ew-on-dark-muted:#c4dbd2;
+    --ew-mark-hi:#1f5c4a;--ew-mark-lo:#0a1f19;
+    --ew-deco-1:#d5ebe0;--ew-deco-2:#e6f3ec;--ew-deco-3:#c9e3d6;--ew-shadow-rgb:20 50 42;
+  }
+  .ew-hero[data-ew-theme="violet"]{
+    --ew-bg:#f7f6fc;--ew-surface-2:#f2effa;--ew-border:#e6e1f3;--ew-track:#d0c9e4;--ew-dot:#d6cfea;
+    --ew-ink:#17122d;--ew-text:#262042;--ew-muted:#565072;--ew-soft:#6c6688;
+    --ew-accent:#6d28d9;--ew-accent-rgb:109 40 217;--ew-accent-hi:#7c3aed;--ew-accent-2:#a78bfa;--ew-accent-soft:#f1ebff;--ew-chart-soft:#d9cbfb;
+    --ew-dark:#262042;--ew-dark-hi:#3b3362;--ew-dark-lo:#17122d;--ew-on-dark-muted:#d4cfe8;
+    --ew-mark-hi:#4c3a8f;--ew-mark-lo:#17122d;
+    --ew-deco-1:#e6e0f6;--ew-deco-2:#f1edfa;--ew-deco-3:#dbd2f2;--ew-shadow-rgb:38 32 66;
+  }
+  .ew-hero[data-ew-theme="sunset"]{
+    --ew-bg:#faf7f4;--ew-surface-2:#f7f0ea;--ew-border:#eee3da;--ew-track:#dccbbf;--ew-dot:#e2d3c7;
+    --ew-ink:#21150e;--ew-text:#33241b;--ew-muted:#65534a;--ew-soft:#7b695f;
+    --ew-accent:#c2410c;--ew-accent-rgb:194 65 12;--ew-accent-hi:#dc520f;--ew-accent-2:#fb923c;--ew-accent-soft:#fff0e5;--ew-chart-soft:#fcd1b0;
+    --ew-dark:#33241b;--ew-dark-hi:#4f392c;--ew-dark-lo:#21150e;--ew-on-dark-muted:#e6d6cb;
+    --ew-mark-hi:#5c3b29;--ew-mark-lo:#21150e;
+    --ew-deco-1:#f4e2d4;--ew-deco-2:#f9eee5;--ew-deco-3:#efd5c2;--ew-shadow-rgb:51 36 27;
+  }
+  .ew-hero[data-ew-theme="midnight"]{
+    color-scheme:dark;
+    --ew-bg:#0b1020;--ew-surface:#121a2e;--ew-surface-rgb:18 26 46;--ew-surface-2:#1a2340;--ew-border:#263152;--ew-track:#36436a;--ew-dot:#1f2a48;
+    --ew-ink:#f3f6ff;--ew-text:#e2e8f6;--ew-muted:#a9b3ca;--ew-soft:#8e99b4;
+    --ew-accent:#8095ff;--ew-accent-rgb:128 149 255;--ew-accent-hi:#9aabff;--ew-accent-2:#b9c5ff;--ew-accent-soft:#1d2750;--ew-chart-soft:#34407a;--ew-on-accent:#0b1020;
+    --ew-dark:#e6eaf8;--ew-dark-hi:#ffffff;--ew-dark-lo:#cdd5ec;--ew-on-dark:#0b1020;--ew-on-dark-muted:#4a5573;
+    --ew-mark-hi:#6d84f7;--ew-mark-lo:#3a4cc9;
+    --ew-success:#22c55e;--ew-success-rgb:34 197 94;--ew-success-ink:#4ade80;--ew-success-soft:#0f2a1d;--ew-success-border:#1c4a32;
+    --ew-deco-1:#111a33;--ew-deco-2:#0e162c;--ew-deco-3:#152044;--ew-shadow-rgb:0 0 0;--ew-card-hl:rgba(255,255,255,.06);
+  }
+  /* ---- Finance & tax presets ---- */
+  /* Wealth: navy + gold, ivory background (banks, wealth management) */
+  .ew-hero[data-ew-theme="wealth"]{
+    --ew-bg:#f8f6f1;--ew-surface-2:#f2efe7;--ew-border:#e6e1d5;--ew-track:#d3ccbb;--ew-dot:#dcd5c4;
+    --ew-ink:#0b1a3a;--ew-text:#16264a;--ew-muted:#4a5571;--ew-soft:#5f6984;
+    --ew-accent:#1e3a8a;--ew-accent-rgb:30 58 138;--ew-headline-2:#4a6fd1;--ew-accent-hi:#2b4aa3;--ew-accent-2:#c9a227;--ew-accent-soft:#eef1fa;--ew-chart-soft:#ecdca6;
+    --ew-dark:#0b1a3a;--ew-dark-hi:#1d2f5c;--ew-dark-lo:#060f24;--ew-on-dark-muted:#d6dbe8;
+    --ew-mark-hi:#24407f;--ew-mark-lo:#0b1a3a;
+    --ew-deco-1:#ece6d6;--ew-deco-2:#f4f0e6;--ew-deco-3:#e3dbc6;--ew-shadow-rgb:11 26 58;
+  }
+  /* Ledger: deep green on cream (accounting, bookkeeping, payroll) */
+  .ew-hero[data-ew-theme="ledger"]{
+    --ew-bg:#f7f7f2;--ew-surface-2:#eff3ec;--ew-border:#e0e6dc;--ew-track:#c6d2c2;--ew-dot:#cfd9cb;
+    --ew-ink:#0c1f14;--ew-text:#18301f;--ew-muted:#44584a;--ew-soft:#5b6e60;
+    --ew-accent:#166534;--ew-accent-rgb:22 101 52;--ew-accent-hi:#1d7a40;--ew-accent-2:#7cc497;--ew-accent-soft:#e7f4eb;--ew-chart-soft:#bfe2cb;
+    --ew-dark:#18301f;--ew-dark-hi:#284a31;--ew-dark-lo:#0c1f14;--ew-on-dark-muted:#c9dbcd;
+    --ew-mark-hi:#1f5a33;--ew-mark-lo:#0c1f14;
+    --ew-deco-1:#e1eadb;--ew-deco-2:#eef2e9;--ew-deco-3:#d4e1cd;--ew-shadow-rgb:24 48 31;
+  }
+  /* Tax: calm teal, clean grey-white (tax filing, refunds, compliance) */
+  .ew-hero[data-ew-theme="tax"]{
+    --ew-bg:#f4f8f8;--ew-surface-2:#ecf4f4;--ew-border:#dce8e8;--ew-track:#c2d5d5;--ew-dot:#c9dcdc;
+    --ew-ink:#0a1e22;--ew-text:#15303a;--ew-muted:#435c63;--ew-soft:#59727a;
+    --ew-accent:#0f766e;--ew-accent-rgb:15 118 110;--ew-accent-hi:#13897f;--ew-accent-2:#2dd4bf;--ew-accent-soft:#e2f5f3;--ew-chart-soft:#b4e9e1;
+    --ew-dark:#15303a;--ew-dark-hi:#234652;--ew-dark-lo:#0a1e22;--ew-on-dark-muted:#c6d9dd;
+    --ew-mark-hi:#145b58;--ew-mark-lo:#0a1e22;
+    --ew-deco-1:#d6eaea;--ew-deco-2:#e7f2f2;--ew-deco-3:#c9e2e1;--ew-shadow-rgb:21 48 58;
+  }
+  /* Capital: trust blue + growth green (fintech, investing, neobanks) */
+  .ew-hero[data-ew-theme="capital"]{
+    --ew-bg:#f4f7fb;--ew-surface-2:#edf2f8;--ew-border:#dfe6f0;--ew-track:#c5d1e0;--ew-dot:#cbd6e5;
+    --ew-ink:#0a1a2f;--ew-text:#132a45;--ew-muted:#475a72;--ew-soft:#5d6f87;
+    --ew-accent:#0b5cad;--ew-accent-rgb:11 92 173;--ew-accent-hi:#1570c7;--ew-accent-2:#22c55e;--ew-accent-soft:#e8f1fb;--ew-chart-soft:#b9ebcb;
+    --ew-dark:#132a45;--ew-dark-hi:#1f3d61;--ew-dark-lo:#0a1a2f;--ew-on-dark-muted:#c9d6e6;
+    --ew-mark-hi:#0f4f8f;--ew-mark-lo:#0a1a2f;
+    --ew-deco-1:#d9e5f2;--ew-deco-2:#e9f0f8;--ew-deco-3:#cddcee;--ew-shadow-rgb:19 42 69;
+  }
+  /* Private: burgundy + tan (private banking, insurance, advisory) */
+  .ew-hero[data-ew-theme="private"]{
+    --ew-bg:#faf7f5;--ew-surface-2:#f5efec;--ew-border:#ebe1dc;--ew-track:#d8c9c2;--ew-dot:#e0d2cb;
+    --ew-ink:#24101a;--ew-text:#331c26;--ew-muted:#64505a;--ew-soft:#7a6670;
+    --ew-accent:#7f1d3a;--ew-accent-rgb:127 29 58;--ew-accent-hi:#962649;--ew-accent-2:#d4a373;--ew-accent-soft:#f8ecf0;--ew-chart-soft:#ecd3ba;
+    --ew-dark:#331c26;--ew-dark-hi:#4d2c3a;--ew-dark-lo:#24101a;--ew-on-dark-muted:#e3d3da;
+    --ew-mark-hi:#6b1f38;--ew-mark-lo:#24101a;
+    --ew-deco-1:#f0e2dd;--ew-deco-2:#f7eeea;--ew-deco-3:#e9d5ce;--ew-shadow-rgb:51 28 38;
+  }
+  /* Vault: dark navy + emerald (trading, crypto, investment dashboards) */
+  .ew-hero[data-ew-theme="vault"]{
+    color-scheme:dark;
+    --ew-bg:#070d17;--ew-surface:#0f1726;--ew-surface-rgb:15 23 38;--ew-surface-2:#152034;--ew-border:#1f2c44;--ew-track:#2e3d5a;--ew-dot:#18233a;
+    --ew-ink:#f1f6f9;--ew-text:#dfe7ee;--ew-muted:#a2afc0;--ew-soft:#8896aa;
+    --ew-accent:#34d399;--ew-accent-rgb:52 211 153;--ew-accent-hi:#5ee0b0;--ew-accent-2:#a7f3d0;--ew-accent-soft:#0f2a24;--ew-chart-soft:#1d4a3d;--ew-on-accent:#052016;
+    --ew-dark:#e3ebf2;--ew-dark-hi:#ffffff;--ew-dark-lo:#c7d3df;--ew-on-dark:#070d17;--ew-on-dark-muted:#4b586b;
+    --ew-mark-hi:#1fa678;--ew-mark-lo:#0b5c43;
+    --ew-success:#34d399;--ew-success-rgb:52 211 153;--ew-success-ink:#6ee7b7;--ew-success-soft:#0d2a22;--ew-success-border:#1b4d3e;
+    --ew-deco-1:#0d1628;--ew-deco-2:#0a1220;--ew-deco-3:#111d33;--ew-shadow-rgb:0 0 0;--ew-card-hl:rgba(255,255,255,.05);
+  }
+  .ew-hero *,.ew-hero *::before,.ew-hero *::after{box-sizing:border-box}
+  .ew-hero h1,.ew-hero h2,.ew-hero p{margin:0}
+  .ew-hero a{color:var(--ew-text);text-decoration:none}
+  .ew-hero a:hover{color:var(--ew-accent)}
+  .ew-hero a:focus-visible,.ew-hero button:focus-visible{outline:2px solid var(--ew-accent);outline-offset:3px}
+  .ew-hero a,.ew-hero button{-webkit-tap-highlight-color:transparent}
+  .ew-hero ::selection{background:rgb(var(--ew-accent-rgb) / .2);color:inherit}
+  .ew-hero button{font-family:inherit}
+  .ew-hero svg{display:inline-block;vertical-align:middle}
+
+  /* Page + background texture */
+  .ew-page{
+    position:relative;overflow:hidden;background:var(--ew-bg);
+    --ew-gutter:clamp(16px,4vw,56px);
+    padding:0 max(var(--ew-gutter), env(safe-area-inset-right,0px)) clamp(56px,7vw,104px) max(var(--ew-gutter), env(safe-area-inset-left,0px));
+  }
+  .ew-page::before{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:radial-gradient(var(--ew-dot) 1px,transparent 1.2px);
+    background-size:22px 22px;
+    -webkit-mask-image:radial-gradient(ellipse 55% 42% at 50% 28%,#000 0%,transparent 72%);
+            mask-image:radial-gradient(ellipse 55% 42% at 50% 28%,#000 0%,transparent 72%);
+    opacity:.7;
+  }
+  .ew-side{position:absolute;top:0;width:clamp(80px,15vw,230px);height:100%;pointer-events:none}
+  .ew-side--l{left:0}
+  .ew-side--r{right:0}
+
+  /* Header: fixed, condenses into a frosted pill on scroll, hides on scroll down */
+  .ew-hero{--ew-header-h:84px}
+  .ew-header-spacer{height:var(--ew-header-h)}
+  .ew-header{
+    position:fixed;top:0;left:0;right:0;z-index:1000;pointer-events:none;
+    padding:0 max(var(--ew-gutter), env(safe-area-inset-right,0px)) 0 max(var(--ew-gutter), env(safe-area-inset-left,0px));
+    transition:transform .45s var(--ew-out);
+  }
+  .ew-header.is-hidden{transform:translateY(calc(-100% - 20px))}
+  .ew-header__inner{
+    pointer-events:auto;position:relative;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;
+    max-width:1240px;margin:14px auto 0;padding:8px 0;border-radius:24px;border:1px solid transparent;
+    transition:max-width .55s var(--ew-out),padding .45s var(--ew-out),margin .45s var(--ew-out),
+               background-color .35s,border-color .35s,box-shadow .35s,border-radius .45s var(--ew-out);
+  }
+  .ew-header.is-scrolled .ew-header__inner{
+    max-width:1120px;margin-top:10px;padding:6px 6px 6px 18px;border-radius:999px;
+    background-color:rgb(var(--ew-surface-rgb) / .78);border-color:var(--ew-border);
+    -webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);
+    box-shadow:0 1px 0 var(--ew-card-hl) inset,0 12px 32px -12px rgb(var(--ew-shadow-rgb) / .28);
+  }
+
+  /* Brand */
+  .ew-hero .ew-brand,.ew-hero .ew-brand:hover{
+    justify-self:start;display:inline-flex;align-items:center;gap:10px;min-height:44px;
+    font-weight:700;font-size:21px;letter-spacing:-.035em;color:var(--ew-ink);
+  }
+  .ew-brand__accent{color:var(--ew-accent)}
+  .ew-brand__mark{
+    display:inline-flex;width:36px;height:36px;border-radius:11px;flex:0 0 auto;
+    background:linear-gradient(145deg,var(--ew-mark-hi),var(--ew-mark-lo));align-items:center;justify-content:center;
+    box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 6px 14px rgb(var(--ew-shadow-rgb) / .22);
+    transition:transform .35s var(--ew-spring);
+  }
+  .ew-needle{transform-box:view-box;transform-origin:12px 15px}
+  @media (hover:hover){.ew-brand:hover .ew-brand__mark{transform:rotate(-6deg) scale(1.05)}}
+
+  /* Desktop nav with a sliding highlight */
+  .ew-menu{justify-self:center}
+  .ew-nav{
+    position:relative;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;
+    background-color:rgb(var(--ew-surface-rgb) / .6);border:1px solid var(--ew-border);
+    transition:background-color .35s,border-color .35s;
+  }
+  .ew-header.is-scrolled .ew-nav{background-color:transparent;border-color:transparent}
+  .ew-hero .ew-nav a{
+    position:relative;z-index:1;display:inline-flex;align-items:center;justify-content:space-between;gap:10px;
+    min-height:38px;padding:0 16px;border-radius:999px;font-size:14.5px;font-weight:500;color:var(--ew-muted);
+    transition:color .25s;
+  }
+  .ew-hero .ew-nav a:hover,.ew-hero .ew-nav a[aria-current="page"]{color:var(--ew-ink)}
+  .ew-nav a[aria-current="page"]{font-weight:600}
+  .ew-nav__pill{
+    position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:var(--w,0px);border-radius:999px;
+    background:var(--ew-surface);box-shadow:0 1px 2px rgb(var(--ew-shadow-rgb) / .1),0 0 0 1px var(--ew-border);
+    transform:translateX(var(--x,0px));opacity:0;
+    transition:transform .45s var(--ew-out),width .45s var(--ew-out),opacity .25s;
+  }
+  .ew-nav.has-pill .ew-nav__pill{opacity:1}
+  .ew-nav.no-anim .ew-nav__pill{transition:none}
+  .ew-header.is-scrolled .ew-nav__pill{background:var(--ew-surface-2);box-shadow:none}
+  .ew-hero .ew-nav__chev{display:none}
+  .ew-login--sheet{display:none !important}
+
+  /* Right side */
+  .ew-actions{justify-self:end;display:flex;align-items:center;gap:6px}
+  .ew-hero .ew-login{
+    display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;
+    font-size:14.5px;font-weight:600;color:var(--ew-text);transition:background-color .2s,color .2s;
+  }
+  .ew-hero .ew-login:hover{background-color:var(--ew-surface-2);color:var(--ew-ink)}
+  .ew-hero .ew-signup{
+    display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px 0 20px;border-radius:999px;white-space:nowrap;
+    background:linear-gradient(180deg,var(--ew-dark-hi),var(--ew-dark));color:var(--ew-on-dark);font-size:14.5px;font-weight:600;
+    box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 8px 18px rgb(var(--ew-shadow-rgb) / .22);
+    transition:transform .25s var(--ew-ease),box-shadow .25s var(--ew-ease);
+  }
+  .ew-hero .ew-signup svg{transition:transform .25s var(--ew-out)}
+  .ew-hero .ew-signup:hover{color:var(--ew-on-dark);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.14) inset,0 12px 24px rgb(var(--ew-shadow-rgb) / .28)}
+  .ew-hero .ew-signup:hover svg{transform:translateX(3px)}
+  .ew-burger{
+    display:none;width:44px;height:44px;border:1px solid var(--ew-border);border-radius:999px;background:var(--ew-surface);cursor:pointer;
+    align-items:center;justify-content:center;box-shadow:0 2px 8px rgb(var(--ew-shadow-rgb) / .08);
+  }
+  .ew-burger path{transition:transform .3s var(--ew-ease),opacity .2s;transform-box:fill-box;transform-origin:center}
+  .ew-burger[aria-expanded="true"] .ew-b1{transform:translateY(5px) rotate(45deg)}
+  .ew-burger[aria-expanded="true"] .ew-b2{opacity:0}
+  .ew-burger[aria-expanded="true"] .ew-b3{transform:translateY(-5px) rotate(-45deg)}
+
+  /* Scroll progress "meter" along the top edge */
+  .ew-progress{position:absolute;left:0;right:0;top:0;height:3px;pointer-events:none;opacity:0;transition:opacity .3s}
+  .ew-progress i{
+    display:block;height:100%;transform-origin:0 50%;transform:scaleX(var(--p,0));
+    background:linear-gradient(90deg,var(--ew-accent),var(--ew-accent-2));border-radius:0 3px 3px 0;
+  }
+  .ew-header.is-scrolled .ew-progress{opacity:1}
+
+  /* Headline */
+  .ew-intro{position:relative;text-align:center;max-width:980px;margin:clamp(28px,5vw,64px) auto 0}
+  .ew-intro h1{
+    font-size:clamp(40px,6.2vw,86px);line-height:1.04;font-weight:600;
+    letter-spacing:-.05em;color:var(--ew-ink);text-wrap:balance;
+  }
+  .ew-word{
+    display:inline-block;transform-origin:50% 100%;
+    background:linear-gradient(100deg,var(--ew-ink) 0%,var(--ew-ink) 38%,var(--ew-accent) 62%,var(--ew-headline-2,var(--ew-accent-2)) 100%);
+    background-size:260% 100%;background-position:0 0;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    padding-bottom:.06em;transition:background-position .8s var(--ew-out);
+  }
+  .ew-word.is-active{background-position:100% 0}
+  .ew-intro p{margin:22px auto 0;max-width:520px;font-size:clamp(15px,1.4vw,18px);line-height:1.6;color:var(--ew-muted);text-wrap:pretty}
+  .ew-tagline{display:grid}
+  .ew-tagline > span{
+    grid-area:1 / 1;transition:opacity .45s var(--ew-out),transform .45s var(--ew-out),visibility 0s linear 0s;
+  }
+  .ew-tagline > span:not(.is-active){
+    opacity:0;transform:translateY(8px);visibility:hidden;
+    transition:opacity .25s ease,transform .25s ease,visibility 0s linear .25s;
+  }
+
+  /* Card that matches the current step */
+  .ew-card.is-spot{box-shadow:var(--ew-card-shadow),0 0 0 2px rgb(var(--ew-accent-rgb) / .26)}
+  .ew-card .ew-card__label{transition:color .3s}
+  .ew-card.is-spot .ew-card__label{color:var(--ew-accent)}
+
+  /* Primary call to action */
+  .ew-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 20px;margin-top:30px}
+  .ew-hero .ew-primary{
+    position:relative;display:inline-flex;align-items:center;gap:12px;min-height:54px;padding:0 10px 0 26px;border-radius:999px;
+    background:linear-gradient(180deg,var(--ew-accent-hi),var(--ew-accent));color:var(--ew-on-accent);font-size:16px;font-weight:600;
+    box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.08) inset,0 12px 28px rgb(var(--ew-accent-rgb) / .34);
+    transition:transform .25s var(--ew-ease),box-shadow .25s var(--ew-ease);
+  }
+  .ew-primary__ico{
+    display:inline-flex;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);
+    align-items:center;justify-content:center;transition:transform .3s var(--ew-ease),background .3s;
+  }
+  .ew-hero .ew-primary:hover{color:var(--ew-on-accent);transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 -2px 0 rgba(0,0,0,.08) inset,0 18px 34px rgb(var(--ew-accent-rgb) / .42)}
+  .ew-hero .ew-primary:hover .ew-primary__ico{transform:translateX(3px);background:rgba(255,255,255,.28)}
+  .ew-hero .ew-primary:active{transform:translateY(0) scale(.98)}
+  .ew-hero .ew-primary::after{
+    content:"";position:absolute;inset:-4px;border-radius:inherit;border:2px solid rgb(var(--ew-accent-rgb) / .45);opacity:0;pointer-events:none;
+  }
+  @keyframes ew-cta-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(1.18)}}
+  .ew-hero.is-in .ew-primary::after{animation:ew-cta-ring 1.4s var(--ew-out) 2.4s 2}
+  .ew-cta__note{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--ew-muted)}
+  .ew-cta__note svg{flex:0 0 auto}
+
+  /* Pressed state for every control */
+  .ew-hero .ew-signup:active,.ew-hero .ew-store:active,.ew-hero .ew-arrow:active,
+  .ew-burger:active,.ew-motion:active,.ew-step:active span{transform:scale(.95);transition-duration:.08s}
+
+  /* Progress */
+  .ew-steps{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:28px}
+  .ew-step{
+    border-radius:999px;display:inline-flex;align-items:center;justify-content:center;width:32px;height:44px;
+    padding:0;border:0;background:transparent;cursor:pointer;
+  }
+  .ew-step span{
+    position:relative;overflow:hidden;display:block;width:8px;height:8px;border-radius:999px;background:var(--ew-track);
+    transition:width .45s var(--ew-out),background .3s;
+  }
+  .ew-step span::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--ew-dark);transform:scaleX(0);transform-origin:left}
+  .ew-step.is-done span{background:var(--ew-soft)}
+  .ew-step.is-active span{width:30px;background:var(--ew-track)}
+  .ew-step.is-active span::after{transform:scaleX(1)}
+  .ew-steps.is-auto .ew-step.is-active span::after{animation:ew-fillbar 3s linear both}
+  @keyframes ew-fillbar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .ew-lock{
+    display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;
+    background:var(--ew-surface);box-shadow:0 0 0 1px var(--ew-border) inset,0 4px 12px rgb(var(--ew-shadow-rgb) / .10);margin-left:6px;
+  }
+
+  /* Cards */
+  .ew-cards{
+    position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;
+    gap:clamp(16px,2vw,28px);max-width:1220px;margin:clamp(40px,5vw,68px) auto 0;
+  }
+  .ew-cards::before{
+    content:"";position:absolute;z-index:0;left:8%;right:8%;top:18%;bottom:-12%;pointer-events:none;
+    background:radial-gradient(closest-side,rgb(var(--ew-accent-rgb) / .22),rgb(var(--ew-accent-rgb) / 0));
+  }
+  .ew-slot{position:relative;z-index:1;display:flex;min-width:0}
+  .ew-card{
+    position:relative;flex:1 1 auto;min-width:0;background:var(--ew-surface);border:1px solid var(--ew-border);
+    border-radius:clamp(22px,2.2vw,28px);padding:clamp(20px,2.2vw,28px);
+    box-shadow:var(--ew-card-shadow);display:flex;flex-direction:column;min-height:420px;
+    transition:transform .6s var(--ew-out),box-shadow .35s var(--ew-ease);
+  }
+  /* 3D tilt only while the pointer is on the card (flat the rest of the time) */
+  .ew-card.is-tilting,.ew-card.is-releasing{transform:perspective(1100px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))}
+  .ew-card.is-tilting{transition:transform .12s linear,box-shadow .35s var(--ew-ease)}
+  .ew-card::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;
+    background:radial-gradient(420px circle at var(--gx,50%) var(--gy,0%),rgba(255,255,255,.55),transparent 45%);
+    mix-blend-mode:soft-light;transition:opacity .4s;
+  }
+  .ew-card.is-tilting::after{opacity:1}
+  @media (hover:hover){
+    .ew-card:hover{box-shadow:0 1px 0 var(--ew-card-hl) inset,0 2px 4px rgb(var(--ew-shadow-rgb) / .04),0 16px 30px -8px rgb(var(--ew-shadow-rgb) / .12),0 40px 80px -16px rgb(var(--ew-shadow-rgb) / .22)}
+  }
+  .ew-card__label{font-size:15px;font-weight:500;color:var(--ew-muted);letter-spacing:-.005em}
+  .ew-card__head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .ew-linked{
+    display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;
+    background:var(--ew-success-soft);color:var(--ew-success-ink);font-size:12px;font-weight:600;box-shadow:0 0 0 1px var(--ew-success-border) inset;
+  }
+  .ew-linked i{display:block;width:6px;height:6px;border-radius:50%;background:var(--ew-success)}
+  .ew-hero.is-in .ew-linked{animation:ew-pop .45s var(--ew-spring) 1.9s both}
+  .ew-hero.is-in .ew-linked i{animation:ew-live 2s ease-in-out 2.4s infinite}
+  @keyframes ew-live{0%,100%{box-shadow:0 0 0 0 rgb(var(--ew-success-rgb) / .5)}50%{box-shadow:0 0 0 4px rgb(var(--ew-success-rgb) / 0)}}
+  .ew-card__head--learn{margin-bottom:12px}
+
+  /* Earnings */
+  .ew-card--earn{padding-bottom:22px}
+  .ew-earn__head{display:flex;align-items:center;justify-content:space-between}
+  .ew-earn__icon{display:inline-flex;width:32px;height:32px;border-radius:10px;background:var(--ew-surface-2);box-shadow:0 0 0 1px var(--ew-border) inset;align-items:center;justify-content:center}
+  .ew-earn__amount{margin-top:10px;font-size:clamp(40px,3.8vw,54px);font-weight:600;letter-spacing:-.045em;color:var(--ew-ink);line-height:1.05;font-variant-numeric:tabular-nums}
+  .ew-earn__payout{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px;font-size:14px;color:var(--ew-muted)}
+  .ew-chip{min-width:11ch;display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;background:var(--ew-accent-soft);color:var(--ew-text);font-weight:600;font-variant-numeric:tabular-nums}
+  .ew-chip i{display:block;width:7px;height:7px;border-radius:50%;background:var(--ew-accent)}
+  .ew-earn__graph{flex:1 1 auto;display:flex;flex-direction:column;justify-content:flex-end;margin-top:18px}
+  .ew-plot{position:relative}
+  .ew-plot svg{width:100%;height:auto;display:block;overflow:visible;touch-action:pan-y;cursor:crosshair}
+  .ew-tip{
+    position:absolute;left:0;top:0;transform:translate(-50%,calc(-100% - 14px));pointer-events:none;
+    display:flex;flex-direction:column;align-items:center;padding:6px 10px;border-radius:10px;
+    background:var(--ew-dark);color:var(--ew-on-dark);font-size:12px;line-height:1.2;white-space:nowrap;
+    box-shadow:0 10px 20px rgb(var(--ew-shadow-rgb) / .22);opacity:0;transition:opacity .2s,transform .2s var(--ew-out);
+  }
+  .ew-tip b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+  .ew-tip span{color:var(--ew-on-dark-muted)}
+  .ew-tip::after{content:"";position:absolute;left:50%;bottom:-4px;width:8px;height:8px;background:inherit;transform:translateX(-50%) rotate(45deg);border-radius:2px}
+  .ew-plot:not(.is-scrub) .ew-tip{transform:translate(-50%,calc(-100% - 8px))}
+  .ew-plot.is-scrub .ew-tip{opacity:1}
+  .ew-earn__days{display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--ew-soft)}
+  .ew-day{position:relative;transition:color .2s}
+  .ew-day::after{
+    content:"";position:absolute;left:50%;top:-6px;width:4px;height:4px;margin-left:-2px;border-radius:50%;
+    background:var(--ew-accent);transform:scale(0);transition:transform .25s var(--ew-spring);
+  }
+  .ew-day.is-on{color:var(--ew-text);font-weight:600}
+  .ew-day.is-on::after{transform:scale(1)}
+
+  /* Connect */
+  .ew-card--connect{align-items:center}
+  .ew-card--connect .ew-card__head{align-self:stretch}
+  .ew-orbit{
+    --ew-hubsize:clamp(46px,14vw,58px);--ew-srcsize:clamp(40px,12vw,50px);
+    position:relative;width:100%;max-width:280px;aspect-ratio:280/230;margin:10px 0 18px;
+  }
+  @supports not (aspect-ratio:1){.ew-orbit{height:230px}}
+  .ew-orbit > svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .ew-hub-ring{
+    position:absolute;left:50%;top:50%;width:calc(var(--ew-hubsize) + 18px);height:calc(var(--ew-hubsize) + 18px);
+    margin:calc((var(--ew-hubsize) + 18px) / -2) 0 0 calc((var(--ew-hubsize) + 18px) / -2);border-radius:50%;
+    background:conic-gradient(from 0deg,rgb(var(--ew-accent-rgb) / 0) 0deg,rgb(var(--ew-accent-rgb) / .9) 90deg,rgb(var(--ew-accent-rgb) / 0) 160deg,rgb(var(--ew-accent-rgb) / 0) 360deg);
+    -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));
+            mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));
+  }
+  .ew-hub{
+    position:absolute;left:50%;top:50%;width:var(--ew-hubsize);height:var(--ew-hubsize);
+    margin:calc(var(--ew-hubsize) / -2) 0 0 calc(var(--ew-hubsize) / -2);border-radius:50%;
+    background:linear-gradient(145deg,var(--ew-mark-hi),var(--ew-mark-lo));display:flex;align-items:center;justify-content:center;
+    box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 10px 24px rgb(var(--ew-shadow-rgb) / .3);
+  }
+  .ew-hub::before,.ew-hub::after{
+    content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgb(var(--ew-accent-rgb) / .35);opacity:0;pointer-events:none;
+  }
+  .ew-src{
+    position:absolute;width:var(--ew-srcsize);height:var(--ew-srcsize);border-radius:50%;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 18px rgba(17,17,17,.2),0 0 0 5px var(--ew-surface);
+  }
+  .ew-src::after{
+    content:attr(data-name);position:absolute;left:50%;top:calc(100% + 12px);transform:translate(-50%,-4px);
+    padding:4px 8px;border-radius:8px;background:var(--ew-dark);color:var(--ew-on-dark);font-size:11px;font-weight:600;white-space:nowrap;
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s var(--ew-out);z-index:2;
+  }
+  @media (hover:hover){
+    .ew-src{cursor:default}
+    .ew-src:hover::after{opacity:1;transform:translate(-50%,0)}
+    .ew-src > svg{transition:transform .25s var(--ew-spring)}
+    .ew-src:hover > svg{transform:scale(1.15)}
+  }
+  .ew-src--tl{left:11%;top:8%}
+  .ew-src--tr{right:11%;top:8%}
+  .ew-src--bl{left:11%;bottom:8%}
+  .ew-src--br{right:11%;bottom:8%}
+  /* 1099 form circles: fixed colours in every theme */
+  .ew-src--nec{background:linear-gradient(145deg,#14918a,#0f766e);box-shadow:0 8px 18px rgba(15,118,110,.3),0 0 0 5px var(--ew-surface)}
+  .ew-src--k{background:linear-gradient(145deg,#2563eb,#1d4ed8);box-shadow:0 8px 18px rgba(29,78,216,.28),0 0 0 5px var(--ew-surface)}
+  .ew-src--misc{background:linear-gradient(145deg,#334155,#1e293b)}
+  .ew-src--int{background:linear-gradient(145deg,#c2410c,#9a3412);box-shadow:0 8px 18px rgba(154,52,18,.28),0 0 0 5px var(--ew-surface)}
+  .ew-hero[data-ew-theme="midnight"] .ew-src--misc,
+  .ew-hero[data-ew-theme="vault"] .ew-src--misc{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22),0 8px 18px rgba(0,0,0,.4),0 0 0 5px var(--ew-surface)}
+  .ew-src__t{color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.01em;line-height:1;transition:transform .25s var(--ew-spring)}
+  @media (hover:hover){.ew-src:hover .ew-src__t{transform:scale(1.15)}}
+  .ew-check{
+    position:absolute;right:-5px;bottom:-5px;width:20px;height:20px;border-radius:50%;background:var(--ew-surface);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgb(var(--ew-shadow-rgb) / .18);
+  }
+  .ew-packet{stroke-dasharray:7 200;stroke-dashoffset:7;opacity:0}
+
+  .ew-hero .ew-store{
+    margin-top:auto;display:inline-flex;align-items:center;gap:12px;min-height:54px;
+    padding:8px 24px 8px 18px;border-radius:16px;background:linear-gradient(180deg,var(--ew-dark-hi),var(--ew-dark-lo));color:var(--ew-on-dark);
+    box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 12px 26px rgb(var(--ew-shadow-rgb) / .26);
+    transition:transform .25s var(--ew-ease),box-shadow .25s var(--ew-ease);
+  }
+  .ew-hero .ew-store:hover{color:var(--ew-on-dark);transform:translateY(-2px);box-shadow:0 1px 0 rgba(255,255,255,.12) inset,0 16px 30px rgb(var(--ew-shadow-rgb) / .32)}
+  .ew-dl{transition:transform .25s var(--ew-spring)}
+  .ew-hero .ew-store:hover .ew-dl{transform:translateY(2px)}
+  .ew-store__text{display:flex;flex-direction:column;line-height:1.1;text-align:left}
+  .ew-store__text small{font-size:11px;color:var(--ew-on-dark-muted);font-weight:500}
+  .ew-store__text strong{font-size:18px;font-weight:600;letter-spacing:-.01em}
+
+  /* Learn */
+  .ew-learn__art{position:relative;height:236px}
+  .ew-learn__art > svg{position:absolute;inset:0;width:100%;height:100%}
+  .ew-bubble{
+    position:absolute;padding:12px 15px;border-radius:18px 18px 18px 6px;
+    font-size:13.5px;line-height:1.35;font-weight:500;color:var(--ew-text);transform-origin:0 100%;
+  }
+  /* Question bubbles link to the answers on the calculator page */
+  .ew-hero a.ew-bubble{color:var(--ew-text);text-decoration:none}
+  .ew-hero a.ew-bubble--3{color:var(--ew-on-dark)}
+  .ew-hero a.ew-bubble:hover{color:var(--ew-accent)}
+  .ew-hero a.ew-bubble--3:hover{color:var(--ew-on-dark)}
+  .ew-hero a.ew-bubble:focus-visible{outline:2px solid var(--ew-accent);outline-offset:3px}
+  .ew-bubble--1{left:0;top:6px;max-width:72%;background:var(--ew-surface-2);box-shadow:0 6px 16px rgb(var(--ew-shadow-rgb) / .06)}
+  .ew-bubble--2{left:12%;top:78px;max-width:70%;background:var(--ew-surface);border:1px solid var(--ew-border);box-shadow:0 12px 28px rgb(var(--ew-shadow-rgb) / .12)}
+  .ew-bubble--3{left:4%;top:152px;max-width:74%;background:var(--ew-dark);color:var(--ew-on-dark);box-shadow:0 14px 30px rgb(var(--ew-shadow-rgb) / .24)}
+  @media (hover:hover){
+    .ew-bubble{transition:box-shadow .25s var(--ew-ease)}
+    .ew-bubble:hover{box-shadow:0 16px 32px rgb(var(--ew-shadow-rgb) / .16)}
+    .ew-bubble--3:hover{box-shadow:0 18px 36px rgb(var(--ew-shadow-rgb) / .32)}
+  }
+  .ew-typing{position:absolute;left:15px;top:50%;display:flex;gap:4px;transform:translateY(-50%);opacity:0}
+  .ew-typing i{display:block;width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45}
+  .ew-learn__foot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding-top:20px}
+  .ew-learn__foot p{font-size:20px;line-height:1.3;font-weight:600;letter-spacing:-.02em;color:var(--ew-ink)}
+  .ew-hero .ew-arrow{
+    flex:0 0 auto;display:inline-flex;width:50px;height:50px;border-radius:50%;background:var(--ew-dark);
+    align-items:center;justify-content:center;box-shadow:0 10px 22px rgb(var(--ew-shadow-rgb) / .25);
+    transition:transform .25s var(--ew-ease),background .25s;
+  }
+  .ew-hero .ew-arrow:hover{background:var(--ew-accent);transform:scale(1.06)}
+  .ew-arr{transition:transform .25s var(--ew-out)}
+  .ew-hero .ew-arrow:hover .ew-arr{transform:translateX(2px)}
+
+  /* Pause / play motion (WCAG 2.2.2) */
+  .ew-motion{
+    position:absolute;right:clamp(12px,2vw,24px);bottom:clamp(12px,2vw,24px);z-index:3;
+    display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--ew-border);
+    border-radius:999px;background:rgb(var(--ew-surface-rgb) / .8);color:var(--ew-text);font-size:13px;font-weight:600;cursor:pointer;
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 6px 16px rgb(var(--ew-shadow-rgb) / .08);
+    transition:background .2s,transform .15s;
+  }
+  .ew-motion:hover{background:var(--ew-surface)}
+  .ew-motion .ew-ico-play{display:none}
+  .ew-hero.is-paused .ew-motion .ew-ico-play{display:inline}
+  .ew-hero.is-paused .ew-motion .ew-ico-pause{display:none}
+  .ew-hero.is-paused *,.ew-hero.is-paused *::before,.ew-hero.is-paused *::after,
+  .ew-hero.is-offscreen *,.ew-hero.is-offscreen *::before,.ew-hero.is-offscreen *::after{animation-play-state:paused!important}
+  .ew-sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+  /* SVG parts that animate around their own centre */
+  .ew-spin,.ew-bar,.ew-pt,.ew-pulse{transform-box:fill-box;transform-origin:center}
+  .ew-bar{transform-origin:50% 100%}
+
+  /* ---------- Keyframes (transform + opacity only) ---------- */
+  @keyframes ew-rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+  @keyframes ew-word{from{opacity:.1;transform:translateY(.35em) rotate(2deg)}to{opacity:1;transform:none}}
+  @keyframes ew-sheen{from{background-position:0 0}to{background-position:100% 0}}
+  @keyframes ew-drop{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+  @keyframes ew-in-left{from{opacity:0;transform:translate(-36px,36px) rotate(-3deg)}to{opacity:1;transform:none}}
+  @keyframes ew-in-up{from{opacity:0;transform:translateY(48px) scale(.96)}to{opacity:1;transform:none}}
+  @keyframes ew-in-right{from{opacity:0;transform:translate(36px,36px) rotate(3deg)}to{opacity:1;transform:none}}
+  @keyframes ew-card-in{from{opacity:0;transform:translateY(32px) scale(.97)}to{opacity:1;transform:none}}
+  @keyframes ew-pop{0%{opacity:0;transform:scale(.4)}70%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+  @keyframes ew-bubble-in{from{opacity:0;transform:translateY(12px) scale(.85)}to{opacity:1;transform:none}}
+  @keyframes ew-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes ew-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @keyframes ew-drift-l{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-14px,24px) scale(1.04)}}
+  @keyframes ew-drift-r{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(14px,-20px) scale(1.04)}}
+  @keyframes ew-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+  @keyframes ew-fade{from{opacity:0}to{opacity:1}}
+  @keyframes ew-fade-out{0%,75%{opacity:1}100%{opacity:0}}
+  @keyframes ew-spin{to{transform:rotate(360deg)}}
+  @keyframes ew-spin-rev{to{transform:rotate(-360deg)}}
+  @keyframes ew-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  @keyframes ew-breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.86)}}
+  @keyframes ew-ring{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(2.1)}}
+  @keyframes ew-pulse{0%{opacity:.35;transform:scale(1)}100%{opacity:0;transform:scale(2.6)}}
+  @keyframes ew-flow{to{stroke-dashoffset:-40}}
+  @keyframes ew-packet{0%{stroke-dashoffset:7;opacity:0}10%{opacity:1}85%{opacity:1}100%{stroke-dashoffset:-100;opacity:0}}
+  @keyframes ew-nudge{0%,80%,100%{transform:translateX(0)}88%{transform:translateX(4px)}94%{transform:translateX(-1px)}}
+  @keyframes ew-tick{0%,85%,100%{transform:translate(0,0)}92%{transform:translate(2px,-2px)}}
+  @keyframes ew-needle-in{0%{transform:rotate(-100deg)}55%{transform:rotate(16deg)}78%{transform:rotate(-5deg)}100%{transform:rotate(0)}}
+  @keyframes ew-needle-sweep{0%{transform:rotate(0)}40%{transform:rotate(-100deg)}75%{transform:rotate(10deg)}100%{transform:rotate(0)}}
+  @keyframes ew-needle-idle{0%,100%{transform:rotate(0)}50%{transform:rotate(-14deg)}}
+  @keyframes ew-sheet{from{opacity:0;transform:translateY(-8px) scale(.98)}to{opacity:1;transform:none}}
+  @keyframes ew-wave{0%,100%{transform:translateX(0)}50%{transform:translateX(1.5px)}}
+  @keyframes ew-dot{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-3px);opacity:.9}}
+  @keyframes ew-ring-dot{0%,100%{box-shadow:0 0 0 0 rgb(var(--ew-accent-rgb) / .5)}50%{box-shadow:0 0 0 5px rgb(var(--ew-accent-rgb) / 0)}}
+
+  /* Hidden until the hero comes into view (only when JS is on) */
+  .ew-hero.ew-js:not(.is-in) [data-ew]{opacity:0}
+
+  /* Headline runs from first paint and never starts fully transparent (LCP-safe) */
+  .ew-hero.ew-js .ew-word{animation:ew-word .7s var(--ew-out) both;animation-delay:calc(.05s + var(--i) * .09s)}
+
+  .ew-hero.is-in .ew-header__inner{animation:ew-drop .6s var(--ew-out) both}
+  .ew-hero.is-in .ew-brand__mark .ew-needle{animation:ew-needle-in 1.1s var(--ew-out) .35s both}
+  .ew-hero.is-in .ew-brand:hover .ew-needle{animation:ew-needle-sweep .9s var(--ew-out)}
+  .ew-hero.is-in .ew-hub .ew-needle{animation:ew-needle-in 1.1s var(--ew-out) 1.1s both,ew-needle-idle 3.2s ease-in-out 2.4s infinite}
+  .ew-hero.is-in .ew-nav a{animation:ew-fade .5s ease both;animation-delay:calc(.15s + var(--i,0) * .05s)}
+  .ew-hero.is-in .ew-intro p{animation:ew-rise .6s var(--ew-ease) .3s both}
+  .ew-hero.is-in .ew-cta{animation:ew-rise .6s var(--ew-ease) .4s both}
+  .ew-hero.is-in .ew-steps{animation:ew-rise .6s var(--ew-ease) .5s both}
+  .ew-hero.is-in .ew-side--l{animation:ew-fade 1.2s ease both,ew-drift-l 14s ease-in-out 1.2s infinite}
+  .ew-hero.is-in .ew-side--r{animation:ew-fade 1.2s ease both,ew-drift-r 16s ease-in-out 1.2s infinite}
+
+  /* Cards arrive from three directions, then float */
+  .ew-hero.is-in .ew-slot--earn{animation:ew-in-left .8s var(--ew-out) .5s both,ew-float 7s ease-in-out 1.7s infinite}
+  .ew-hero.is-in .ew-slot--connect{animation:ew-in-up .8s var(--ew-out) .6s both,ew-float 7s ease-in-out 2.6s infinite}
+  .ew-hero.is-in .ew-slot--learn{animation:ew-in-right .8s var(--ew-out) .7s both,ew-float 7s ease-in-out 3.5s infinite}
+
+  /* Earnings card */
+  .ew-hero.is-in .ew-earn-area{animation:ew-fade .8s ease 1.4s both}
+  .ew-hero.is-in .ew-earn-line{stroke-dasharray:1;animation:ew-draw 1.2s var(--ew-ease) .8s both}
+  .ew-hero.is-in .ew-guide{animation:ew-fade .4s ease 1.8s both}
+  .ew-hero.is-in .ew-pt{animation:ew-pop .45s var(--ew-spring) 1.8s both}
+  .ew-hero.is-in .ew-pulse{animation:ew-pulse 2.4s ease-out 2.3s infinite}
+  .ew-hero.is-in .ew-earn__icon svg{animation:ew-tick 3.6s ease-in-out 2s infinite}
+  .ew-hero.is-in .ew-chip i{animation:ew-ring-dot 2s ease-in-out infinite}
+
+  /* Connect card: data flows from each source into the hub */
+  .ew-hero.is-in .ew-ring-dash{animation:ew-spin 26s linear infinite}
+  .ew-hero.is-in .ew-rays{animation:ew-spin-rev 60s linear infinite}
+  .ew-hero.is-in .ew-hub-ring{animation:ew-fade .6s ease 1.2s both,ew-spin 3.2s linear infinite}
+  .ew-hero.is-in .ew-hub{animation:ew-pop .5s var(--ew-spring) .9s both}
+  .ew-hero.is-in .ew-hub::before{animation:ew-ring 2.4s ease-out 2s infinite}
+  .ew-hero.is-in .ew-hub::after{animation:ew-ring 2.4s ease-out 3.2s infinite}
+  .ew-hero.is-in .ew-src{
+    animation:
+      ew-pop .5s var(--ew-spring) calc(1s + var(--i) * .08s) both,
+      ew-bob 3.6s ease-in-out calc(1.8s + var(--i) * .4s) infinite;
+  }
+  .ew-hero.is-in .ew-check{animation:ew-pop .4s var(--ew-spring) calc(1.6s + var(--i) * .15s) both}
+  .ew-hero.is-in .ew-packet{animation:ew-packet 1.9s var(--ew-ease) calc(1.8s + var(--i) * .47s) infinite}
+  .ew-hero.is-in .ew-store{animation:ew-rise .5s var(--ew-ease) 1.3s both}
+
+  /* Learn card: bars grow, questions "type" in */
+  .ew-hero.is-in .ew-bar{
+    animation:
+      ew-grow .6s var(--ew-ease) calc(1s + var(--i) * .08s) both,
+      ew-breathe 5s ease-in-out calc(2s + var(--i) * .5s) infinite;
+  }
+  .ew-hero.is-in .ew-donut-track{animation:ew-fade .4s ease 1s both}
+  .ew-hero.is-in .ew-donut{stroke-dasharray:1;animation:ew-draw .8s var(--ew-ease) 1.1s both}
+  .ew-hero.is-in .ew-trail{animation:ew-fade .5s ease 1.1s both,ew-flow 4s linear infinite}
+  .ew-hero.is-in .ew-bubble{
+    animation:
+      ew-bubble-in .45s var(--ew-spring) calc(1.1s + var(--i) * .55s) both,
+      ew-bob 4.5s ease-in-out calc(3s + var(--i) * .7s) infinite;
+  }
+  .ew-hero.is-in .ew-typing{animation:ew-fade-out .75s linear calc(1.1s + var(--i) * .55s) both}
+  .ew-hero.is-in .ew-typing i{animation:ew-dot .5s ease-in-out calc(1.1s + var(--i) * .55s) 2}
+  .ew-hero.is-in .ew-typing i:nth-child(2){animation-delay:calc(1.18s + var(--i) * .55s)}
+  .ew-hero.is-in .ew-typing i:nth-child(3){animation-delay:calc(1.26s + var(--i) * .55s)}
+  .ew-hero.is-in .ew-bubble__text{animation:ew-fade .3s ease calc(1.68s + var(--i) * .55s) both}
+  .ew-hero.is-in .ew-arrow svg{animation:ew-nudge 3.2s ease-in-out 3.4s infinite}
+
+  /* ---------- Responsive ---------- */
+  @media (min-width:1600px){
+    .ew-cards{max-width:1320px}
+    .ew-card{min-height:450px}
+  }
+  @media (max-width:1180px){
+    .ew-card{min-height:400px}
+    .ew-bubble{font-size:13px}
+  }
+  /* Tablets: two cards + one wide card */
+  @media (max-width:1023px){
+    .ew-cards{grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px}
+    .ew-slot--learn{grid-column:1 / -1}
+    .ew-card--learn{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:28px;min-height:0}
+    .ew-card__head--learn{grid-column:1 / -1;margin-bottom:-12px}
+    .ew-card--learn .ew-learn__foot{margin-top:0;padding-top:0;flex-direction:column;align-items:flex-start;gap:20px}
+    .ew-card--learn .ew-learn__foot p{font-size:clamp(20px,2.8vw,26px)}
+    .ew-earn__amount{font-size:clamp(40px,5.2vw,48px)}
+  }
+  @media (max-width:860px){
+    .ew-hero .ew-nav a{padding:0 12px}
+    .ew-hero .ew-login{padding:0 10px}
+  }
+  @media (max-width:720px){
+    .ew-hero{--ew-header-h:72px}
+    .ew-header__inner{grid-template-columns:1fr auto;margin-top:10px;padding:6px 0}
+    .ew-header.is-scrolled .ew-header__inner{padding:5px 5px 5px 14px;margin-top:8px}
+    .ew-burger{display:inline-flex}
+    .ew-hero .ew-login--bar{display:none}
+    .ew-hero .ew-signup{min-height:40px;padding:0 14px 0 16px;font-size:14px}
+    .ew-hero .ew-brand{font-size:19px}
+    .ew-menu{
+      position:absolute;top:calc(100% + 8px);left:0;right:0;grid-column:1 / -1;justify-self:stretch;display:none;transform-origin:50% 0;
+      background:var(--ew-surface);border:1px solid var(--ew-border);border-radius:22px;padding:8px;
+      box-shadow:0 24px 48px -12px rgb(var(--ew-shadow-rgb) / .3);
+    }
+    .ew-menu.is-open{display:block;animation:ew-sheet .35s var(--ew-out) both}
+    .ew-nav{flex-direction:column;align-items:stretch;gap:2px;padding:0;background:none !important;border:0 !important}
+    .ew-nav__pill{display:none}
+    .ew-hero .ew-nav a{min-height:50px;padding:0 14px;border-radius:14px;font-size:16px;color:var(--ew-text)}
+    .ew-hero .ew-nav a:hover{background:var(--ew-surface-2)}
+    .ew-hero .ew-nav__chev{display:inline-block;color:var(--ew-soft)}
+    .ew-login--sheet{display:flex !important;margin-top:6px;border-top:1px solid var(--ew-border);border-radius:0 0 14px 14px !important}
+    .ew-hero.is-in .ew-nav a{animation:none}
+    .ew-menu.is-open .ew-nav a{animation:ew-rise .4s var(--ew-out) both;animation-delay:calc(.05s + var(--i,0) * .04s)}
+  }
+  @media (max-width:640px){
+    .ew-motion{position:relative;right:auto;bottom:auto;display:flex;margin:24px auto 0}
+    .ew-cards{grid-template-columns:minmax(0,1fr);max-width:480px}
+    .ew-card{min-height:0}
+    .ew-card--earn .ew-earn__graph{margin-top:24px}
+    .ew-earn__amount{font-size:clamp(40px,11vw,48px)}
+    .ew-card--learn{display:flex;flex-direction:column;gap:0}
+    .ew-card--learn .ew-learn__foot{flex-direction:row;align-items:flex-end;padding-top:22px}
+    .ew-card--learn .ew-learn__foot p{font-size:19px}
+    .ew-learn__art{height:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0 6px}
+    .ew-learn__art > svg{opacity:.7}
+    .ew-bubble{position:relative;left:auto;top:auto;font-size:14px;max-width:86%}
+    .ew-bubble--1{align-self:flex-start}
+    .ew-bubble--2{align-self:flex-end;border-radius:18px 18px 6px 18px;transform-origin:100% 100%}
+    .ew-bubble--3{align-self:flex-start}
+    .ew-intro{margin-top:clamp(20px,6vw,40px)}
+    .ew-cta{flex-direction:column;gap:10px}
+    .ew-hero .ew-primary{width:100%;max-width:360px;justify-content:space-between}
+    .ew-cta__note{font-size:13px;text-align:center}
+    /* simpler, lighter motion on phones */
+    .ew-hero.is-in .ew-slot--earn,
+    .ew-hero.is-in .ew-slot--connect,
+    .ew-hero.is-in .ew-slot--learn{animation:ew-card-in .7s var(--ew-out) .5s both}
+  }
+  @media (max-width:380px){
+    .ew-hero .ew-brand{font-size:18px;gap:8px}
+    .ew-brand__mark{width:32px;height:32px}
+    .ew-hero .ew-signup svg{display:none}
+    .ew-intro h1{font-size:clamp(34px,11vw,40px)}
+    .ew-card{border-radius:20px;padding:18px}
+    .ew-earn__payout{font-size:13px}
+    .ew-store__text strong{font-size:16px}
+  }
+  @media (max-height:500px) and (orientation:landscape){
+    .ew-intro{margin-top:16px}
+    .ew-cards{margin-top:28px}
+  }
+  @media (forced-colors:active){
+    .ew-card,.ew-primary,.ew-signup,.ew-store,.ew-arrow,.ew-motion,.ew-chip,.ew-linked,.ew-bubble,.ew-src,.ew-hub{border:1px solid CanvasText}
+    .ew-word{background:none;color:CanvasText}
+    .ew-word.is-active{text-decoration:underline}
+    .ew-step span,.ew-step span::after{background:CanvasText}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ew-hero *,.ew-hero *::before,.ew-hero *::after{animation:none!important;transition:none!important}
+    .ew-hero.ew-js:not(.is-in) [data-ew]{opacity:1}
+    .ew-hub-ring,.ew-packet,.ew-typing{display:none}
+    .ew-hero .ew-primary::after{display:none}
+    .ew-progress{display:none}
+    .ew-motion{display:none}
+  }
+</style>
+
+<section class="ew-hero" id="ew-hero" data-ew-theme="tax" aria-labelledby="ew-hero-title">
+  <script>document.getElementById('ew-hero').classList.add('ew-js');</script>
+  <div class="ew-page">
+
+    <svg class="ew-side ew-side--l" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideL" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 120 C120 170 150 300 110 430 C70 560 150 700 260 900 L0 900 Z" fill="url(#ew-sideL)"/>
+      <path d="M0 260 C80 300 92 400 62 500 C34 600 88 720 170 900 L0 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+    <svg class="ew-side ew-side--r" data-ew aria-hidden="true" viewBox="0 0 260 900" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="ew-sideR" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color:var(--ew-deco-1)"/><stop offset="1" style="stop-color:var(--ew-deco-2)"/>
+        </linearGradient>
+      </defs>
+      <path d="M260 120 C140 170 110 300 150 430 C190 560 110 700 0 900 L260 900 Z" fill="url(#ew-sideR)"/>
+      <path d="M260 260 C180 300 168 400 198 500 C226 600 172 720 90 900 L260 900 Z" opacity=".7" style="fill:var(--ew-deco-3)"/>
+    </svg>
+
+    <header class="ew-header">
+      <span class="ew-progress" aria-hidden="true"><i></i></span>
+      <div class="ew-header__inner" data-ew>
+        <a href="/" class="ew-brand" aria-label="taxmetter home">
+          <span class="ew-brand__mark">
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg>
+          </span>
+          <span aria-hidden="true">tax<span class="ew-brand__accent">metter</span></span>
+        </a>
+
+        <nav class="ew-menu" id="ew-menu" aria-label="Main">
+          <div class="ew-nav">
+            <span class="ew-nav__pill" aria-hidden="true"></span>
+            <a href="calculator.html" style="--i:0">1099 calculator<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="/how-it-works" style="--i:1">How it works<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="/tax-guide" style="--i:2">Tax guide<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="/blog" style="--i:3">Blog<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+            <a href="/login" class="ew-login--sheet" style="--i:4">Log in<svg class="ew-nav__chev" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></a>
+          </div>
+        </nav>
+
+        <div class="ew-actions">
+          <a href="/login" class="ew-login ew-login--bar">Log in</a>
+          <a href="/signup" class="ew-signup">Sign up<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <button type="button" class="ew-burger" aria-label="Open menu" aria-expanded="false" aria-controls="ew-menu">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" style="stroke:var(--ew-text)"><path class="ew-b1" d="M4 7h16"/><path class="ew-b2" d="M4 12h16"/><path class="ew-b3" d="M4 17h16"/></svg>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="ew-header-spacer" aria-hidden="true"></div>
+
+    <div class="ew-intro">
+      <h1 id="ew-hero-title" aria-label="Add. Calculate. Save">
+        <span class="ew-word is-active" style="--i:0" aria-hidden="true">Add.</span>
+        <span class="ew-word" style="--i:1" aria-hidden="true">Calculate.</span>
+        <span class="ew-word" style="--i:2" aria-hidden="true">Save</span>
+      </h1>
+      <!-- One line per step: 1 Add, 2 Calculate, 3 Save -->
+      <p class="ew-tagline" data-ew>
+        <span class="is-active">Add what you earned on your 1099-NEC, 1099-K and 1099-MISC forms, plus your business expenses.</span>
+        <span>We work out your self-employment tax and federal income tax with 2026 IRS rates, including the deductions that lower both.</span>
+        <span>See what you owe for the year, what to pay each quarter, and how much of every payment to set aside.</span>
+      </p>
+      <div class="ew-cta" data-ew>
+        <a href="calculator.html" class="ew-primary">
+          Calculate my tax
+          <span class="ew-primary__ico">
+            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" style="stroke:var(--ew-on-accent)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </span>
+        </a>
+        <span class="ew-cta__note">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-accent)"><path d="M12 3 5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+          Free, no sign-up. Uses 2026 IRS rates.
+        </span>
+      </div>
+      <div class="ew-steps" data-ew role="group" aria-label="How the 1099 calculator works">
+        <button type="button" class="ew-step is-active" aria-label="Step 1 of 3: Add" aria-current="step"><span></span></button>
+        <button type="button" class="ew-step" aria-label="Step 2 of 3: Calculate"><span></span></button>
+        <button type="button" class="ew-step" aria-label="Step 3 of 3: Save"><span></span></button>
+        <span class="ew-lock" role="img" aria-label="Locked step">
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-muted)"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="ew-cards">
+
+      <!-- Tax estimate -->
+      <div class="ew-slot ew-slot--earn" data-ew>
+        <div class="ew-card ew-card--earn" role="group" aria-label="Your tax estimate">
+          <div class="ew-earn__head">
+            <span class="ew-card__label">Your tax estimate</span>
+            <span class="ew-earn__icon">
+              <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-accent)"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+            </span>
+          </div>
+          <div class="ew-earn__amount"><span class="ew-sr">$12,037</span><span aria-hidden="true" data-count="12037" data-prefix="$" data-delay="800">$12,037</span></div>
+          <div class="ew-earn__payout">
+            <span>Pay each quarter:</span>
+            <span class="ew-chip"><i></i><span class="ew-sr">$3,009</span><span aria-hidden="true" data-count="3009" data-prefix="$" data-delay="900">$3,009</span></span>
+          </div>
+          <div class="ew-earn__graph">
+            <div class="ew-plot">
+              <svg role="img" aria-label="Example: tax owed builds to $12,037 by the fourth quarter" viewBox="0 0 300 140">
+                <defs>
+                  <linearGradient id="ew-area" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-opacity=".32" style="stop-color:var(--ew-accent-2)"/>
+                    <stop offset="1" stop-opacity="0" style="stop-color:var(--ew-accent-2)"/>
+                  </linearGradient>
+                  <linearGradient id="ew-lineGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" style="stop-color:var(--ew-accent-2)"/><stop offset="1" style="stop-color:var(--ew-accent)"/>
+                  </linearGradient>
+                </defs>
+                <g stroke-width="1" stroke-dasharray="2 4" style="stroke:var(--ew-border)">
+                  <line x1="0" y1="30" x2="300" y2="30"/>
+                  <line x1="0" y1="70" x2="300" y2="70"/>
+                  <line x1="0" y1="110" x2="300" y2="110"/>
+                </g>
+                <path class="ew-earn-area" d="M0 110 C34 102 66 88 100 80 S166 58 200 50 S266 28 300 20 L300 140 L0 140 Z" fill="url(#ew-area)"/>
+                <path class="ew-earn-line" pathLength="1" d="M0 110 C34 102 66 88 100 80 S166 58 200 50 S266 28 300 20" fill="none" stroke="url(#ew-lineGrad)" stroke-width="3" stroke-linecap="round"/>
+                <line class="ew-guide" x1="200" y1="50" x2="200" y2="140" stroke-width="1.2" stroke-dasharray="3 4" opacity=".5" style="stroke:var(--ew-accent)"/>
+                <circle class="ew-pulse" cx="200" cy="50" r="6" opacity="0" style="fill:var(--ew-accent)"/>
+                <g class="ew-pt">
+                  <circle class="ew-pt-halo" cx="200" cy="50" r="9" opacity=".15" style="fill:var(--ew-accent)"/>
+                  <circle class="ew-pt-dot" cx="200" cy="50" r="5" style="fill:var(--ew-surface)" stroke-width="2.5" style="stroke:var(--ew-accent)"/>
+                </g>
+                <rect class="ew-hit" x="0" y="0" width="300" height="140" fill="transparent"/>
+              </svg>
+              <div class="ew-tip" aria-hidden="true"><b>$0</b><span>Q1</span></div>
+            </div>
+            <div class="ew-earn__days">
+              <span class="ew-day">Q1</span><span class="ew-day">Q2</span><span class="ew-day is-on">Q3</span><span class="ew-day">Q4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1099 forms -->
+      <div class="ew-slot ew-slot--connect" data-ew>
+        <div class="ew-card ew-card--connect is-spot" role="group" aria-label="Your 1099 forms">
+          <div class="ew-card__head"><h2 class="ew-card__label">Your 1099 forms</h2><span class="ew-linked" data-ew><i></i>4 added</span></div>
+          <div class="ew-orbit">
+            <svg aria-hidden="true" viewBox="0 0 280 230">
+              <defs>
+                <radialGradient id="ew-glow" cx=".5" cy=".5" r=".5">
+                  <stop offset="0" style="stop-color:var(--ew-accent-soft)"/><stop offset="1" stop-opacity="0" style="stop-color:var(--ew-accent-soft)"/>
+                </radialGradient>
+              </defs>
+              <circle cx="140" cy="115" r="112" fill="url(#ew-glow)"/>
+              <circle cx="140" cy="115" r="92" fill="none" style="stroke:var(--ew-border)"/>
+              <circle class="ew-spin ew-ring-dash" cx="140" cy="115" r="58" fill="none" stroke-dasharray="3 5" style="stroke:var(--ew-track)"/>
+              <g class="ew-spin ew-rays" style="stroke:var(--ew-border)">
+                <line x1="140" y1="115" x2="140" y2="5"/>
+                <line x1="140" y1="115" x2="140" y2="225"/>
+                <line x1="140" y1="115" x2="30" y2="115"/>
+                <line x1="140" y1="115" x2="250" y2="115"/>
+                <line x1="140" y1="115" x2="62" y2="37"/>
+                <line x1="140" y1="115" x2="218" y2="37"/>
+                <line x1="140" y1="115" x2="62" y2="193"/>
+                <line x1="140" y1="115" x2="218" y2="193"/>
+              </g>
+              <g fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--ew-accent)">
+                <path class="ew-packet" style="--i:0" pathLength="100" d="M56 43 L140 115"/>
+                <path class="ew-packet" style="--i:1" pathLength="100" d="M224 43 L140 115"/>
+                <path class="ew-packet" style="--i:2" pathLength="100" d="M224 187 L140 115"/>
+                <path class="ew-packet" style="--i:3" pathLength="100" d="M56 187 L140 115"/>
+              </g>
+            </svg>
+            <span class="ew-hub-ring" aria-hidden="true"></span>
+            <span class="ew-hub" data-ew>
+              <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 15a7.5 7.5 0 1 1 15 0"/><path d="M7.2 9.9l.9.8M12 6.9v1.2M16.8 9.9l-.9.8" stroke-width="1.6" opacity=".7"/><path class="ew-needle" d="M12 15l3.4-4.6"/><circle cx="12" cy="15" r="1.6" fill="#fff" stroke="none"/></svg>
+            </span>
+            <span class="ew-src ew-src--tl ew-src--nec" data-ew style="--i:0" role="img" aria-label="1099-NEC, added" data-name="1099-NEC: freelance pay">
+              <span class="ew-src__t" aria-hidden="true">NEC</span>
+              <span class="ew-check" data-ew aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-success)"><path d="m5 12 5 5 9-10"/></svg></span>
+            </span>
+            <span class="ew-src ew-src--tr ew-src--k" data-ew style="--i:1" role="img" aria-label="1099-K, added" data-name="1099-K: payment apps">
+              <span class="ew-src__t" aria-hidden="true">K</span>
+              <span class="ew-check" data-ew aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-success)"><path d="m5 12 5 5 9-10"/></svg></span>
+            </span>
+            <span class="ew-src ew-src--br ew-src--misc" data-ew style="--i:2" role="img" aria-label="1099-MISC, added" data-name="1099-MISC: other income">
+              <span class="ew-src__t" aria-hidden="true">MISC</span>
+              <span class="ew-check" data-ew aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-success)"><path d="m5 12 5 5 9-10"/></svg></span>
+            </span>
+            <span class="ew-src ew-src--bl ew-src--int" data-ew style="--i:3" role="img" aria-label="1099-INT, added" data-name="1099-INT: interest">
+              <span class="ew-src__t" aria-hidden="true">INT</span>
+              <span class="ew-check" data-ew aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--ew-success)"><path d="m5 12 5 5 9-10"/></svg></span>
+            </span>
+          </div>
+          <a href="calculator.html" class="ew-store" data-ew>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" style="stroke:var(--ew-on-dark)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="3"/><rect x="8" y="5.5" width="8" height="4" rx="1"/><g class="ew-dl"><path d="M8.5 13.5h.01M12 13.5h.01M15.5 13.5h.01M8.5 17h.01M12 17h.01M15.5 17h.01" stroke-width="2.6"/></g></svg>
+            <span class="ew-store__text"><small>Free, takes 2 minutes</small><strong>Open calculator</strong></span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Tax answers -->
+      <div class="ew-slot ew-slot--learn" data-ew>
+        <div class="ew-card ew-card--learn" role="group" aria-label="Tax answers">
+          <div class="ew-card__head ew-card__head--learn"><span class="ew-card__label">Tax answers</span></div>
+          <div class="ew-learn__art">
+            <svg aria-hidden="true" viewBox="0 0 320 236">
+              <defs>
+                <linearGradient id="ew-bar" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" style="stop-color:var(--ew-chart-soft)"/><stop offset="1" style="stop-color:var(--ew-accent-soft)"/>
+                </linearGradient>
+              </defs>
+              <rect class="ew-bar" style="--i:0" x="196" y="120" width="18" height="96" rx="6" fill="url(#ew-bar)"/>
+              <rect class="ew-bar" style="--i:1" x="222" y="86" width="18" height="130" rx="6" fill="url(#ew-bar)"/>
+              <rect class="ew-bar" style="--i:2" x="248" y="104" width="18" height="112" rx="6" fill="url(#ew-bar)"/>
+              <rect class="ew-bar" style="--i:3;fill:var(--ew-accent-2)" x="274" y="60" width="18" height="156" rx="6"/>
+              <circle class="ew-donut-track" cx="262" cy="34" r="22" fill="none" stroke-width="8" style="stroke:var(--ew-border)"/>
+              <path class="ew-donut" pathLength="1" d="M262 12 A22 22 0 0 1 283 41" fill="none" stroke-width="8" stroke-linecap="round" style="stroke:var(--ew-accent)"/>
+              <path class="ew-trail" d="M8 210 Q60 168 110 182 T200 150" fill="none" stroke-width="2" stroke-dasharray="4 6" style="stroke:var(--ew-track)"/>
+            </svg>
+            <a href="calculator.html#faq-home-office" class="ew-bubble ew-bubble--1" data-ew style="--i:0"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">Can I deduct my home office?</span></a>
+            <a href="calculator.html#faq-set-aside" class="ew-bubble ew-bubble--2" data-ew style="--i:1"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">How much should I set aside?</span></a>
+            <a href="calculator.html#faq-quarterly" class="ew-bubble ew-bubble--3" data-ew style="--i:2"><span class="ew-typing" aria-hidden="true"><i></i><i></i><i></i></span><span class="ew-bubble__text">When is my next quarterly payment due?</span></a>
+          </div>
+          <div class="ew-learn__foot">
+            <p>Find your deductions and know what you owe</p>
+            <a href="calculator.html" class="ew-arrow" aria-label="Open the 1099 calculator">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" style="stroke:var(--ew-on-dark)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><g class="ew-arr"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></g></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="button" class="ew-motion" aria-pressed="false">
+      <svg class="ew-ico-pause" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+      <svg class="ew-ico-play" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10-6.5a1 1 0 0 0 0-1.72l-10-6.5A1 1 0 0 0 8 5.5z"/></svg>
+      <span class="ew-motion__label">Pause motion</span>
+    </button>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var hero = document.getElementById('ew-hero');
+    if (!hero) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    /* ---- Header: menu, sliding nav highlight, scroll states ---- */
+    var header = hero.querySelector('.ew-header');
+    var burger = hero.querySelector('.ew-burger');
+    var menu = hero.querySelector('.ew-menu');
+    var mobileQuery = window.matchMedia('(max-width: 720px)');
+    function closeMenu() {
+      if (!menu || !menu.classList.contains('is-open')) return;
+      menu.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Open menu');
+    }
+    if (burger && menu) {
+      burger.addEventListener('click', function () {
+        var open = menu.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        if (open) header.classList.remove('is-hidden');
+      });
+      menu.addEventListener('click', function (e) { if (e.target.closest('a')) closeMenu(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu.classList.contains('is-open')) { closeMenu(); burger.focus(); }
+      });
+      document.addEventListener('click', function (e) { if (!e.target.closest('.ew-header')) closeMenu(); });
+      mobileQuery.addEventListener ? mobileQuery.addEventListener('change', closeMenu) : mobileQuery.addListener(closeMenu);
+    }
+
+    // Sliding highlight behind the hovered / current link (desktop)
+    var nav = hero.querySelector('.ew-nav');
+    if (nav) {
+      var navLinks = nav.querySelectorAll('a:not(.ew-login--sheet)');
+      var current = nav.querySelector('a[aria-current="page"]');
+      var placePill = function (a, instant) {
+        if (!a || mobileQuery.matches) { nav.classList.remove('has-pill'); return; }
+        if (instant) nav.classList.add('no-anim');
+        nav.style.setProperty('--x', a.offsetLeft + 'px');
+        nav.style.setProperty('--w', a.offsetWidth + 'px');
+        nav.classList.add('has-pill');
+        if (instant) requestAnimationFrame(function () { nav.classList.remove('no-anim'); });
+      };
+      navLinks.forEach(function (a) {
+        a.addEventListener('mouseenter', function () { placePill(a); });
+        a.addEventListener('focus', function () { placePill(a); });
+      });
+      nav.addEventListener('mouseleave', function () { placePill(current); });
+      nav.addEventListener('focusout', function (e) { if (!nav.contains(e.relatedTarget)) placePill(current); });
+      window.addEventListener('resize', function () { placePill(current, true); });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { placePill(current, true); });
+      placePill(current, true);
+    }
+
+    // Scrolled pill, hide on scroll down / show on scroll up, progress bar
+    if (header) {
+      var bar = header.querySelector('.ew-progress i');
+      var lastY = window.pageYOffset, ticking = false;
+      var onScroll = function () {
+        ticking = false;
+        var y = window.pageYOffset;
+        header.classList.toggle('is-scrolled', y > 8);
+        var max = document.documentElement.scrollHeight - window.innerHeight;
+        if (bar) bar.style.setProperty('--p', max > 0 ? Math.min(1, y / max).toFixed(4) : 0);
+        var menuOpen = menu && menu.classList.contains('is-open');
+        if (y > lastY + 4 && y > 240 && !menuOpen && !header.contains(document.activeElement)) header.classList.add('is-hidden');
+        else if (y < lastY - 4 || y <= 240) header.classList.remove('is-hidden');
+        lastY = y;
+      };
+      window.addEventListener('scroll', function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+      }, { passive: true });
+      header.addEventListener('focusin', function () { header.classList.remove('is-hidden'); });
+      onScroll();
+    }
+
+    /* ---- Progress dots (auto-advance with a fill bar) ---- */
+    var stepsWrap = hero.querySelector('.ew-steps');
+    var steps = hero.querySelectorAll('.ew-step');
+    var active = 0, timer = null, paused = false, userPicked = false;
+    var stepNames = ['Add', 'Calculate', 'Save'];
+    var words = hero.querySelectorAll('.ew-word');
+    var lines = hero.querySelectorAll('.ew-tagline > span');
+    // which card goes with each step: Add -> 1099 forms, Calculate -> tax answers, Save -> tax estimate
+    var stepCards = [
+      hero.querySelector('.ew-card--connect'),
+      hero.querySelector('.ew-card--learn'),
+      hero.querySelector('.ew-card--earn')
+    ];
+    function setActive(index) {
+      active = index;
+      steps.forEach(function (btn, i) {
+        btn.classList.toggle('is-active', i === index);
+        btn.classList.toggle('is-done', i < index);
+        btn.setAttribute('aria-label', 'Step ' + (i + 1) + ' of ' + steps.length + ': ' + stepNames[i]);
+        if (i === index) btn.setAttribute('aria-current', 'step'); else btn.removeAttribute('aria-current');
+      });
+      words.forEach(function (w, i) { w.classList.toggle('is-active', i === index); });
+      lines.forEach(function (l, i) { l.classList.toggle('is-active', i === index); });
+      stepCards.forEach(function (c, i) { if (c) c.classList.toggle('is-spot', i === index); });
+    }
+    function stopDots() { clearInterval(timer); timer = null; stepsWrap.classList.remove('is-auto'); }
+    function startDots() {
+      if (reduce || paused || userPicked || timer) return;
+      stepsWrap.classList.add('is-auto');
+      setActive(active);
+      timer = setInterval(function () {
+        if (!hero.classList.contains('is-offscreen')) setActive((active + 1) % steps.length);
+      }, 3000);
+    }
+    steps.forEach(function (btn, i) {
+      btn.addEventListener('click', function () { userPicked = true; stopDots(); setActive(i); });
+    });
+    setActive(0);
+
+    /* ---- Count-up numbers ---- */
+    function countUp(el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+      var prefix = el.getAttribute('data-prefix') || '';
+      var suffix = el.getAttribute('data-suffix') || '';
+      var delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+      function fmt(v) {
+        return prefix + v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+      }
+      el.textContent = fmt(0);
+      setTimeout(function () {
+        var start = null;
+        function frame(t) {
+          if (!start) start = t;
+          var p = Math.min((t - start) / 1500, 1);
+          el.textContent = fmt(target * (1 - Math.pow(1 - p, 4)));
+          if (p < 1) requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }, delay);
+    }
+
+    /* ---- Tax graph: scrub to see tax owed by each quarter ---- */
+    (function () {
+      var plot = hero.querySelector('.ew-plot');
+      if (!plot) return;
+      var svg = plot.querySelector('svg');
+      var line = plot.querySelector('.ew-earn-line');
+      var tip = plot.querySelector('.ew-tip');
+      var tipVal = tip.querySelector('b'), tipDay = tip.querySelector('span');
+      var guide = plot.querySelector('.ew-guide');
+      var dots = [plot.querySelector('.ew-pt-halo'), plot.querySelector('.ew-pt-dot'), plot.querySelector('.ew-pulse')];
+      var days = ['Q1', 'Q2', 'Q3', 'Q4'];
+      var TOTAL = 12037; // full-year tax shown on the card (top of the graph, y = 20)
+      var dayEls = hero.querySelectorAll('.ew-day');
+      function markDay(i) { dayEls.forEach(function (d, k) { d.classList.toggle('is-on', k === i); }); }
+      var samples = [], total = line.getTotalLength();
+      for (var k = 0; k <= 150; k++) { var pt = line.getPointAtLength(total * k / 150); samples.push({ x: pt.x, y: pt.y }); }
+      function moveTo(x, y) {
+        dots.forEach(function (c) { c.setAttribute('cx', x); c.setAttribute('cy', y); });
+        guide.setAttribute('x1', x); guide.setAttribute('x2', x); guide.setAttribute('y1', y);
+      }
+      function nearest(x) {
+        var best = samples[0];
+        for (var i = 1; i < samples.length; i++) { if (Math.abs(samples[i].x - x) < Math.abs(best.x - x)) best = samples[i]; }
+        return best;
+      }
+      function onMove(e) {
+        var r = svg.getBoundingClientRect();
+        var x = Math.max(0, Math.min(300, (e.clientX - r.left) / r.width * 300));
+        var p = nearest(x);
+        moveTo(p.x, p.y);
+        var value = Math.max(0, Math.min(TOTAL, TOTAL * (140 - p.y) / 120));
+        tipVal.textContent = '$' + Math.round(value).toLocaleString('en-US');
+        var di = Math.round(p.x / 300 * (days.length - 1));
+        tipDay.textContent = days[di];
+        markDay(di);
+        tip.style.left = (p.x / 300 * 100) + '%';
+        tip.style.top = (p.y / 140 * r.height) + 'px';
+        plot.classList.add('is-scrub');
+      }
+      function onLeave() { plot.classList.remove('is-scrub'); moveTo(200, 50); markDay(2); }
+      svg.addEventListener('pointermove', onMove);
+      svg.addEventListener('pointerdown', onMove);
+      svg.addEventListener('pointerleave', onLeave);
+      svg.addEventListener('pointercancel', onLeave);
+    })();
+
+    /* ---- Card tilt + light (mouse only) ---- */
+    if (finePointer && !reduce) {
+      hero.querySelectorAll('.ew-card').forEach(function (card) {
+        card.addEventListener('pointermove', function (e) {
+          var r = card.getBoundingClientRect();
+          var px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+          card.classList.add('is-tilting');
+          card.style.setProperty('--ry', ((px - .5) * 7).toFixed(2) + 'deg');
+          card.style.setProperty('--rx', ((.5 - py) * 7).toFixed(2) + 'deg');
+          card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+          card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+        });
+        var releaseTimer;
+        card.addEventListener('pointerleave', function () {
+          card.classList.remove('is-tilting');
+          card.classList.add('is-releasing');
+          card.style.setProperty('--rx', '0deg');
+          card.style.setProperty('--ry', '0deg');
+          clearTimeout(releaseTimer);
+          releaseTimer = setTimeout(function () { card.classList.remove('is-releasing'); }, 650);
+        });
+      });
+    }
+
+    /* ---- Pause / play all looping motion ---- */
+    var motionBtn = hero.querySelector('.ew-motion');
+    var motionLabel = hero.querySelector('.ew-motion__label');
+    if (motionBtn) {
+      motionBtn.addEventListener('click', function () {
+        paused = !paused;
+        hero.classList.toggle('is-paused', paused);
+        motionBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+        motionLabel.textContent = paused ? 'Play motion' : 'Pause motion';
+        if (paused) stopDots(); else startDots();
+      });
+    }
+
+    /* ---- Start when visible; pause loops while off-screen ---- */
+    function start() {
+      if (hero.classList.contains('is-in')) return;
+      hero.classList.add('is-in');
+      if (reduce) return;
+      hero.querySelectorAll('[data-count]').forEach(countUp);
+      setTimeout(startDots, 1800);
+    }
+    if (reduce || !('IntersectionObserver' in window)) {
+      start();
+    } else {
+      new IntersectionObserver(function (entries) {
+        var visible = entries[0].isIntersecting;
+        hero.classList.toggle('is-offscreen', !visible);
+        if (visible) start();
+      }, { threshold: 0.12 }).observe(hero);
+    }
+  })();
+</script>
