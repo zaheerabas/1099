@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Example articles that install.php can publish so the blog isn't empty on day one.
  * Edit or delete them from the admin like any other article.
  * 'category' is a category slug created by the installer; 'days_ago' sets the publish date.
+ * 'seo_title' (optional) is a shorter title for search results when the headline is long.
  * Figures match tax year 2026 and the TAX object in assets/js/tax-engine.js.
  */
 return [
@@ -54,6 +55,7 @@ HTML,
     [
         'title' => 'Self-employment tax explained: what the 15.3% really pays for',
         'slug' => 'self-employment-tax-explained',
+        'seo_title' => 'Self-Employment Tax Explained: What the 15.3% Covers',
         'category' => 'self-employment-tax',
         'days_ago' => 9,
         'featured' => 0,
@@ -89,6 +91,7 @@ HTML,
     [
         'title' => 'Quarterly estimated taxes for 2026: due dates and how much to pay',
         'slug' => 'quarterly-estimated-taxes-2026',
+        'seo_title' => 'Quarterly Estimated Taxes 2026: Due Dates and Amounts',
         'category' => 'quarterly-taxes',
         'days_ago' => 16,
         'featured' => 0,
@@ -208,6 +211,7 @@ HTML,
     [
         'title' => 'New 1099 thresholds for 2026: what changed and what didn’t',
         'slug' => '1099-thresholds-2026',
+        'seo_title' => '1099 Thresholds 2026: What Changed and What Didn’t',
         'category' => 'self-employment-tax',
         'days_ago' => 38,
         'featured' => 0,

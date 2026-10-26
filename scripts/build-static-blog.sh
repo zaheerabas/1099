@@ -42,8 +42,8 @@ for slug in $(list "SELECT DISTINCT c.slug FROM categories c JOIN posts p ON p.c
   fetch "blog.php?category=$slug" "$OUT/blog/category/$slug.html"
 done
 
-# Search needs PHP, so drop the search box from the static pages
-find "$OUT" -name '*.html' -exec perl -0pi -e 's#\s*<form class="bl-search".*?</form>##gs' {} +
+# There is no server search on the static copy: mark the search box so assets/js/blog.js filters on the page instead
+find "$OUT" -name '*.html' -exec perl -pi -e 's#<form class="bl-search" role="search"#<form class="bl-search" role="search" data-static#g' {} +
 
 echo "Static blog written to $OUT"
 find "$OUT" -type f | sed "s|$ROOT/||" | sort

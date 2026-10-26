@@ -42,6 +42,7 @@
       qEl.textContent = money(r.quarterly);
       setEl.textContent = Math.round(r.setAside * 100) + '%';
       var t = r.total || 1;
+      seBar.parentNode.classList.remove('sk');
       seBar.style.transform = 'scaleX(' + (r.seTax / t) + ')';
       incBar.style.transform = 'scaleX(' + (r.incomeTax / t) + ')';
       seVal.textContent = money(r.seTax);
@@ -81,16 +82,19 @@
 
   /* ---------- Latest blog articles (shown only when the blog is installed and has articles) ---------- */
   var latest = document.getElementById('latest');
+  var hideLatest = function () { latest.hidden = true; latest.removeAttribute('aria-busy'); };
+  if (latest && !window.fetch) hideLatest();
   if (latest && window.fetch) {
     fetch('/blog/latest.json', { headers: { Accept: 'application/json' } })
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(function (data) {
         var posts = (data && data.posts) || [];
-        if (!posts.length) return;
+        if (!posts.length) { hideLatest(); return; }
         var list = latest.querySelector('[data-latest-list]');
         var esc = function (s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; };
         list.innerHTML = posts.map(function (p, i) {
-          var img = p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy" width="640" height="400">' : '<span class="bl-ph" aria-hidden="true"></span>';
+          // p.art is the site's own illustration markup from latest.php
+          var img = p.cover ? '<img src="' + esc(p.cover) + '" alt="" loading="lazy" width="640" height="400">' : (p.art && /^<span class="cv /.test(p.art) ? p.art : '<span class="bl-ph" aria-hidden="true"></span>');
           return '<li class="lt-item' + (i === 0 ? ' lt-item--lead' : '') + '"><a href="' + esc(p.url) + '">' +
             '<span class="lt-img">' + img + '</span>' +
             '<span class="lt-meta">' + (p.category ? '<b>' + esc(p.category) + '</b>' : '') + '<span>' + esc(p.date) + '</span><span>' + esc(p.minutes) + ' min read</span></span>' +
@@ -98,9 +102,9 @@
             (i === 0 ? '<span class="lt-ex">' + esc(p.excerpt) + '</span>' : '') +
             '</a></li>';
         }).join('');
-        latest.hidden = false;
+        latest.removeAttribute('aria-busy');
         if (window.TMReveal) window.TMReveal(latest);
       })
-      .catch(function () { /* blog not installed yet: the section stays hidden */ });
+      .catch(hideLatest); // blog not installed yet: hide the section
   }
 })();

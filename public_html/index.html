@@ -12,20 +12,25 @@
 <meta property="og:description" content="Free 1099 tax calculator for freelancers and contractors. Estimate 2026 self-employment tax, federal income tax and quarterly payments in two minutes.">
 <meta property="og:url" content="https://YOUR-DOMAIN.com/">
 <meta property="og:image" content="https://YOUR-DOMAIN.com/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="taxmetter: free 1099 tax calculator for 2026">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="1099 Tax Calculator for 2026 | taxmetter">
+<meta name="twitter:description" content="Free 1099 tax calculator for freelancers and contractors. Estimate 2026 self-employment tax, federal income tax and quarterly payments in two minutes.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#f4f8f8">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css?v=6">
 <link rel="stylesheet" href="assets/css/home.css?v=6">
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "WebSite", "name": "taxmetter", "url": "https://YOUR-DOMAIN.com/"}
+{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://YOUR-DOMAIN.com/#site","name":"taxmetter","url":"https://YOUR-DOMAIN.com/","inLanguage":"en-US","publisher":{"@id":"https://YOUR-DOMAIN.com/#org"}},{"@type":"Organization","@id":"https://YOUR-DOMAIN.com/#org","name":"taxmetter","url":"https://YOUR-DOMAIN.com/","logo":{"@type":"ImageObject","url":"https://YOUR-DOMAIN.com/assets/img/icon-512.png","width":512,"height":512},"description":"A free 1099 tax calculator and plain-English tax guides for freelancers, contractors and gig workers in the US."}]}
 </script>
 <script src="assets/js/site.js?v=6" defer></script>
 <script src="assets/js/tax-engine.js?v=6" defer></script>
@@ -303,7 +308,7 @@
         <div class="qe-result" aria-live="polite">
           <span class="qe-result__label">Estimated federal tax</span>
           <strong class="qe-result__total" data-qe-total>$12,037</strong>
-          <div class="qe-bar" aria-hidden="true"><i class="qe-bar__se" data-qe-se></i><i class="qe-bar__inc" data-qe-inc></i></div>
+          <div class="qe-bar sk" aria-hidden="true" data-qe-bar><i class="qe-bar__se" data-qe-se></i><i class="qe-bar__inc" data-qe-inc></i></div>
           <dl class="qe-legend">
             <div><dt><i class="k k--se"></i>Self-employment tax</dt><dd data-qe-se-v>$8,478</dd></div>
             <div><dt><i class="k k--inc"></i>Federal income tax</dt><dd data-qe-inc-v>$3,559</dd></div>
@@ -365,12 +370,16 @@
     </section>
 
 
-    <section class="home-sec lt-sec" id="latest" aria-labelledby="h-lt" hidden data-reveal>
+    <section class="home-sec lt-sec" id="latest" aria-labelledby="h-lt" aria-busy="true" data-reveal>
       <div class="lt-head">
         <h2 id="h-lt">From the blog</h2>
         <a class="btn btn--quiet" href="/blog">All articles</a>
       </div>
-      <ul class="lt-list" data-latest-list></ul>
+      <ul class="lt-list" data-latest-list>
+        <li class="lt-item lt-item--lead" aria-hidden="true"><span class="lt-sk"><span class="lt-img sk"></span><span class="lt-meta"><span class="sk sk-line" style="width:7em"></span></span><span class="lt-title"><span class="sk sk-line"></span><span class="sk sk-line sk-line--mid"></span></span><span class="lt-ex"><span class="sk sk-line"></span><span class="sk sk-line sk-line--short"></span></span></span></li>
+        <li class="lt-item" aria-hidden="true"><span class="lt-sk"><span class="lt-img sk"></span><span class="lt-meta"><span class="sk sk-line" style="width:7em"></span></span><span class="lt-title"><span class="sk sk-line"></span><span class="sk sk-line sk-line--mid"></span></span></span></li>
+        <li class="lt-item" aria-hidden="true"><span class="lt-sk"><span class="lt-img sk"></span><span class="lt-meta"><span class="sk sk-line" style="width:7em"></span></span><span class="lt-title"><span class="sk sk-line"></span><span class="sk sk-line sk-line--mid"></span></span></span></li>
+      </ul>
     </section>
 
     <section class="home-sec home-split faq-teaser" aria-labelledby="h-faq" data-reveal>

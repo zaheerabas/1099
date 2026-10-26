@@ -13,8 +13,9 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 <title><?= e($page['title']) ?></title>
 <meta name="description" content="<?= e($page['description']) ?>">
 <?php if ($page['noindex']): ?><meta name="robots" content="noindex">
-<?php elseif ($page['canonical']): ?><link rel="canonical" href="<?= e($page['canonical']) ?>">
-<?php endif; ?>
+<?php else: ?><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<?php if ($page['canonical']): ?><link rel="canonical" href="<?= e($page['canonical']) ?>">
+<?php endif; endif; ?>
 <meta property="og:type" content="<?= e($page['type']) ?>">
 <meta property="og:site_name" content="taxmetter">
 <meta property="og:title" content="<?= e($page['title']) ?>">
@@ -22,16 +23,22 @@ $ogImage = $page['image'] ?: abs_url('assets/img/og-image.png');
 <?php if ($page['canonical']): ?><meta property="og:url" content="<?= e($page['canonical']) ?>">
 <?php endif; ?>
 <meta property="og:image" content="<?= e($ogImage) ?>">
+<?php if (!$page['image']): ?><meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<?php endif; ?><meta property="og:image:alt" content="<?= e($page['image_alt'] ?? 'taxmetter: free 1099 tax calculator for 2026') ?>">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="<?= e($page['title']) ?>">
+<meta name="twitter:description" content="<?= e($page['description']) ?>">
 <meta name="theme-color" content="#f4f8f8">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/css/site.css?v=6">
+<?php foreach ($page['js'] ?? [] as $js): ?><script src="/assets/js/<?= e($js) ?>?v=6" defer></script>
+<?php endforeach; ?>
 <?php foreach ($page['css'] as $css): ?><link rel="stylesheet" href="/assets/css/<?= e($css) ?>?v=6">
 <?php endforeach; ?>
 <?= $page['head'] ?>

@@ -38,6 +38,7 @@ $adjacent = $isPreview || !$post['published_at'] ? ['prev' => null, 'next' => nu
                 <span class="ar-toc__bar" aria-hidden="true"><i></i></span>
                 <ol><?php foreach ($toc as $t): ?><li><a href="#<?= e($t['id']) ?>"><?= e($t['text']) ?></a></li><?php endforeach; ?></ol>
               </div>
+              <p class="ar-toc__left" aria-hidden="true" data-left="<?= $minutes ?>"><?= $minutes ?> min read</p>
               <div class="ar-toc__share">
                 <span>Share</span>
                 <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= rawurlencode($shareUrl) ?>" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4v11H3zM9.5 9.5h3.8v1.6h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.35h-4v-4.74c0-1.13-.02-2.59-1.58-2.59-1.58 0-1.82 1.23-1.82 2.5v4.83h-4z"/></svg></a>
@@ -240,6 +241,7 @@ $adjacent = $isPreview || !$post['published_at'] ? ['prev' => null, 'next' => nu
         b.addEventListener('click', function () {
           var icon = b.classList.contains('ar-copy--icon');
           var done = function () {
+            if (window.TMToast) window.TMToast('Link copied');
             if (icon) { b.classList.add('is-done'); b.setAttribute('aria-label', 'Link copied'); setTimeout(function () { b.classList.remove('is-done'); b.setAttribute('aria-label', 'Copy link'); }, 2200); return; }
             b.textContent = 'Link copied'; setTimeout(function () { b.textContent = 'Copy link'; }, 2200);
           };

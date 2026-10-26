@@ -28,7 +28,7 @@ $blogIntro = (string)setting('blog_description', 'Plain-English guides to 1099 t
 if ($category) {
     $h1 = $category['name'];
     $intro = $category['description'] ?: "Articles about {$category['name']} from the taxmetter blog.";
-    $title = $category['name'] . ' | ' . $blogTitle;
+    $title = $category['name'] . ': 1099 tax guides | taxmetter';
 } elseif ($search !== '') {
     $h1 = 'Search results';
     $intro = $total === 1 ? '1 article matches “' . $search . '”.' : $total . ' articles match “' . $search . '”.';
@@ -36,19 +36,33 @@ if ($category) {
 } else {
     $h1 = $blogTitle;
     $intro = $blogIntro;
-    $title = $blogTitle . ' | taxmetter';
+    $title = '1099 Tax Blog: Plain-English Guides for Freelancers | taxmetter';
 }
 if ($pg['page'] > 1) $title = 'Page ' . $pg['page'] . ' | ' . $title;
 
 $page = [
     'title' => $title,
     'description' => $intro,
-    'canonical' => abs_url(ltrim(with_query($basePath, ['page' => $pg['page']]), '/')),
+    'canonical' => abs_url(ltrim(with_query($basePath, ['page' => $pg['page'] > 1 ? $pg['page'] : null]), '/')),
     'noindex' => $search !== '',
     'current' => 'blog',
     'css' => ['blog.css'],
+    'js' => ['blog.js'],
     'head' => '<link rel="alternate" type="application/rss+xml" title="' . e($blogTitle) . '" href="' . e(abs_url('blog/feed')) . '">',
 ];
+// Structured data: this listing, its place in the site, and the articles on it
+$crumbs = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => abs_url('')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'Blog', 'item' => abs_url('blog')]];
+if ($category) $crumbs[] = ['@type' => 'ListItem', 'position' => 3, 'name' => $category['name'], 'item' => abs_url('blog/category/' . $category['slug'])];
+$listed = array_merge($lead ? [$lead] : [], $posts);
+$ld = ['@context' => 'https://schema.org', '@graph' => [
+    ['@type' => $category ? 'CollectionPage' : 'Blog', 'name' => $h1, 'description' => $intro, 'url' => $page['canonical'], 'inLanguage' => 'en-US',
+     'publisher' => ['@type' => 'Organization', 'name' => 'taxmetter', 'logo' => ['@type' => 'ImageObject', 'url' => abs_url('assets/img/icon-512.png')]],
+     ($category ? 'mainEntity' : 'blogPost') => $category
+        ? ['@type' => 'ItemList', 'itemListElement' => array_map(fn($p, $i) => ['@type' => 'ListItem', 'position' => $i + 1, 'url' => abs_url('blog/' . $p['slug'])], $listed, array_keys($listed))]
+        : array_map(fn($p) => ['@type' => 'BlogPosting', 'headline' => $p['title'], 'url' => abs_url('blog/' . $p['slug']), 'datePublished' => iso_date($p['published_at'])], $listed)],
+    ['@type' => 'BreadcrumbList', 'itemListElement' => $crumbs],
+]];
+if ($search === '') $page['head'] .= "\n" . '<script type="application/ld+json">' . json_encode($ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . '</script>';
 require APP_DIR . '/views/layout-top.php';
 
 function post_meta(array $p): string
@@ -85,12 +99,19 @@ function post_meta(array $p): string
             <a href="<?= e(category_url($c)) ?>"<?= ($category['id'] ?? 0) == $c['id'] ? ' aria-current="page"' : '' ?>><?= e($c['name']) ?> <span><?= (int)$c['n'] ?></span></a>
           <?php endforeach; ?>
         </nav>
-        <form class="bl-search" role="search" action="<?= e(url('blog')) ?>" method="get">
+        <form class="bl-search" role="search" action="<?= e(url('blog')) ?>" method="get" data-bl-search>
           <label class="ew-sr" for="bl-q">Search articles</label>
-          <input id="bl-q" type="search" name="q" value="<?= e($search) ?>" placeholder="Search articles" maxlength="80">
+          <input id="bl-q" type="search" name="q" value="<?= e($search) ?>" placeholder="Search articles" maxlength="80" autocomplete="off" aria-describedby="bl-count">
+          <kbd class="bl-kbd" aria-hidden="true">/</kbd>
           <button type="submit" aria-label="Search"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
         </form>
+        <p class="bl-count" id="bl-count" aria-live="polite"></p>
       </header>
+      <div class="bl-noresults" hidden data-bl-empty>
+        <h2>No articles match that search</h2>
+        <p>Try a shorter word, such as “deduction”, “quarterly” or “mileage”.</p>
+        <button type="button" class="bl-more" data-bl-clear>Clear the search</button>
+      </div>
 
       <?php if (!$lead && !$posts): ?>
         <div class="bl-empty glass">

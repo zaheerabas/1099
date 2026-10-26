@@ -89,6 +89,51 @@
     window.TMReveal = function (el) { if (revealIO) revealIO.observe(el); else el.classList.add('is-visible'); };
     document.querySelectorAll('[data-reveal]').forEach(window.TMReveal);
 
+    /* ---- Images: a shimmer placeholder until each picture has loaded ---- */
+    document.querySelectorAll('main img').forEach(function (img) {
+      if (img.complete && img.naturalWidth) return;
+      var box = img.parentElement;
+      box.classList.add('sk-media');
+      var done = function () { box.classList.remove('sk-media'); box.classList.add('is-loaded'); };
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    });
+
+    /* ---- Small confirmation message, e.g. "Link copied" ---- */
+    var toastEl = null, toastTimer;
+    window.TMToast = function (msg) {
+      if (!toastEl) {
+        toastEl = document.createElement('div');
+        toastEl.className = 'ew-toast';
+        toastEl.setAttribute('role', 'status');
+        toastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = msg;
+      toastEl.classList.add('is-on');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2400);
+    };
+
+    /* ---- Back to top, on long pages once the reader is well down ---- */
+    if (document.documentElement.scrollHeight > window.innerHeight * 3) {
+      var top = document.createElement('button');
+      top.type = 'button';
+      top.className = 'ew-top';
+      top.setAttribute('aria-label', 'Back to top');
+      top.innerHTML = '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>';
+      document.body.appendChild(top);
+      top.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+        var skip = document.querySelector('.ew-brand'); if (skip) skip.focus({ preventScroll: true });
+      });
+      var topTick = false;
+      window.addEventListener('scroll', function () {
+        if (topTick) return; topTick = true;
+        requestAnimationFrame(function () { topTick = false; top.classList.toggle('is-on', window.pageYOffset > window.innerHeight * 1.5); });
+      }, { passive: true });
+    }
+
     /* ---- Content pages: play the entrance once (the home page starts its own) ---- */
     if (!document.querySelector('.ew-home-hero')) requestAnimationFrame(function () { hero.classList.add('is-in'); });
 

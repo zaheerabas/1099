@@ -225,9 +225,9 @@
   .ew-hero.is-in .ew-header__inner{animation:ew-drop .6s var(--ew-out) both}
   .ew-hero.is-in .ew-brand__mark .ew-needle{animation:ew-needle-in 1.1s var(--ew-out) .35s both}
   .ew-hero.is-in .ew-brand:hover .ew-needle{animation:ew-needle-sweep .9s var(--ew-out)}
-  .ew-hero.is-in .cx-intro{animation:ew-rise .6s var(--ew-ease) .1s both}
-  .ew-hero.is-in .cx-form{animation:ew-rise .7s var(--ew-out) .25s both}
-  .ew-hero.is-in .cx-result{animation:ew-rise .7s var(--ew-out) .4s both}
+  .ew-hero.is-in .cx-intro{animation:ew-lift .6s var(--ew-out) both}
+  .ew-hero.is-in .cx-form{animation:ew-lift .7s var(--ew-out) .1s both}
+  .ew-hero.is-in .cx-result{animation:ew-lift .7s var(--ew-out) .15s both}
   .ew-hero.is-in .ew-side--l,.ew-hero.is-in .ew-side--r{animation:ew-fade 1.2s ease both}
 
   /* Responsive */
@@ -296,3 +296,8 @@
   /* Big screens */
   @media (min-width:1600px){.cx{max-width:1400px}}
   @media (min-width:2000px){.cx{max-width:1560px}}
+
+  /* Keep the back-to-top button clear of the phone summary bar while the bar is showing */
+  @media (max-width:1023px){
+    body:has(.cx-dock:not(.is-away):not(.is-empty)) .ew-top{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  }

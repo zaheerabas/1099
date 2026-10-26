@@ -29,10 +29,12 @@ $page = [
     'description' => $desc,
     'canonical' => $canonical,
     'image' => $image,
+    'image_alt' => $post['cover_alt'] ?: $post['title'],
     'type' => 'article',
     'noindex' => $isPreview,
     'current' => 'blog',
     'css' => ['blog.css'],
+    'js' => ['blog.js'],
     'head' => '<meta property="article:published_time" content="' . e(iso_date($post['published_at'])) . '">'
         . "\n" . '<script type="application/ld+json">' . json_encode($ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) . '</script>',
 ];

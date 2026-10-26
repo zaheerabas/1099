@@ -73,18 +73,18 @@ if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
             $cat = $pdo->prepare('INSERT INTO categories (name, slug, description, created_at) VALUES (?,?,?,?)');
             $catIds = [];
             foreach ([
-                ['Self-employment tax', 'self-employment-tax', 'How self-employment tax works and how to lower it.'],
-                ['Deductions', 'deductions', 'Business expenses and deductions freelancers can claim.'],
-                ['Quarterly taxes', 'quarterly-taxes', 'Estimated tax payments, due dates and penalties.'],
+                ['Self-employment tax', 'self-employment-tax', 'How the 15.3% self-employment tax works, the 2026 Social Security wage base, and legal ways to lower it.'],
+                ['Deductions', 'deductions', 'Business expenses and deductions 1099 freelancers can claim in 2026, from mileage and home office to health insurance.'],
+                ['Quarterly taxes', 'quarterly-taxes', 'Estimated tax payments for 1099 workers: 2026 due dates, how much to pay, and how to avoid the underpayment penalty.'],
             ] as [$cn, $cs, $cd]) {
                 $cat->execute([$cn, $cs, $cd, $now]);
                 $catIds[$cs] = (int)$pdo->lastInsertId();
             }
             if ($samples) {
-                $add = $pdo->prepare('INSERT INTO posts (title, slug, excerpt, content, category_id, author_id, status, published_at, seo_description, featured, views, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+                $add = $pdo->prepare('INSERT INTO posts (title, slug, excerpt, content, category_id, author_id, status, published_at, seo_title, seo_description, featured, views, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
                 foreach (require APP_DIR . '/lib/sample-posts.php' as $sp) {
                     $at = gmdate('Y-m-d H:i:s', time() - $sp['days_ago'] * 86400);
-                    $add->execute([$sp['title'], $sp['slug'], $sp['excerpt'], $sp['content'], $catIds[$sp['category']] ?? null, $uid, 'published', $at, $sp['seo_description'], $sp['featured'], 0, $at, $at]);
+                    $add->execute([$sp['title'], $sp['slug'], $sp['excerpt'], $sp['content'], $catIds[$sp['category']] ?? null, $uid, 'published', $at, $sp['seo_title'] ?? null, $sp['seo_description'], $sp['featured'], 0, $at, $at]);
                 }
             }
             $welcome = '<p>This is a draft to show how the editor works. Edit it, or delete it from the Articles page.</p>'
@@ -113,7 +113,7 @@ if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Install the blog | taxmetter</title>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/admin/assets/admin.css?v=1">
 </head>
 <body class="ad ad--auth">

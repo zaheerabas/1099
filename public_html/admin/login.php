@@ -22,7 +22,7 @@ if (is_post()) {
 <meta name="robots" content="noindex, nofollow">
 <title>Log in | taxmetter admin</title>
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/public-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/admin/assets/admin.css?v=1">
 </head>
 <body class="ad ad--auth">

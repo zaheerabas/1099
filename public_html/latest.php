@@ -12,4 +12,6 @@ echo json_encode(['posts' => array_map(fn($p) => [
     'date' => fmt_date($p['published_at']),
     'minutes' => reading_time((string)$p['content']),
     'cover' => $p['cover_image'] ? url($p['cover_image']) : null,
+    // Topic illustration (built here from a fixed set of shapes) for articles without a cover image
+    'art' => $p['cover_image'] ? null : cover_art($p['category_slug'], 'thumb'),
 ], $posts)], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
