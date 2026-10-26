@@ -73,6 +73,16 @@ If the site shows "too many redirects" after upload, your host handles HTTPS ano
 - The "Blog" menu link was replaced by "2026 tax guide" and "FAQ", which have real pages behind them.
 - New: footer on every page, skip-to-content link for keyboard users, home page sections below the hero, guide pages, privacy, terms, 404, icons, share image, sitemap and `.htaccess`.
 
+## Design and quality notes
+
+The site was checked against the ui-master and frontend-design guidelines and an automated accessibility scan (axe-core, WCAG 2.1 AA). Every page now passes with no violations.
+
+- **Typeface: Public Sans.** It's the US government's open typeface, so the site reads like a clear, official tax form. Every number uses tabular figures so columns of dollars line up. To go back to the old font, change `Public+Sans` in each page's font link and `'Public Sans'` at the top of `site.css`.
+- **Glass only where it's needed.** Blur is kept on the fixed layers (the header pill, the phone menu and the calculator's bottom bar). Cards and panels use solid tinted surfaces, which looks the same and scrolls smoothly on phones.
+- **Headline.** The active step word turns solid teal instead of using gradient text.
+- **Home page.** The figures are a ruled list next to the heading, like a tax form, and the three steps are joined by one line instead of three identical cards.
+- **Accessibility.** Skip link, visible focus on every control, keyboard-scrollable tables with names, reduced-motion support, and touch targets of 44px or more.
+
 ## Before you promote it
 
 - Have a tax professional review the calculator, the guide and the disclaimer.

@@ -20,7 +20,7 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
 <link rel="stylesheet" href="assets/css/home.css">
 <script type="application/ld+json">
@@ -93,7 +93,7 @@
       </h1>
       <!-- One line per step: 1 Add, 2 Calculate, 3 Save -->
       <p class="ew-tagline" data-ew>
-        <span class="is-active">Add what you earned on your 1099-NEC, 1099-K and 1099-MISC forms, plus your business expenses.</span>
+        <span class="is-active">Add what you earned on your <span class="nb">1099-NEC</span>, <span class="nb">1099-K</span> and <span class="nb">1099-MISC</span> forms, plus your business expenses.</span>
         <span>We work out your self-employment tax and federal income tax with 2026 IRS rates, including the deductions that lower both.</span>
         <span>See what you owe for the year, what to pay each quarter, and how much of every payment to set aside.</span>
       </p>
@@ -271,34 +271,30 @@
     </button>
     </section>
 
-    <section class="home-sec" aria-labelledby="h-figs">
-      <div class="home-sec__head">
+    <section class="home-sec home-split" aria-labelledby="h-figs">
+      <div class="home-split__lead">
         <h2 id="h-figs">The 2026 numbers that matter for 1099 workers</h2>
-        <p>The calculator uses these figures from the IRS and the Social Security Administration. Here they are in one place.</p>
-      </div>
-      <dl class="figs glass">
-        <div class="fig"><dt>Self-employment tax</dt><dd>15.3%<small>on 92.35% of your net profit</small></dd></div>
-        <div class="fig"><dt>Standard deduction, single</dt><dd>$16,100<small>$32,200 married filing jointly</small></dd></div>
-        <div class="fig"><dt>Social Security wage base</dt><dd>$184,500<small>12.4% part stops above this</small></dd></div>
-        <div class="fig"><dt>Business mileage rate</dt><dd>72.5¢ / 76¢<small>Jan to Jun / from July 1</small></dd></div>
-        <div class="fig"><dt>1099-NEC is sent from</dt><dd>$2,000<small>up from $600, for 2026 payments</small></dd></div>
-        <div class="fig"><dt>Last 2026 estimated payment</dt><dd>Jan 15, 2027<small>after Apr 15, Jun 15 and Sep 15</small></dd></div>
-      </dl>
-      <div class="home-sec__more">
+        <p>The calculator uses these figures from the IRS and the Social Security Administration.</p>
         <a class="btn btn--quiet" href="tax-guide.html">Read the 2026 tax guide</a>
       </div>
+      <dl class="ledger">
+        <div><dt>Self-employment tax</dt><dd><b>15.3%</b><span>of 92.35% of your net profit</span></dd></div>
+        <div><dt>Standard deduction</dt><dd><b>$16,100</b><span>single; $32,200 married filing jointly</span></dd></div>
+        <div><dt>Social Security wage base</dt><dd><b>$184,500</b><span>the 12.4% part stops above this</span></dd></div>
+        <div><dt>Business mileage</dt><dd><b>72.5¢ / 76¢</b><span>per mile, January to June / from July 1</span></dd></div>
+        <div><dt>1099-NEC sent from</dt><dd><b>$2,000</b><span>per client, up from $600</span></dd></div>
+        <div><dt>Last estimated payment</dt><dd><b>Jan 15, 2027</b><span>after April 15, June 15 and September 15</span></dd></div>
+      </dl>
     </section>
 
-    <section class="home-sec" aria-labelledby="h-steps">
-      <div class="home-sec__head">
-        <h2 id="h-steps">From your 1099s to a number you can plan around</h2>
-      </div>
-      <ol class="steps-row">
-        <li class="glass"><span class="step-n" aria-hidden="true">1</span><h3>Add your income</h3><p>Enter the totals from your 1099-NEC, 1099-K and 1099-MISC forms, then your business expenses and miles.</p></li>
-        <li class="glass"><span class="step-n" aria-hidden="true">2</span><h3>See both taxes</h3><p>We work out self-employment tax and federal income tax, with the deductions that lower each one.</p></li>
-        <li class="glass"><span class="step-n" aria-hidden="true">3</span><h3>Plan your payments</h3><p>Get the amount for each due date, the share of every payment to set aside, and the least you can pay without a penalty.</p></li>
+    <section class="home-sec home-flow" aria-labelledby="h-steps">
+      <h2 id="h-steps">From your 1099s to a number you can plan around</h2>
+      <ol class="flow">
+        <li><span class="flow__n" aria-hidden="true">1</span><h3>Add your income</h3><p>Enter the totals from your 1099-NEC, 1099-K and 1099-MISC forms, then your business expenses and miles.</p></li>
+        <li><span class="flow__n" aria-hidden="true">2</span><h3>See both taxes</h3><p>We work out self-employment tax and federal income tax, with the deductions that lower each one.</p></li>
+        <li><span class="flow__n" aria-hidden="true">3</span><h3>Plan your payments</h3><p>Get the amount for each due date, the share of every payment to set aside, and the least you can pay without a penalty.</p></li>
       </ol>
-      <div class="home-sec__more"><a class="btn btn--quiet" href="how-it-works.html">See the full method</a></div>
+      <a class="home-flow__link" href="how-it-works.html">See the full method</a>
     </section>
 
     <section class="home-sec" aria-labelledby="h-cta">
