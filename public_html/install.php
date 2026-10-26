@@ -27,6 +27,7 @@ $gd = function_exists('imagecreatetruecolor');
 $ready = !in_array(false, array_column($checks, 1), true);
 
 $errors = [];
+$samples = true;
 $v = [
     'site_url' => (((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https') ? 'https://' : 'http://') . ($_SERVER['HTTP_HOST'] ?? 'localhost'),
     'driver' => extension_loaded('pdo_sqlite') ? 'sqlite' : 'mysql',
@@ -37,6 +38,7 @@ $v = [
 if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     foreach ($v as $k => $_) if (isset($_POST[$k])) $v[$k] = trim((string)$_POST[$k]);
     $v['email'] = strtolower($v['email']);
+    $samples = isset($_POST['samples']);
     $pw = (string)($_POST['password'] ?? '');
     if (!preg_match('#^https?://[^/\s]+$#', rtrim($v['site_url'], '/'))) $errors['site_url'] = 'Use the full address without a path, like https://taxmetter.com';
     if ($v['name'] === '') $errors['name'] = 'Add your name.';
@@ -69,9 +71,22 @@ if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                 'timezone' => 'America/New_York',
             ] as $k => $val) $set->execute([$k, $val]);
             $cat = $pdo->prepare('INSERT INTO categories (name, slug, description, created_at) VALUES (?,?,?,?)');
-            $cat->execute(['Self-employment tax', 'self-employment-tax', 'How self-employment tax works and how to lower it.', $now]);
-            $cat->execute(['Deductions', 'deductions', 'Business expenses and deductions freelancers can claim.', $now]);
-            $cat->execute(['Quarterly taxes', 'quarterly-taxes', 'Estimated tax payments, due dates and penalties.', $now]);
+            $catIds = [];
+            foreach ([
+                ['Self-employment tax', 'self-employment-tax', 'How self-employment tax works and how to lower it.'],
+                ['Deductions', 'deductions', 'Business expenses and deductions freelancers can claim.'],
+                ['Quarterly taxes', 'quarterly-taxes', 'Estimated tax payments, due dates and penalties.'],
+            ] as [$cn, $cs, $cd]) {
+                $cat->execute([$cn, $cs, $cd, $now]);
+                $catIds[$cs] = (int)$pdo->lastInsertId();
+            }
+            if ($samples) {
+                $add = $pdo->prepare('INSERT INTO posts (title, slug, excerpt, content, category_id, author_id, status, published_at, seo_description, featured, views, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+                foreach (require APP_DIR . '/lib/sample-posts.php' as $sp) {
+                    $at = gmdate('Y-m-d H:i:s', time() - $sp['days_ago'] * 86400);
+                    $add->execute([$sp['title'], $sp['slug'], $sp['excerpt'], $sp['content'], $catIds[$sp['category']] ?? null, $uid, 'published', $at, $sp['seo_description'], $sp['featured'], 0, $at, $at]);
+                }
+            }
             $welcome = '<p>This is a draft to show how the editor works. Edit it, or delete it from the Articles page.</p>'
                 . '<h2>Formatting</h2><p>Use the toolbar for <strong>bold</strong>, <em>italic</em>, links, lists, quotes and headings. Headings become a contents list on long articles.</p>'
                 . '<h2>Images</h2><p>Use the image button in the toolbar to upload a picture into the article, and the Cover image box for the picture at the top.</p>'
@@ -109,7 +124,7 @@ if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
   <div class="ad-card ad-auth__card">
     <?php if (!empty($justInstalled)): ?>
       <h1>The blog is installed</h1>
-      <p>Your administrator account is ready, with a sample draft and three starter categories.</p>
+      <p>Your administrator account is ready, with a sample draft<?= $samples ? ', six example articles' : '' ?> and three starter categories.</p>
       <div class="ad-flash ad-flash--error" role="alert"><b>Delete install.php now.</b> In cPanel File Manager, delete <code>install.php</code> from public_html. The blog keeps working without it.</div>
       <a class="ad-btn ad-btn--primary ad-btn--block" href="/admin/login.php">Log in to the admin</a>
     <?php else: ?>
@@ -139,6 +154,7 @@ if (!$installed && $ready && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       <h2 class="ad-h3">Site</h2>
       <div class="ad-field"><label for="site_url">Site address</label><input id="site_url" name="site_url" value="<?= h($v['site_url']) ?>" required><small>Used for links in search results, the RSS feed and share previews.</small><?= isset($errors['site_url']) ? '<p class="ad-error">' . h($errors['site_url']) . '</p>' : '' ?></div>
       <div class="ad-field"><label for="blog_title">Blog name</label><input id="blog_title" name="blog_title" value="<?= h($v['blog_title']) ?>"></div>
+      <div class="ad-field"><label class="ad-check"><input type="checkbox" name="samples" value="1"<?= $samples ? ' checked' : '' ?>><span><b>Add six example articles</b> about 1099 taxes, so the blog isn’t empty. You can edit or delete them later.</span></label></div>
 
       <h2 class="ad-h3">Database</h2>
       <fieldset class="ad-field ad-radios">
